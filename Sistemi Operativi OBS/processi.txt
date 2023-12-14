@@ -1,0 +1,115 @@
+Seguiamo la vita e le opere di un processo.
+Partiamo dalla nascita: gcc crea il programma e lo salva su disco. NON è un processo: è eseguibile ma non è stato ancora eseguito.
+I formati tipici associati degli eseguibili sono
+
+	- ELF (Linux)
+	- PE (Windows)
+	- Mach (MacOSX)
+
+Ogni SO ha il suo modo di interpretare gli eseguibili. C'è una famiglia di syscall, detta EXEC, che fa partire un processo creandolo a partire da un eseguibile.
+Il processo di trasformazione di eseguibile in processo si dice LOADING. In particolare exec attiva un modulo del SO chiamato LOADER. Questo fa diverse operazioni.
+
+	- Verifiche preliminari: se falliscono il file non viene eseguito e la variabile ERRNO viene settata di conseguenza. Includono:
+		- Il file eseguibile è ben formato?
+		- Il processo che chiede di creare questo nuovo processo ha i permessi per farlo?
+		- Le risorse richieste sono disponibili?
+
+	- Creazione dell'immagine di memoria del processo:
+		- Codice
+		- Dati
+		- Stack di esecuzione
+		...
+
+	- Set dei registri per l'inizio dell'esecuzione, in particolare %esp (Stack Pointer) alla base della stack e Program Counter (Instruction Pointer) all'indirizzo _start.
+		- _start è la funzione di avvio che chiama il main. Fa cose come recuperare gli argomenti dalla CLI con delle syscall per poi organizzarli e passarli al main;
+
+	- Crea nello spazio di memoria del Kernel una struttura chiamata Process Control Block (PCB), da pensare esattamente come una struct in C, che tiene traccia di
+		tutte le informazioni utili alla gestione del processo. E' inaccessibile ai programmatori a meno che il SO non fornisca una syscall apposita. Cosa contiene?
+
+			- PID (Process ID): numero progressivo che identifica univocamente il processo. Quando parte il SO si avvia il processo _init con PID 0 che crea tutti gli altri;
+			- PPID (Parent PID): identifica il processo genitore;
+			- Puntatori allo spazio di memoria del processo (PC, SP, ...);
+			- Privilegi del processo;
+			- Stato del processo (new, ready, running, waiting, ...);
+			- Tabella dei file aperti dal processo;
+			- Accounting, ovvero tempo di esecuzione del processo;
+			- Limiti sull'uso delle risorse;
+			- Copia del contenuto dei registri;
+			...
+			...
+
+	- Avvio del processo
+
+A questo punto il controllo passa al processo, che parte. Questo significa banalmente che inizia il ciclo fetch-decode-execute. Il tempo caratteristico della CPU, a questo punto,
+è dato dall'inverso della sua velocità, ovvero la FREQUENZA DI CLOCK. Con 3GHz siamo sui 3 miliardi di cicli di clock al secondo. E' difficile aumentare oltre i 3GHz perché
+insorgono seri problemi di temperatura. Nell'ultimo decennio si sta compensando il rallentamento nell'aumento della frequenza di clock (e quindi dei consumi energetici) sviluppando
+architetture MULTICORE. Il che è un problema per il programmatore. C non è affatto ottimizzato per il multicore, entrano in gioco i THREAD da sincronizzare e altre cose difficili.
+Per ora ci limitiamo al single-core, ma se hai tempo cercati le lezioni di Programmazione Funzionale e Parallela. Che tanto lo fa sempre lui e sarà una goduria.
+
+Tornando al processo, a questo punto abbiamo un'immagine di memoria del processo creata dal loader con la syscall exec. Tipicamente è uno spazio di memoria lineare tra
+i valori 0 e 2^32-1 (4Gb) o altro (se faccio 2^64 vado a "un botto" di tera) che prendono il nome di INDIRIZZI LOGICI, ovvero quelli a cui il programmatore fa riferimento con
+i puntatori, le malloc, ecc.
+
+	- NON si tratta degli inidirizzi della memoria fisica;
+	
+	- NON tutte le zone di questa memoria dedicata sono davvero accessibili. Ci sono zone dedicate all'accessibilità:
+
+		- TEXT (o CODE): nei primi indirizzi il loader carica il codice macchina del programma come sequenza di istruzioni;
+
+		- DATA: subito dopo, scrive le variabili globali, static e letterali stringa. Ad esempio, se nel codice c'è la stringa "hello" ci saranno 5 locazioni contenenti ognuno un suo char;
+
+		- BSS (Block Starting Symbol): Contiene le variabili allocate ma non ancora inizializzate;
+
+		- HEAP (proprio nel senso di "mucchio"): subito dopo, la memoria dinamica riservata alle chiamate come malloc. Cresce verso gli indirizzi più alti;
+
+		- STACK: dopo un po' di spazio libero si trova la stack, che cresce verso gli indirizzi più bassi;
+
+		- TEXT (LIBRERIE): tipicamente in mezzo a heap e stack vengono messe le librerie. Lo spazio libero che le affianca può essere preso da heap a sx e stack a dx;
+
+		- Il Gb più alto è inaccessibile poiché riservato al Kernel.
+
+Accedere a una zona di memoria non accessibile restituisce segmentation fault. Notare che queste zone di memoria inutilizzate sono enormi. Essendo memoria logica, ogni processo
+ha la propria copia personale. Questo significa che se più processi leggono lo stesso indirizzo logico troveranno cose diverse. Naturalmente. Basti pensare che quantomeno TEXT
+e DATA hanno dimensioni diverse. Poi c'è il processo di traduzione tra memoria logica e fisica, ma si vedrà più avanti. Vediamo intanto un esempio:
+
+	int x;							// 4byte nella sezione data, inizializzati a 0 perché dichiarati fuori dal main;
+	int main() 						// il main (e in generale tutto il codice) sta in TEXT;
+	{
+		int* p = malloc(100); 		// in HEAP vengono allocati 100byte contigui, p può stare in stack o in un registro a seconda di come è scritto il programma Assembly;
+		char* q = "hello"; 			// in DATA vengono scritti i caratteri contigui 'h' 'e' 'l' 'l' 'o' '\0', q segue la stessa logica di p;
+		return 0
+	}
+
+Ora, è cosa nota che se provo a dire
+
+	q[0] = 'H';
+
+mi becco un segmentation fault. Questo perché anche i blocchi hanno dei precisi privilegi. Le stringhe statiche sono nella sezione DATA_RO (Read Only).
+
+	- TEXT ha permessi r-x ("non ti metti a modificare il codice mentre lo esegui, a meno che tu non sia un malware");
+
+Runniamo questo programmino hello.c.
+Per ogni processo Linux crea un filesystem virtuale accessibile dalla cartella standard /proc/. Se faccio quindi
+
+	cd /proc/PID_PROCESSO
+
+accedo alla cartella del processo con PID PID_PROCESSO. Ci sono un sacco di info. Eseguendo
+
+	cat /proc/PID_PROCESSO/maps > hello_memory_usage.txt
+
+di cui riporto solo una una parte si legge:
+
+	565b0000-565b1000 r--p 00000000 08:02 11932641			/home/shaytaan/Desktop/int main/AIRO/Triennale/Sistemi di Calcolo/Lectio 8 - Processi/hello
+	565b1000-565b2000 r-xp 00001000 08:02 11932641          /home/shaytaan/Desktop/int main/AIRO/Triennale/Sistemi di Calcolo/Lectio 8 - Processi/hello 	TEXT
+	565b2000-565b3000 r--p 00002000 08:02 11932641          /home/shaytaan/Desktop/int main/AIRO/Triennale/Sistemi di Calcolo/Lectio 8 - Processi/hello 	DATA_STRING ("hello")
+	565b3000-565b4000 r--p 00002000 08:02 11932641          /home/shaytaan/Desktop/int main/AIRO/Triennale/Sistemi di Calcolo/Lectio 8 - Processi/hello 	DATA_RO
+	565b4000-565b5000 rw-p 00003000 08:02 11932641          /home/shaytaan/Desktop/int main/AIRO/Triennale/Sistemi di Calcolo/Lectio 8 - Processi/hello 	DATA (x)
+	56603000-56625000 rw-p 00000000 00:00 0                 [heap] 																							HEAP
+	f7c00000-f7c20000 r--p 00000000 08:02 14813297          /usr/lib/i386-linux-gnu/libc.so.6
+
+Eccetera. Notare che poi ci sono spazi liberi, librerie, altri spazi liberi e infine stack. Notare anche il salto enorme negli indirizzi tra lo spazio allocato
+heap e la libreria che segue (in mezzo c'è quella zona grigia in cui heap può espandersi).
+
+	ps -elf | grep hello
+
+elenca tutti i processi e poi restituisce quelli in cui compare "hello" (se eseguo ps su una shell vedo solo i processi figli).
