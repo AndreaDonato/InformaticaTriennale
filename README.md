@@ -1,0 +1,1 @@
+Le cartelle che terminano in OBS sono strutturate per essere aperte con l'app OBSIDIAN

@@ -1,0 +1,97 @@
+Finora abbiamo assunto di lavorare in condizioni di flusso del controllo normale, ovvero il flusso delle istruzioni alla CPU è dettato
+unicamente dalla struttura del programma. Questo però farebbe sì che il programma monopolizzi la CPU per tutto il tempo della sua esecuzione.
+Chiaramente non va bene. Voglio poter eseguire pezzi di programma alternati a istruzioni del SO. Introduciamo il FLUSSO ECCEZIONALE, in
+cui il flusso normale del programma viene alterato permettendo di "saltare" da una sequenza di istruzioni a un'altra, così come (per la CPU)
+da modalità Utente a modalità Supervisore. In che situazioni può avvenire una cosa del genere?
+
+	- Alterazione Asincrona (INTERRUPT): è un evento generato all'esterno della CPU, da dispositivo, come premere Ctrl+x su terminale, o la
+		terminazione di un timer. Il SO tipicamente usa un timer per dividere l'utilizzo delle risorse tra i vari processi che le richiedono.
+		Sono "asincrone" nel senso che possono avvenire in qualsiasi momento;
+
+	- Alterazioni Sincrona: sono eventi generati dalla CPU stessa e sono di tre tipi:
+
+		- TRAP (o Software Interrupt): è un'istruzione speciale dell'ISA (syscall) con cui un processo può esplicitamente passare il controllo al SO, ad esempio
+			per prendere un input da tastiera. Si tratta di un'interruzione VOLONTARIA RECUPERABILE, nel senso che il processo poi riprende dall'istruzione successiva;
+
+		- FAULT: evento generato in seguito a una condizione di errore. Non è volontaria e PUO' ESSERE RECUPERABILE. Un esempio di fault recuperabile è il
+			PAGE FAULT, ovvero il processo prova ad accedere a dati in memoria che sono stati virtualizzati su disco: il controllo passa al SO che
+			ricarica i dati in memoria e passa nuovamente il controllo al processo dall'istruzione che aveva dato il fault;
+
+		- ABORT: evento fatale quanto raro, provoca la terminazione del processo. Un esempio è un malfunzionamento HW. Non è volontario né recuperabile.
+
+Ora, come si decide quale parte del Kernel attivare a seguito di una di queste interruzioni?
+Ogni tipo di interruzione possibile è identificato da un numero, che fa da indice in una tabella salvata nel SO e detta INTERRUPT VECTOR.
+Ogni SO ha la sua, è definita principalmente dall'architettura. Se prendiamo IA-32 abbiamo
+
+	- 0-31: Situazioni di fault o abort
+		- 0 è tipicamente un errore di divisione per 0;
+		- 14 è il page fault;
+
+	- Oltre il 31: Situazioni di trap o interrupt
+		- 128 è l'attivazione di una syscall.
+
+Ogni elemento del vettore è un puntatore a una funzione HANDLER, ovvero un gestore dell'errore corrispondente.
+
+Quando si verifica un'interruzione e il controllo passa al Kernel, ci sono diverse cose da fare: cambia lo Stack Pointer, il registro EFLAGS, ...
+Chi si occupa di salvare e aggiornare tutto questo? L'HW (CPU), in automatico, svolgendo diverse operazioni.
+
+	- Salva sulla stack del Kernel i valori di alcuni registri della CPU (esp, eip, eflags, ...);
+	- Consulta l'Interrupt Vector e imposta l'Instruction Pointer sul valore corrispondente all'interrupt;
+
+	[...]
+	
+	- Ripristina i valori salvati in stack del Kernel e passa nuovamente il controllo al processo.
+
+Strutturalmente è una specie di chiamata a funzione, in cui però cambia la modalità di esecuzione della CPU.
+Banalmente, muovere il mouse è un bombardamento di interrupt per una CPU: è un continuo loop
+
+	- Esegui il programma;
+	- Interrupt, passa al SO;
+	- Aggiorna la posizione del cursore;
+	- Riprendi il programma.
+
+(Questo sempre ragionando in single-core, magari con più core viene gestita diversamente).
+
+In IA-32 la trap viene implementata con il comando INT, della forma "int $a", dove a corrisponde all'indice dell'Interrupt Vector e attiva l'handler corrispondente.
+
+	int $0 		# Genera artificialmente un errore di divisione per 0 (non farlo...);
+
+	int $128 	# Oppure int $0x80, è molto usata!
+
+Se voglio attivare una syscall con int $0x80 devo poi specificare quale mettendone il numero in %eax. Questo valore è specifico del Kernel e diverso dal codice
+di interruzione, la lista delle syscall con relativi numeri è salvata in unistd_32.h. Tutti gli altri registri vengono usati per passare i parametri alla syscall.
+Il valore di ritorno della syscall va in %eax.
+
+ESEMPIO
+Scriviamo una nostra write che fa una syscall. Se la usiamo normalmente generando l'Assembly con
+
+	gcc -m32 -S syscall.c
+
+noteremo che la traduce "solo" come
+
+	call write
+
+Dove sta la syscall allora? In realtà è interna alla write, quindi non la vediamo. Si chiama WRAPPER, ovvero è una funzione che contiene ("wrappa") la vera
+syscall, che è
+
+	int $0x80
+
+Facciamo anche noi una funzione wrapper per esplicitarne il contenuto. Vedi file mywrite.s. Dove vado a prendere l'identificativo della syscall di write?
+
+Per cercare l'elenco delle syscall nel SO
+
+	find / -name "unistd_32.h"
+
+Lo trovo, lo apro (lo salvo in un file.txt perché non c'ho voglia di cercarlo ogni volta) e noto che c'è scritto
+	
+	#define __NR_write 4
+
+ovvero la syscall per scrivere ha identificativo 4. Come faccio a sapere quanti parametri prende (nell'ordine, ebx, ecx, edx, esi edi)?
+
+	https://pubs.opengroup.org/onlinepubs/009695399/functions/write.html
+
+In generale, una bella ricerca su Google della forma
+
+	Open Group syscall_desiderata
+
+In questo modo mi interfaccio direttamente col Kernel.
