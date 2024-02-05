@@ -15,9 +15,9 @@
               "state": {
                 "file": "Aggiunte - Sistemi Operativi.canvas",
                 "viewState": {
-                  "x": -3390.80062886103,
-                  "y": 2078.902510048734,
-                  "zoom": -2.689985360503926
+                  "x": -1900.0303320562107,
+                  "y": 461.2057296933927,
+                  "zoom": -3.2
                 }
               }
             }
@@ -151,16 +151,18 @@
   },
   "active": "c2fe555db67e8d57",
   "lastOpenFiles": [
-    "LotterySimplified.png",
+    "Screenshot from 2024-02-05 21-09-53.png",
+    "CodeTypes.png",
     "Aggiunte - Sistemi Operativi.canvas",
+    "Potential Deadlock.png",
+    "Potentially Unsafe.png",
+    "Deadlock 2.png",
+    "Deadlock 1.png",
     "Processi/PREEMPTIVENESS.png",
+    "MLQ.png",
+    "LotterySimplified.png",
     "naive_sync.png",
     "pthreads.png",
-    "parallelism.png",
-    "thread.png",
-    "MLQ.png",
-    "Processi/ICP.png",
-    "Processi/process_state.png",
     "OS_Design.pdf",
     "BUS.md",
     "Processi",
@@ -168,7 +170,6 @@
     "processiIII.txt",
     "SO.txt",
     "processi.txt",
-    "Sicurezza e syscall/ItsATrap.png",
     "Sicurezza e syscall",
     "Input-Output",
     "Memoria",
