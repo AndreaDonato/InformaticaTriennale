@@ -152,9 +152,9 @@ In generale, il Kernel offre diversi servizi divise in diverse famiglie:
 		- Comunicazione tra i processi e sincronizzazione (eseguire un'azione al termine di un processo).
 
 	- Gestione della Memoria:
-		//- Allocazione e deallocazione della memoria per i processi.
-		//- Implementazione di schemi di gestione della memoria, come la paginazione o la segmentazione (???).
-		//- Gestione degli errori di memoria.
+		- Allocazione e deallocazione della memoria per i processi.
+		- Implementazione di schemi di gestione della memoria, come la paginazione o la segmentazione.
+		- Gestione degli errori di memoria (Page Fault).
 
 	- Gestione dell'I/O:
 		//- Interazione con i driver di dispositivo per gestire l'I/O.

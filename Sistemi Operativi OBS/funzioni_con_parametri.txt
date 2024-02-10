@@ -1,0 +1,112 @@
+int somma(int x, int y)
+{
+	return x+y;
+}
+
+Come faccio in assembly? Ci sono delle convenzioni per accedere ai parametri formali. Ci riferiamo a quelle del SYSTEM V ABI (Application Binary Interface), in particolare
+alle CALLING CONVENTIONS per le chiamate a funzione:
+
+	- Come vengono passati i parametri?
+	- Come restituisco il valore di ritorno? (es: registro A)
+
+Se la funzione è il chiamato, il chiamante mettiamo sia il main. Lo stack sarà una cosa del tipo RDA_main a cui segue RDA_somma.
+NB: La pila dei RDA in realtà cresce verso il BASSO (ovvero verso indirizzi più piccoli). Sarà del tipo
+
+	<--indirizzi alti-- .. | .. | y | x | z | .. | .. | ..  --indirizzi bassi-->
+						<-- RDA MAIN -- | -- RDA SOMMA -->
+											|<-- ESP (stack pointer 32bit)
+
+z è l'indirizzo di ritorno, ovvero l'indirizzo dell'istruzione del chiamante da cui riprendere dopo la risoluzione di RDA SOMMA. Questa assegnazione è automatica.
+Per trovare il primo parametro (x) dovrò fare ESP+4, per il secondo ESP+8, ecc... A questo punto ci serve accedere alla memoria. Segue notazione:
+
+	- imm denota un valore immediato (es 10, 0xCAFE, ...);
+	- R[E] è il contenuto del registro E;
+	- M_b[E] è l'oggetto di b byte che parte dall'indirizzo di memoria E.
+
+Ci sono a questo punto diversi tipi di operando a memoria:
+
+	- Indiretto a registro con spiazzamento: è della forma imm(registro) e referenzia la memoria M_b[R[registro] + imm].
+		Se voglio accedere a x in memoria per come detto prima, scrivo 4(%esp) che referenzia l'oggetto di b byte in memoria all'indirizzo contenuto in ESP, +4.
+		Chi mi dice quanto vale b? Siccome so che x è un int, questo operatore lo uso nel comando, ad esempio,
+
+			movl 4(%esp), %eax
+
+		Mi scrivo un programmino di somma:
+
+			.globl somma
+
+			somma:
+				movl 4(%esp), %eax
+				movl 8(%esp), %ecx
+				addl %ecx, %eax				# potevo scrivere direttamente addl 8(%esp), %eax ed evitare la riga sopra
+				ret
+
+		NB: NON posso mettere due operandi a memoria come argomenti di una funzione assembly.
+
+	- Indice, base e scala: è della forma spiazzamento(base, indice, scala) e referenzia la memoria data
+
+			base + (indice x scala) + spiazzamento
+
+		Ad esempio, posso scrivere
+
+			movl 8(%eax, %ecx, 4), %ebx
+
+		ovvero salva in ebx il contenuto dell'indirizzo eax + ecx*4 + 8
+		
+
+TRADUZIONE IF ELSE IN ASSEMBLY
+
+	int f(int a)
+	{
+		if(a > 10) a = 10;
+		return a;
+	}
+
+per tradurlo in assembly lo riscrivo come
+
+	if(a <= 10) goto F;
+	a = 10;
+	F: return a;
+
+questo perché ho una ISTRUZIONE DI SALTO CONDIZIONATO (CONDITION CODE) Jcc, dove cc è la condizione di salto. Sono specifiche:
+
+	TEST	cc 		Scrittura
+
+	==		e 		Je 					// equal
+	!= 		ne 		Jne 				// not equal
+	<		l 		Jl 					// less
+	<=		le 		Jle 				// less equal
+	>		g 		Jg 					// greater
+	>=		ge 		Jge 				// greater equal
+
+	VARIANTI SENZA SEGNO (VALORE ASSOLUTO)
+
+	<		b 		Jb 					// below
+	<=		be 		Jbe 				// below equal
+	>		a 		Ja 					// above
+	>=		ae 		Jae 				// above equal
+
+Sulla base di questo proviamo a scrivere:
+
+	movl 4(%esp), %eax					// carico il parametro a e lo metto in eax
+	cmpl $10, %eax
+	Jle F
+	movl $10, %eax
+	F: ret
+
+Che roba è cmpl?? In realtà Jcc fa un controllo tra i due argomenti del comando cmp precedente.
+La semantica di cmp è "com'è %eax rispetto a $10?". Se ad esempio in %eax c'è il valore 8, saranno vere le condizioni l, le, ne, mentre saranno false g, ge, e.
+A questo punto IF...ELSE è molto facile.
+
+	if(a<10) a = 1;
+	else a = 0;
+
+diventa
+
+	movl 4(%esp), %eax
+	cmpl $10, %eax
+	Jge F
+	movl $1, %eax
+	jmp T 								// SALTO INCONDIZIONATO
+	F: 	movl $0, %eax
+	T: ret
