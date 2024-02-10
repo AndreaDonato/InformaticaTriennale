@@ -15,9 +15,9 @@
               "state": {
                 "file": "Aggiunte - Sistemi Operativi.canvas",
                 "viewState": {
-                  "x": -4917.7079239562845,
-                  "y": -889.3865589465111,
-                  "zoom": -2.8000000000000003
+                  "x": -948.5512706040249,
+                  "y": 1023.276218793093,
+                  "zoom": -4
                 }
               }
             }
@@ -151,20 +151,23 @@
   },
   "active": "c2fe555db67e8d57",
   "lastOpenFiles": [
-    "Ottimizzazione.txt",
-    "ABI.txt",
-    "funzioni_con_parametri.txt",
-    "IA-32.txt",
-    "vonneumannDemetrescu.txt",
-    "vonneumann.txt",
-    "SO 1.txt",
-    "segnali.txt",
-    "pipelining.txt",
-    "Processi/ICP.png",
+    "HardDisk.png",
+    "Demetrescu/segnali.txt",
+    "Demetrescu/processiV.txt",
+    "Demetrescu/processi.txt",
+    "Demetrescu/processiIII.txt",
+    "Demetrescu/pipelining.txt",
+    "Demetrescu/SO.txt",
+    "Demetrescu/memoria.txt",
+    "SO 1.txt.md",
     "Aggiunte - Sistemi Operativi.canvas",
+    "TdP/SO_basic.txt",
+    "TdP/SO 1.txt",
+    "TdP/vonneumann.txt",
+    "vonn.md",
+    "BUS.md",
+    "Processi/ICP.png",
     "Processi/process_state.png",
-    "Memoria/Compaction",
-    "Memoria/AddressBinding",
     "Memoria/Untitled.md",
     "Memoria/Thrashing/WorkingSet.png",
     "Memoria/Thrashing/Thrashing.png",
@@ -174,7 +177,6 @@
     "Binaryvdecimal.svg.png",
     "Memoria/AddressBinding/Address Binding.png",
     "Memoria/AddressBinding/TraduzioneIndirizzi.png",
-    "BUS.md",
     "Untitled.md",
     "Untitled 1.md"
   ]
