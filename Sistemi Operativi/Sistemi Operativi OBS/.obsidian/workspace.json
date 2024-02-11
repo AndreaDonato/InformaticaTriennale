@@ -15,9 +15,9 @@
               "state": {
                 "file": "Aggiunte - Sistemi Operativi.canvas",
                 "viewState": {
-                  "x": -948.5512706040249,
-                  "y": 1023.276218793093,
-                  "zoom": -4
+                  "x": -2389.0009284260695,
+                  "y": 2532.6118516940387,
+                  "zoom": -0.7999999999999997
                 }
               }
             }
@@ -88,7 +88,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Aggiunte - Sistemi Operativi.canvas",
+                "file": "Demetrescu/processi.txt",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -105,7 +105,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Aggiunte - Sistemi Operativi.canvas",
+                "file": "Demetrescu/processi.txt",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -128,7 +128,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Aggiunte - Sistemi Operativi.canvas"
+                "file": "Demetrescu/processi.txt"
               }
             }
           }
@@ -149,7 +149,7 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "4e0aba46ecac46c0",
+  "active": "c2fe555db67e8d57",
   "lastOpenFiles": [
     "Memoria/HardDisk.png",
     "Demetrescu/segnali.txt",
