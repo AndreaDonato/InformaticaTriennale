@@ -15,9 +15,9 @@
               "state": {
                 "file": "Aggiunte - Sistemi Operativi.canvas",
                 "viewState": {
-                  "x": -2389.0009284260695,
-                  "y": 2532.6118516940387,
-                  "zoom": -0.7999999999999997
+                  "x": -7862.387077375727,
+                  "y": -3276.207262363355,
+                  "zoom": -0.19999999999999984
                 }
               }
             }
@@ -88,7 +88,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Demetrescu/processi.txt",
+                "file": "Aggiunte - Sistemi Operativi.canvas",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -105,7 +105,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Demetrescu/processi.txt",
+                "file": "Aggiunte - Sistemi Operativi.canvas",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -128,7 +128,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Demetrescu/processi.txt"
+                "file": "Aggiunte - Sistemi Operativi.canvas"
               }
             }
           }

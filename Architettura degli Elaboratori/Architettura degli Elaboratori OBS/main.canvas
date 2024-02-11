@@ -1,0 +1,7 @@
+{
+	"nodes":[
+		{"id":"0b6d09ee9d694b1f","x":-780,"y":0,"width":250,"height":60,"color":"6","type":"text","text":"# Introduzione"},
+		{"id":"e723e0fbc1846d02","x":-1100,"y":163,"width":720,"height":1197,"color":"2","type":"text","text":"# Tipi di architetture\n\nPersonal computers (PCs) good performance to single users at low cost and usually\nexecute third-party software. 35 years old!\n\n\nServers usually accessed only via a network. oriented to carrying sizable\nworkloads, or handling many small jobs, e usually based on\nsoftware from another source (such as a database or simulation system), emphasis\non dependability, since a crash is usually  costly\n\nsupercomputers, which at the present consist of tens of thousands of processors\nand many terabytes of memory, weather forecasting, oil exploration, protein structure\ndetermination, and other large-scale problems\n\n\nEmbedded computers microprocessors networks of processors designed to run one application or one set of related\napplications that are normally integrated with the hardware and delivered as a\nsingle system;"}
+	],
+	"edges":[]
+}

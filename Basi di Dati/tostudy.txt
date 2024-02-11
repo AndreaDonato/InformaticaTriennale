@@ -1,0 +1,17 @@
+Per la teoria relazionale, studiare la dispensa del corso su Teoria relazionale (senza dimostrazioni)
+
+"Le slide delle lezioni possono chiarire alcuni punti" ma non le ho cercate
+
+Per progettazione dal libro
+
+3.4 L’analisi dei requisiti
+
+3.5 La progettazione concettuale
+
+ 
+
+4 Il modello relazionale
+
+ 
+
+6 SQL per l’uso interattivo dei dati
