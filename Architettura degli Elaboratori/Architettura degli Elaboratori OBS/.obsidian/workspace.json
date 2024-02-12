@@ -15,8 +15,8 @@
               "state": {
                 "file": "main.canvas",
                 "viewState": {
-                  "x": -349.27010318388005,
-                  "y": 804.8471637321977,
+                  "x": -2230.7226392244183,
+                  "y": 3379.2925285992983,
                   "zoom": -0.40000000000000013
                 }
               }
@@ -151,8 +151,21 @@
   },
   "active": "dab43574b86a8586",
   "lastOpenFiles": [
-    "Welcome.md",
+    "Capitolo 2/x86vsRISCvsMIPS.png",
     "main.canvas",
-    "Untitled.md"
+    "Capitolo 2/RISCvsMIPS.png",
+    "Capitolo 2",
+    "Untitled.md",
+    "Capitolo 1",
+    "Capitolo 2/ARMandOthers.png",
+    "Demetrescu/pipelining.txt",
+    "pipelining.txt",
+    "Demetrescu/Ottimizzazione.txt",
+    "Demetrescu",
+    "Capitolo 1/BenchmarksSPEC.png",
+    "Capitolo 1/PowerAndClockRate.png",
+    "Capitolo 1/ComputerScheme.png",
+    "Capitolo 1/conversions.png",
+    "Welcome.md"
   ]
 }

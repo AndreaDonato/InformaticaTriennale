@@ -1,0 +1,165 @@
+Obiettivo: ridurre al minimo le risorse di cui un programma ha bisogno per la sua esecuzione. Possono essere
+
+	- Spazio (memoria): RAM, disco, ...
+	- Tempo: uso CPU, uso dei dispositivi (se li occupo si genera una queue), ...
+	- Energia
+
+Chi ottimizza?
+
+	- Programmatore
+	- Compilatore (ad esempio con il magico comando -O1)
+	- SO e HW
+
+Non potendo agire sugli ultimi due, è necessario conoscerli per agire di conseguenza e ottimizzare ove REALMENTE necessario.
+E' fondamentale non ottimizzare quando non serve. In C è molto più sensato scrivere x /= 4 che x>>2, perché perdo in leggibilità e comunque è una cosa che farebbe il compilatore.
+"Non mettetevi a ottimizzare se non quando necessario". (l'ha detto tipo 15 volte).
+Bisogna cercare di mantenere le cosiddette QUALITA' DEL SOFTWARE, come leggibilità, portabilità, robustezza, correttezza, mantenibilità, PRESTAZIONI, ...
+Quest'ultima non è nemmeno la più importante! Molto meglio un programma corretto ma lento che uno veloce ma sbagliato. "Ma allora perché ne parliamo"?
+Quando uso linguaggi di alto livello e aumento l'astrazione sacrifico le prestazioni in nome di leggibilità, portabilità, mantenibilità...
+Mentre in C sono certo che posso ottimizzare molto di più le prestazioni, ma magari rendo il programma meno leggibile.
+In generale, a ogni scelta di questo tipo faccio un trade-off tra le qualità del software, privilegiandone alcune e penalizzandone altre.
+Le prestazioni sono importanti perché ottimizzare un certo modulo permette di "allargarsi" sugli altri, migliorando magari la leggibilità. "E' una moneta con cui compro le altre qualità del software".
+
+Cosa può fare quindi il programmatore?
+Agisce a livello di
+
+	- Algoritmo (modello teorico)
+	- Programma (sua implementazione)
+
+Il primo è molto più importante del secondo (in termini di costo asintotico, che è la cosa più importante di tutte sebbene per n piccoli possa convenire comunque un algoritmo O(N^2) rispetto a uno O(N)).
+Ottimizzare l'algoritmo equivale a cambiare il polinomio (es: T(n) = a*n + b, ovvero in pratica il costo asintotico), ottimizzare il programma significa cambiare ("migliorare") le costanti.
+Il compilatore NON ottimizza il costo asintotico, può farlo solo il programmatore.
+
+Mi serve comunque un modo per misurare le risorse.
+A livello di programma, ci sono chiamate di libreria per misurare spazio e tempo;
+A livello di SO, ci sono programmi che misurano le risorse di un processo (time, gprof, gdb, valgrind, ...). Sono detti Performance Profilers.
+
+In accordo con il principio di Pareto, il 10% delle funzioni è responsabile del 90% del tempo di esecuzione di un programma.
+Si dice BOTTLENECK la porzione critica di un programma su cui è opportuno applicare ottimizzazioni.
+Lo SPEEDUP è il rate di miglioramento del programma da non ottimizzato a ottimizzato = T/T'.
+Sia a questo punto T_P il tempo di esecuzione del programma complessivo, diviso tra il tempo di esecuzione T_A della funzione A (tale che T_A/T_P = a) e T_R del resto del programma (T_R/T_P = 1 - a).
+Ipotizziamo di ottimizzare l'esecuzione di A in A' tale che T_A/T_A' = k (speedup).
+Si può dimostrare in modo semplice la LEGGE DI AMDAHL: lo speedup complessivo del programma è dato da 1/(a/k + 1 - a). Interessante che per a fissato e k -> infinito il massimo speedup è 1/1-a.
+
+Come trovo in pratica i bottleneck? Esistono i Performace Profiler. Genericamente si focalizzano sulle funzioni.
+Sono tool di analisi dinamica che misurano i tempi spesi in ciascuna sottoparte di un programma. Esempio: gprof.
+
+	gcc -pg prog.c -o prog
+
+l'opzione -pg rende il programma AUTO-PROFILANTE (NB: gprof è integrato in gcc). Quando eseguo prog ottengo come ulteriore output un file di report chiamato gmon.out (file binario). Allora eseguo
+
+	gprof ./prog
+
+che mi sputa in output su terminale i tempi (l'esecuzione rallenta proporzionalmente al numero di chiamate a funzione, si vede bene con programmi ricorsivi).
+Per gioco è stato eseguito con un programma che simula un randomwalk.
+
+	gcc mdrandwalk.c -pg -O1 -o test -lm
+	./test 1000 100000 2 3
+	gprof ./test gmon.out > stats.txt
+
+(prima l'ho fatto senza -O1, il main prendeva la stessa percentuale di tempo di aggiorna_posizione, lo speedup dato da -O1 è circa 1.17).
+
+
+RIDUZIONE DEL WORK (numero di istruzioni in senso stretto)
+I punti su cui il programmatore può intervenire sono:
+	
+	- Strutture dati
+
+		- Augmentation: aggiunta di informazioni per velocizzare determinate operazioni.
+			Supponiamo di avere una SCL.
+				- Se devo accedere spesso all'ultimo elemento (operazione O(N) lunghezza della SCL) mi conviene aggiungere un pointer all'ultimo elemento (diventa O(1));
+				- Se mi serve la lunghezza della lista. Invece di calcolarla ogni volta la salvo a parte e la aggiorno con le operazioni che faccio;
+
+		- Compile-Time Initialization: mi scrivo una tabellina precomputata con le risposte alle domande frequenti. Tutte le funzioni del tipo isChar, isAlpha, ... fanno così.
+			Supponiamo di avere una funzione isCons(char c) che controlla se c è una consonante.
+				- Se devo scorrere una stringa lunga dovrei ogni volta fare un sacco di test. Invece mi scrivo un array di tutti zeri tranne gli elementi indicizzati dalle consonanti.
+
+	- Logica di calcolo (espressioni) - Le fa quasi tutte il compilatore se ci metti -O1
+
+		- Constant Folding: Se nel codice ho x = 3 + 2 non è stupido calcolare ogni volta una somma che fa sempre 5. Questo però lo fa qualsiasi compilatore!
+
+		- Constant Propagation: Se nel codice ho x = 5 e poi lo uso in cose come y = x + 3, if(x > 1), ... Anche questo lo fa in automatico il compilatore.
+
+		- Dead Code Elimination: Nell'esempio di prima, visto che if(x > 1) è if(7 > 1) = True posso eliminare tutto il ramo else. Compilatore.
+
+		- Common Subexpression Elimination: Se ho un'espressione che si ripete identica le calcolo una sola volta. Compilatore.
+
+				x = (y-z)^3 * (y-z)^3;
+
+			diventa
+
+				temp = (y-z)^3;
+				x = temp*temp;
+
+		- Algebraic Identities: Ipotizziamo di dover determinare se due cerchi nell piano si toccano. Una funzione prende in input 6 parametri (i due centri (x, y) e i due raggi).
+			In linea di principio si toccano se r1 + r2 <= d ottenuto con il thm di Pitagora. Quindi devo usare una radice, che è computazionalmente complessa. Posso allora fare il
+			test su (r1 + r2)^2 <= d^2 perché so che è tutto positivo. A sinistra aggiungo un fattore moltiplicativo (r1 + r2) (sul quale poi il compilatore farà CSE), a destra tolgo
+			la funzione sqrt. Questa roba IL COMPILATORE NON LA SA FARE. Ovviamente.
+
+		- Short-Circuiting: Uno smette di lavorare appena trova la risposta che cercava. IL COMPILATORE NON LO SA FARE.
+			- Cerco un elemento in un array e mi fermo appena lo trovo;
+			- Verifico se un carattere è un "blank", ovvero return c == '\t' || c == '\n' || c == ' '; E' ottimizzato? In C la semantica degli operatori booleani è tale che se il primo elemento
+				non rispetta la condizione il secondo non viene valutato (es: a = 0; a && b; - b non viene valutato. Per lo stesso motivo posso trovare scritto p != NULL && *p > 0, ovvero valuto
+				il contenuto del puntatore p solo se punta a qualcosa). E' ragionevole assumere che ' ' sia il caso più frequente, quindi conviene scrivere le condizioni al contrario.
+
+
+	- Cicli
+
+		- Loop-invariant Code Motion: spostare prima del ciclo tutte le operazioni effettuate nel corpo del ciclo che restituiscono lo stesso valore ad ogni iterazione ("hoisting", autoesplicativo).
+			Se le istruzioni sono standard (es: sqrt) lo POTREBBE fare il compilatore, se sono istruzioni scritte dal programmatore (magari definite altrove e poi linkate) sta a quest'ultimo capirlo.
+			Ad esempio, la tipica cosa che il compilatore NON fa è ottimizzare una roba di tipo
+
+				for(i = 0; i < strlen(s); i++)
+
+			che passa dall'essere lineare (su n nel ciclo) a quadratica (altra operazione O(n) quando a ogni check chiamo strlen(s)). "è un errore da principianti".
+		
+		- Sentinelle: Introduco dei valori sentinella per ridurre il numero di test che faccio.
+			Ipotizziamo di avere un codice del tipo
+
+				for(i = 0; i < n; i++)
+					if(v[i] == x) return 1;
+
+			A ogni iterazione fa due test: i < n e v[i] == x. Posso fare meglio. Inserisco in coda all'array il valore x e tolgo la condizione sul for. In questo modo sposto tutto dentro l'if,
+			nel quale però entro una sola volta:
+
+				for(i = 0; ; i++)
+					if(v[i] == x) return i < n;
+
+			Si possono pensare a varianti di questo codice. Se non voglio o non posso allungare l'array posso controllare anzitutto l'ultimo elemento. Se è x ritorno 1, altrimenti ci scrivo io a forza
+			la sentinella x (avendo magari cura di salvare quello che c'era prima e ripristinarlo a funzione terminata). Ricado quindi nel caso precedente.
+
+		- Un altro tot di cose, ma ci pensa il compilatore.
+
+
+	- Funzioni
+
+		- Inlining: Sostituire un'invocazione a funzione con il corpo della funzione stessa (in genere efficace se il corpo è piccolo).
+			Se lo si pensa in Assembly, si risparmiano un sacco di istruzioni. Il compilatore in genere è abbastanza furbo da capire quando conviene farlo, a patto che sia definita nello stesso
+			modulo del chiamante (giustamente, se viene linkata successivamente lui al momento della compilazione che ne sa?). Si può mettere il compilatore nelle condizioni di capirlo anche se
+			l'implementazione è altrove, banalmente copiandola brutalmente nel modulo chiamante con la keyword static davanti (magari aggiungendo _inline a fine nome funzione).
+
+		- Tail Recursion: Fare in modo che la chiamata ricorsiva sia l'ultima istruzione della funzione (ad esempio nel return).
+			Si può facilmente trasformare in una funzione iterativa. La buona notizia è che gcc lo fa da solo con l'opzione -O2. Si noti che
+
+				int sum(int n)
+				{
+					if(n < 1) return 0;
+					return n + sum(n-1);
+				}
+
+			NON è Tail Recursion. L'ultima istruzione contiene una somma! Posso però renderla TR.
+
+				int sum2(int n, int s)
+				{
+					if(n < 1) return s;
+					return sum2(n-1, s+n);
+				}
+
+			e invoco
+
+				int sum(int n) {return sum2(n, 0);}
+
+			Cioè sposto la ricorsione nella funzione interna, tipo quegli esercizi che chiedono un'implementazione ricorsiva ma è impossibile da fare con una sola funzione.
+
+
+A volte è ovvio cosa viene ottimizzato dal compilatore. Se non lo è, tocca disassemblare con objdump.
