@@ -15,9 +15,9 @@
               "state": {
                 "file": "main.canvas",
                 "viewState": {
-                  "x": -2230.7226392244183,
-                  "y": 3379.2925285992983,
-                  "zoom": -0.40000000000000013
+                  "x": -353.4865551419955,
+                  "y": 3326.839686616151,
+                  "zoom": -0.9999999999999999
                 }
               }
             }
@@ -151,6 +151,8 @@
   },
   "active": "dab43574b86a8586",
   "lastOpenFiles": [
+    "Demetrescu/IA-32.txt",
+    "IA-32.txt",
     "Capitolo 2/x86vsRISCvsMIPS.png",
     "main.canvas",
     "Capitolo 2/RISCvsMIPS.png",
