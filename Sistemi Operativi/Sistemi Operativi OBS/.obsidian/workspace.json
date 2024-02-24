@@ -15,9 +15,9 @@
               "state": {
                 "file": "Aggiunte - Sistemi Operativi.canvas",
                 "viewState": {
-                  "x": 2966.9675805897887,
-                  "y": 1181.5639664731625,
-                  "zoom": -1.6000000000000005
+                  "x": 3266.2492081712157,
+                  "y": -183.04704649172396,
+                  "zoom": -5.551115123125783e-16
                 }
               }
             }
@@ -151,6 +151,8 @@
   },
   "active": "c2fe555db67e8d57",
   "lastOpenFiles": [
+    "OS_Design.pdf",
+    "Aggiunte - Sistemi Operativi.canvas",
     "Memoria/HardDisk.png",
     "Demetrescu/segnali.txt",
     "Demetrescu/processiV.txt",
@@ -160,7 +162,6 @@
     "Demetrescu/SO.txt",
     "Demetrescu/memoria.txt",
     "SO 1.txt.md",
-    "Aggiunte - Sistemi Operativi.canvas",
     "TdP/SO_basic.txt",
     "TdP/SO 1.txt",
     "TdP/vonneumann.txt",
@@ -176,7 +177,6 @@
     "Memoria/Paging/Segmentation+Paging.png",
     "Binaryvdecimal.svg.png",
     "Memoria/AddressBinding/Address Binding.png",
-    "Memoria/AddressBinding/TraduzioneIndirizzi.png",
     "Untitled.md",
     "Untitled 1.md"
   ]
