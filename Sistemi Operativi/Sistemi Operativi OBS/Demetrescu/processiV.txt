@@ -1,0 +1,136 @@
+Come si crea un processo?
+C'è un wrapper di syscall chamata fork() che clona il processo padre e lo mette in parallelo a partire dall'istruzione successiva alla fork.
+"E a che serve?" Così a niente, ma fork ha un valore di ritorno di tipo pid_t:
+
+	- Errore (-1): Il figlio non è stato creato
+	
+	- Successo: Il figlio è stato creato, fork restituisce
+
+		- Al genitore il valore del PID (> 0) del figlio;
+		- Al figlio il valore 0.
+
+A questo punto sono in grado di elaborare un if e capire se mi trovo nel genitore o nel figlio.
+
+	#include <unistd.h>
+
+	[...]
+
+	pid_t pid = fork()
+
+	if(pid == -1)
+	{
+		perror("Errore nella fork\n"); 			// Ad esempio se supero il numero CHILD_MAX di processi figli, o se non ho abbastanza memoria
+		exit(1);
+	}
+
+	if(pid == 0)
+		printf("Figlio\n");
+
+	else
+		printf("Padre\n");
+
+
+Ora ho due casi:
+
+	- Il figlio termina prima del padre: nell'esempio precedente il padre non raccoglie mai lo stato di terminazione del figlio.
+		A rigore, questo dovrebbe diventare uno zombie eterno. Altrimenti, nel caso di sana e robusta programmazione, il padre legge
+		lo stato di terminazione e il figlio muore;
+
+	- Il figlio termina dopo il padre: Non c'è più il PCB del genitore. Per mantenere l'albero, un sistema UNIX tipicamente sceglie di
+		"agganciare" il figlio direttamente al processo con PID 0, __init. In questo modo si evita che diventi uno zombie all'infinito,
+		perché init è impostato per leggere i valori di ritorno dei figli a intervalli regolari.
+
+Come si raccoglie lo stato di terminazione di un processo? C'è una syscall chiamata WAIT, che blocca il processo che la invoca finché un qualche
+figlio non termina. Restituisce due valori interi:
+
+	- PID del processo figlio terminato;
+	- Suo stato di terminazione.
+
+Come faccio? O faccio una void e passo due puntatori oppure (come è in questo caso) faccio
+
+	pid_t wait(int* stato_di_terminazione);
+
+Allora nel codice di poco fa posso aggiornare il ramo else e mettere
+
+	else
+	{
+		pid_t status;
+		printf("Padre\n");
+		wait(&status);
+	}
+
+In questo modo il padre aspetterà la terminazione del figlio e ne raccoglierà il valore di ritorno.
+Altro schema possibile è
+
+	pid_t pid = fork()
+
+	// Error Handling
+
+	if(pid == 0)
+	{	
+		printf("Figlio\n");
+		_exit(0);				// Se non mettessi questa _exit, il figlio uscirebbe dall'if e si metterebbe a fare una wait di un ulteriore figlio che non c'è
+	}
+	
+	pid_t status;
+	wait(&status);
+
+Perché uso _exit? Ci sono diverse versioni della syscall exit:
+
+	- exit:
+
+		- Ripulisce i canali di output. Quando si usa (ad esempio) una printf viene fatto del BUFFERING, ovvero non tutto quello che si manda in output viene
+			stampato subito, ma piuttosto viene salvato in un buffer di memoria. Quando il buffer è pieno viene sparato in output. L'operazione di FLUSHING
+			svuota il buffer;
+
+		- Altre operazioni;
+
+		- Chiama _exit;
+
+	- _exit:
+
+		- Chiude i canali di I/O;
+
+		- Altre operazioni (...);
+
+		- Termina il processo.
+
+La fork duplica lo spazio di memoria, ma condivide gli stessi canali I/O tra genitore e figlio. Questo è il motivo per cui il programma che lancio da shell
+scrive sulla shell stessa.
+
+Ora, finora il codice del figlio è nel codice del processo padre. Come faccio ad eseguire altro?
+Esiste la famiglia di syscall EXEC. Fissato il PID del processo che la invoca, questa sovrascrive la memoria corrispondente con quella del nuovo file eseguibile.
+In pratica, EXEC attiva il modulo loader del Kernel.
+
+	- int execv(const char* path, char* const argv[]): Anzitutto notare l'uso di const. Nel primo caso path è un puntatore a un buffer costante (ovvero è garantito
+		che execv non modificherà il buffer puntato da path). Nel secondo argv è un {puntatore a un array (= argv[])} di {stringhe (= char*)}, è garantito che execv
+		non modifichi il puntatore all'array argv[] ma può in linea di principio modificarne le stringhe contenute. Se ad esempio scrivo
+
+			ls -l -a
+
+		il vettore argv[] contiene come elementi "ls", "-l", "-a" e NULL (terminatore);
+
+	- int execvp(const char* executable, char* const argv[]): Identico alla precedente, ma non devo specificare il path. Il programma eseguibile viene automaticamente
+		cercato in tutte le cartelle specificate nella variabile d'ambiente PATH;
+
+Una qualsiasi funzione EXEC restituisce solo -1, e rappresenta un errore. Questo perché se va a buon fine fa suicidare il processo chiamante.
+
+Lo schema di funzionamento è quindi
+
+	fork()
+	|
+	|______ exec()
+	|      	 |
+	| 		 |
+	|
+	wait()
+
+
+
+
+
+export PATH=$PATH:. 			// Aggiunge alla variabile l'ambiente PATH la cartella corrente. Così posso eseguire gli elf di questa cartella senza ./ davanti
+
+
+
+Simpatica scoperta degna di nota: Ctrl+x mette il processo in stato di Waiting, mentre Ctrl+c lo killa.

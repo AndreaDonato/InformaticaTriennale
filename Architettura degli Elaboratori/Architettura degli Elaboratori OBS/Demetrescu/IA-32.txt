@@ -1,0 +1,273 @@
+IA-32 (Intel Architecture 32bit), variante dell'ISA x86 a 32 bit
+
+Non il più moderno (lo è invece AMD64, a 64bit) ma l'estensione è semplice (ed è retrocompatibile).
+ISA definisce:
+
+	- Stato CPU
+	- Formato istruzioni CPU
+	- Effetto delle istruzioni sullo stato CPU
+
+Come si traduce un programma C in IA-32?
+
+TIPI NUMERICI
+
+	INTERI
+
+		NOME				Byte	Bit 	Variabile C
+
+		Byte				1		8 		(unsigned) char
+		Word				2 		16 		(unsigned) short (int)
+		Double Word			4 		32 		(unsigned) int, long (int, solo nel modello a 32bit)
+		(Quad Word) 		8 		64
+
+	Il numero di byte delle keyword è quello storico a 32bit. Se vado a 64 raddoppio (una word ha 4 byte). Questo al di là del segno, perché l'informazione del segno è nell'operazione.
+	C non fissa la lunghezza in byte dei suoi tipi, ma li associa alle keyword dell'Assembly, in modo da prendere quelli "naturali" della macchina.
+
+	VIRGOLA MOBILE
+
+		Single Precision	4 		32 		float
+		Double Precision	8 		64 		double
+		Extended Precision	12(10) 	96		long double					\\ Solo 10 vengono effettivamente utilizzati
+
+
+VARIABILI
+
+Si memorizzano nella memoria o nei registri. Partiamo dai registri.
+Un registro ha un nome fisso, e sono fissati in numero. Se voglio definire più variabili rispetto al numero dei registri devo appoggiarmi alla memoria.
+
+	- Registri general-purpose: utilizzabili come fossero variabili di dati interi. In passato la CPU aveva solo registri interi, per i float si avevano i
+		COPROCESSORI MATEMATICI FPU (floating point unit) non integrati. Ora lo sono. Sono a 32bit, e sono 6: A, B, C, D, SI, DI. Non posso rinominarli.
+
+	- Altri registri:
+
+		- BP (Base Pointer): puntatore al RDA corrente in stack;
+		- SP (Stack Pointer): puntatore alla cima della stack;
+		- IP (Instruction Pointer): è il Program Counter PC nel gergo di IA-32.
+
+Cosa succede se in C dico
+
+	int x;
+	x = 10;
+
+In IA-32 non dichiaro le cose: i nomi sono fissi. Devo scegliere il registro in cui mettere x. A questo punto devo scegliere l'Assembly. Sì, perché ce ne sono diversi (Intel, AT&T, ...).
+Usiamo AT&T.
+
+	- Famiglia di istruzioni MOV: sposta dati da
+
+		OPERANDO SORGENTE
+			- Memoria
+			- Registro
+			- Immediato (costante numerica)
+
+		a OPERANDO DESTINAZIONE
+			- Memoria
+			- Registro
+
+Le istruzioni di cui sopra si possono scrivere come
+
+	movl $10, %eax
+
+in AT&T, mov ha suffissi che si riferiscono alla lunghezza dei bit su cui operare, in particolare
+
+	Byte (char)			b
+	Word (short)		w
+	Double Word (int) 	l
+
+Poi, ogni valore numerico deve essere preceduto da $, altrimenti viene interpretato come indirizzo di memoria.
+Infine, % precede i registri. %eax si riferisce ai 32 bit del registro A. La e sta per extended: storicamente il registro è a 16 bit, e si invoca con %ax.
+E perché metto la x? Perchè potrei prendere anche solo i primi 8 bit (%al, "low") oppure i secondi 8 bit (%ah, "high", ma non si usa). Se lavorassi a 64 bit
+chiamerei l'intero registro %rax. Posso usare il singolo registro per memorizzare due char (%ah e %al, per quanto in realtà non si fa mai ... "magari se devi
+scrivere un virus ti serve") ma non due short. Se cambio qualcosa in %ax, il resto dei bit resta immutato. Da A a D l'estensione dei nomi è banale, per SI e DI
+sono %esi ed %edi. In generale la x è sostituita da i. Passiamo a un programmino più difficile.
+
+	short x, y;
+	x = 10;
+	y = x;
+
+Assegnazioni non si fanno in Assembly.
+
+	movw $10, %ax
+	movw %ax, %dx
+
+Se metto $143357564452343 in uno short e faccio overflow, Assembly non mi dice niente: sono cazzi miei. Java ad esempio ti avvisa.
+Scrivo in esadecimale perchè ogni cifra è un pacchetto di 4 bit, quindi è una corrispondenza facile facile. Avendo a disposizione le lettere A-F posso scrivere robe tipo
+
+	0xABADCAFE
+	0xDEADBEEF
+
+"folklore informatico", ma vengono effettivamente usati come "magic numbers", ovvero numeri identificativi arbitrari (spesso per la codifica di formato) di facile memorizzazzione.
+
+
+ESPRESSIONI ARITMETICHE
+
+	int x = 10;
+	x = x + 7;
+
+diventa
+
+	movl $10, %eax
+	addl $7 , %eax
+
+Stessa sintassi per SUB, IMUL (moltiplicazione), XOR, OR, AND, NOT (tutte queste sono bit a bit (bitwise)), NEG (flippa il segno) (tutte famiglie di istruzioni a cui poi devo
+aggiungere il suffisso). Poi ci sono INC e DEC (incremento e decremento).
+
+	int y, x = 10;
+	y = x + 20;
+
+Non si può fare esattamente come dice il codice. Bisogna ristrutturare il C come y = x; y = y + 20:
+	
+	movl $10 , %eax
+	movl %eax, %edx
+	addl $20 , %edx
+
+oppure
+
+	int y = 20, x = 10;
+	y = 2*x - y;
+
+in assembly saranno almeno tre righe (corrispondenti a tre operazioni fondamentali, - * e =). Mi serve inoltre un registro di appoggio!
+
+	"x->A, y->D, z->C"
+	int z = x;
+	z = z*2;
+	y = z-y;			// potrei negare y e poi fare y+z. NON POSSO USARE SUB, perché è della forma D <- D-S e y compare col meno.
+
+diventa
+
+	movl %eax, %ecx
+	imull $2, %ecx
+	negl %edx
+	addl %ecx, %edx
+
+Una sola espressione C si è tradotta in 4 righe assembly! E ho assunto di avere un registro libero come appoggio!
+
+	int y = 20, x = 10;
+	x = (x+y)*(x+y);
+
+Lui si è disegnato l'albero. Le parentesi sono i sottoalberi la cui radice è *. Ognuno dei due è del tipo
+
+	int z = x;
+	z = z + y;
+
+e poi x = z*z, ovvero x = z e poi x = x*z. Quindi
+
+	movl %eax, %ecx
+	addl %edx, %ecx
+	movl %edx, %eax
+	imull %ecx, %eax
+
+Ma lo si può fare senza variabile d'appoggio!
+
+	x = x+y
+	x = x*x
+
+	addl %edx, %eax
+	imull %eax, %eax
+
+I compilatori hanno diversi livelli di ottimizzazione. Se compilo con gcc e basta probabilmente produrrà il primo assembly, se invece dico gcc -O1 proverà a ottimizzare.
+Si può sempre ottimizzare? Se chiedo
+
+	x = (x+y)*(x-y);
+
+non posso buttare via x e salvargli dentro x+y, perché poi mi serve nella seconda parentesi! Devo fare
+
+	z = x;
+	z = z+y;
+	x = x-y;
+	x = x*z;
+
+ovvero di nuovo 4 istruzioni macchina.
+
+
+
+
+SCRIVERE UN PROGRAMMA ASSEMBLY
+Scriveremo main in C e funzioni IA-32 in file .s, per poi linkarle con gcc. Se faccio gcc main.c succede questo:
+
+	/usr/bin/ld: /tmp/ccUyGtcC.o: in function `main':
+	main.c:(.text+0x19): undefined reference to `f'
+	collect2: error: ld returned 1 exit status
+
+dove ld è quel pezzo di gcc che fa il linking. Allora faccio gcc -c main.c. Creo main.o. Poi creo f.o con gcc -c f.s e lo osservo con objdump -d f.o.
+
+	f.o:     file format elf64-x86-64
+
+	Disassembly of section .text:
+
+	0000000000000000 <f>:
+   	0:	b8 0b 00 00 00       	mov    $0xb,%eax
+   	5:	c3                   	ret
+
+
+b8 e c3 definiscono mov e ret, 0b 00 00 00 è l'immediato (infatti il disassembler ha riscritto l'originale $11 come $0xb). Facciamo una cosa più complessa.
+Scrivo una funzione f2.c e dico a gcc di tradurla in assembly con gcc -S f2.s. Produce f2.s (che è un casino). Questo perché non è ottimizzato.
+
+			.file	"f2.c"
+		.text
+		.globl	f
+		.type	f, @function
+	f:
+	.LFB0:
+		.cfi_startproc
+		endbr64
+		pushq	%rbp					# notare il registro rbp. il mio SO è 64bit e nessuno gli ha detto di lavorare a 32.
+		.cfi_def_cfa_offset 16
+		.cfi_offset 6, -16
+		movq	%rsp, %rbp
+		.cfi_def_cfa_register 6
+		movl	$10, -8(%rbp)
+		movl	$20, -4(%rbp)
+		movl	-4(%rbp), %edx
+		movl	%edx, %eax
+		addl	%eax, %eax
+		addl	%eax, %edx
+		movl	-8(%rbp), %eax
+		addl	%edx, %eax
+		popq	%rbp
+		.cfi_def_cfa 7, 8
+		ret
+		.cfi_endproc
+	.LFE0:
+		.size	f, .-f
+		.ident	"GCC: (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0"
+		.section	.note.GNU-stack,"",@progbits
+		.section	.note.gnu.property,"a"
+		.align 8
+		.long	1f - 0f
+		.long	4f - 1f
+		.long	5
+	0:
+		.string	"GNU"
+	1:
+		.align 8
+		.long	0xc0000002
+		.long	3f - 2f
+	2:
+		.long	0x3
+	3:
+		.align 8
+	4:
+
+
+Provo a vedere come ottimizza se faccio -O1. Metto anche -m32 per dirgli di lavorare a 32bit.
+
+	gcc -S f2.c -O1 -m32
+
+produce
+
+		.file	"f2.c"
+		.text
+		.globl	f
+		.type	f, @function
+	f:
+	.LFB0:
+		.cfi_startproc
+		movl	$70, %eax 				# ha capito che comunque sia quella funzione restituirà 70
+		ret
+		.cfi_endproc
+	.LFE0:
+		.size	f, .-f
+		.ident	"GCC: (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0"
+		.section	.note.GNU-stack,"",@progbits
+
+Il compilatore fa molto lavoro dietro le quinte.

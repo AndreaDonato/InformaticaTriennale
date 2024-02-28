@@ -1,0 +1,364 @@
+Se ho una funzione che non ne chiama altre, se metto un valore in un registro sono certo che resterà là. Ma se invece chiamasse a sua volta una funzione?
+Chi mi garantisce che il valore nel registro non venga sovrascritto? System V ABI distingue tra due tipi di registri:
+
+	- Callee-Save (B, SI, DI, BP): Se la funzione chiamata vuole utilizzare questi registri, deve prima salvarli in memoria e poi ripristinarne il valore prima
+		di tornare al chiamante. Il chiamante può quindi assumere che la chiamata non le modifichi. "Sta alla funzione chiamata salvarli in memoria".
+	
+	- Caller-Save (A, C, D): L'opposto, è il chiamante a dover salvare in stack il contenuto.
+
+Quindi, se uso una funzione e voglio usare ebx al suo interno devo prima salvare il suo valore in stack. Questo la ALLUNGA di 4byte e sposta lo SP.
+
+	somma:
+		pushl %ebx						# Salvo il contenuto di B nella stack
+		movl 8(%esp), %eax				# SP si è spostato della lunghezza del contenuto di B, quindi trovo il primo parametro a distanza 8 invece di 4
+		movl 12(%esp), ebx
+		addl %ebx, %eax
+		popl %ebx						# Ripristino il contenuto di B. Ogni push deve avere una pop associata. Se ho più ret in punti diversi del programma, ognuna deve avere una pop
+		ret
+
+E a 64bit???
+
+push(s): R[SP] --> R[SP]-4; M[SP] <--s 		# Sposta lo SP, salva s in stack
+pop(d): D <-- M[SP]; R[SP] <-- R[SP]+4 		# Salva d nel registro, sposta lo SP.
+
+È una pila: se ne ho più di una vanno chiusi come parentesi. 
+
+		pushl %ebx						
+		pushl %esi						
+		pushl %edi						
+
+		[...]
+		
+		popl %edi
+		popl %esi
+		popl %ebx
+
+A questo punto posso chiamare funzioni.
+
+	f(int x) {return x+g();}
+	int g(return 1;)
+
+in Assembly
+
+	f:
+		pushl %ebx					# f usa un registro callee-save, quindi deve salvarlo
+		movl 8(%esp), %ebx			# Non posso usare eax perché poi sarà il valore di ritorno di g. La push inoltre abbassa la stack, quindi 4 --> 8
+		call g 						# Notare che anche qui mettiamo un'etichetta che viene convertita in indirizzo dall'assemblatore
+		addl %ebx, %eax
+		popl %ebx
+		ret
+
+	g:
+		movl $1, %eax
+		ret
+
+notare che:
+	
+	- se avessi voluto usare un registro caller-save in f avrei dovuto prima salvarlo;
+	- posso usare A per salvare il valore restituito dall'ultima funzione chiamata;
+
+Semantica:
+	
+	call A:
+		R[SP] --> R[SP] - 4 	# Sposta lo SP
+		M[R[SP]] <-- R[PC]		# Salva il contenuto del Program Counter in stack (indirizzo di ritorno!)
+		R[PC] <-- A 			# Sposta l'indirizzo della funzione etichettata da A nel PC
+
+	ret:
+		R[PC] <-- M[R[SP]]		# Sposta l'indirizzo di ritorno salvato in stack e puntato dallo SP nel PC
+		R[SP] --> R[SP] + 4 	# Sposta lo SP
+
+PASSAGGIO DI PARAMETRI
+Come si passano i parametri alle funzioni?
+Invece di assumere che siano nelle posizioni in cui li trovo, ce li devo mettere.
+
+	int g(int a, int b);
+	int f() {return g(10, 20)}
+
+cosa deve fare f per chiamare g?
+
+	f:
+		subl $8, %esp 			# Sposta lo SP dello spazio necessario ad allocare i parametri
+		movl $10, (%esp) 		# Salva i valori
+		movl $20, 4(%esp)
+		call g 					# Chiama g, che a questo punto si ritrova sopra indirizzo di ritorno (dato dalla call, vedi sopra) e i parametri
+		addl $8, %esp			# A questo punto "dealloco" i parametri, ovvero sposto di nuovo indietro lo SP
+		ret 					# La ret "vede" correttamente l'indirizzo di ritorno
+
+Tipicamente l'assemblatore valuta prima il massimo spazio occupato dai parametri di tutte le funzioni possibile e poi ne alloca di più (32 o 64byte). Perché? Lo scopriremo.
+Avrei anche potuto rimpiazzare le prime tre righe di codice con
+
+	pushl $10
+	pushl $20
+
+Poi fare la pop è inutile, perché una volta uscito dalla funzione i parametri non servono più.
+
+	- Concettualmente, una add sullo SP è una pop in cui non ti interessa ripristinare il valore;
+	- Similmente, una sub sullo SP è una push in cui non specifico cosa scrivo in memoria.
+
+Quindi per funzione chiamante in IA-32 bisogna:
+
+	- Calcolare massimo numero di byte richiesti dalle chiamate a funzione effettuate per il passaggio dei parametri;
+	- Prologo (sub) ed epilogo (add) sullo SP. È consigliabile muovere lo SP solo in prologo ed epilogo, per poi lavorare "a bocce ferme". Chiaro che si può anche non fare così;
+	- Usare preferibilmente B, SI, DI (salvandoli nel prologo con push e ripristinandoli al bisogno con pop).
+
+VARIABILI LOCALI
+Ci sono situazioni in cui sono costretto a piazzare variabili locali in memoria:
+
+	- Ne ho troppe;
+	- Chiedo esplicitamente l'indirizzo di una variabile (&x);
+	- Ho un array (troppo grande per stare in un registro), o comunque variabili di tipo più sofisticato.
+
+	int f()
+	{
+		int x;
+		g(&x);
+		return x;
+	}
+
+	void g(int *p){}
+
+Devo mettere in stack sia x (perché dovrà avere un indirizzo) e il suo indirizzo (perché devo passarlo a g). In IA-32:
+
+	f:
+		subl $8, %esp 			# Faccio spazio per x e &x
+		movl %esp, %eax 		
+		addl $4, %eax
+		movl %eax, (%esp)		# Costruisco il giusto puntatore all'indirizzo SP+4 e lo salvo all'indirizzo dello SP
+		call g
+		movl 4(%esp), %eax 		# f ritorna x, lo metto in A
+		addl $8, %esp 			# Rimetto lo SP al suo posto o fioccano i segmentation fault
+		ret
+
+Potrei usare una sola istruzione per sostituire mov e add, ma non la conosciamo (?). Segue esempietto esercitativo
+
+	int f(int x, int y){return g(int a, int b, int c) + 10;}
+
+	int g(int a, int b, int c){return a + b + c};
+
+Non servono variabili locali in memoria.
+
+	f:
+		subl $12, %esp 			# Lascio spazio per 3 parametri passati
+		movl 16(%esp), %eax		# movl 16(%esp), (%esp) che non poso fare e spezzo in 2 istruzioni
+		movl %eax, (%esp)
+		movl 20(%esp), %ecx		# E analogo
+		movl %ecx, 4(%esp)
+		addl %ecx, %eax
+		movl %eax, 8(%esp)
+		call g
+		addl $10, %eax
+		addl $12, %esp 			# Non vogliamo errori di memoria
+ 		ret
+
+
+CONVERSIONI DI TIPO
+Ovvero come passare da
+
+	8 --> 16
+	8 --> 32
+	16 -> 32
+
+e viceversa. Se in C ho una cosa del tipo
+
+	int a;						// eax
+	short b; 					// bx
+	char c; 					// cl
+
+partiamo dalle cose facili: troncare (DOWNCAST)
+
+	c = (char)  b; 				// movb %bl, %cl
+	c = (char)  a;				// movb %al, %cl
+	b = (short) a; 				// movw %ax, %bx
+
+Invece per l'UPCAST devo creare bit. Se lavoro con unsigned, riempio con tutti zeri. Altrimenti devo stare attento al bit del segno. Se è negativo riempio con tutti uno.
+Questo perché si rappresentano in COMPLEMENTO A 2, ovvero ad esempio -1 si rappresenta 11111111 perché se faccio +1 ottengo 0 con carry.
+
+	c = -1;
+	b = c;
+
+Se il primo bit di c è 1, metto tutti gli altri a 1. Attenzione: se faccio
+
+	unsigned char c = -1;
+	unsigned short b = c;
+
+-1 verrebbe rappresentato in complemento a 2, ma essendo unsigned assumerebbe il valore di 255. Quando poi lo passo in b, riempio con tutti zeri.
+Implementare tutto questo non è banale. O meglio, l'unsigned è banale, altrimenti no. Ci sono due istruzioni macchina che filla di zeri o uni.
+
+	- movz: Copia sorgente su destinazione mettendo a Zero i bit extra nella destinazione. In AT&T devo mettere nella funzione le lunghezze degli operandi. Nell'esempio
+		con valori unsigned avrò
+
+			movzbw %cl, %bx 	# Sposto byte (%cl) --> word (%bx)
+
+	- movs: Analogo, con Segno. È un po' più intelligente della movz, perché automatizza il controllo del segno e conseguente fill di 0 o 1.
+
+			movsbw %cl, %bx
+
+Se ho ad esempio
+
+	eax: 0x12345678
+	ecx: 0xABADCAFE
+
+	movzbl %al, %ecx  --> ecx: 0x00000078
+	movsbl %al, %ecx  --> ecx: 0x00000078 (perché 7 ha rappresentazione 0111, quindi il bit più significativo di %al è zero)
+	movsbl %cl, %eax  --> eax: 0xFFFFFFFE (perché F ha rappresentazione 11111, quindi il bit più significativo di %cl è uno)
+	movsbw %cl, %ax   --> eax: 0x1234FFFE (perché agisco solo su ax, che è metà del registro eax)
+
+Notare che movz è una funzione di comodo. Ad esempio, sono equivalenti le scritture
+
+	movzwl %cx, %eax
+
+e		
+
+	movl $0, %eax
+	movw %cx, %ax
+
+Invece la movs fa risparmiare molto codice, dovendo fare il test condizionato sul bit più significativo. Esempio.
+
+	int f(char* p)
+	{
+		return *p;
+	}
+
+in C va benissimo, ma in Assembly devo fare un cast. 
+
+	f:
+		movl 4(%esp), %ecx
+		movb, (%ecx), %al 		# Modifico solo i primi 8bit
+		movsbl %al, %eax 		# Devo riempire i bit più significativi, altrimenti la funzione legge come int una cosa che non ha senso
+		ret
+
+Se invece fosse
+
+	int f(char* p)
+	{
+		return g(*p);
+	}
+
+	int g(char c){}
+
+avrei promozione a intero di *p anche se c è un char. Traduciamo in Assembly:
+
+	.globl f
+
+	f:
+								# All'ingresso in f mi sposto automaticamente di 4 per il valore di ritorno
+		subl $4, %esp 			# Faccio spazio per il parametro attuale upcastato int (in modo da poterlo passare a g)
+		movl 8(%esp), %ecx		# Sposto il valore contenuto in esp+8 in ecx
+		movb (%ecx), %al 		# Vero che ho upcastato, ma il dato reale è un char. Accedo alla memoria puntata dall'indirizzo salvato in ecx e salvo solo un byte.
+		movsbl %al, %eax 		# Promozione intera con la movs
+		movl %eax, (%esp)		# Metto il valore in stack, dove avevo lasciato spazio e dove ancora punta esp
+		call g
+		addl $4, %esp 			# Epilogo che compensa la subl
+		ret
+
+
+
+ISTRUZIONI IA-32 PER IL CALCOLO DI ESPRESSIONI BOOLEANE (SETcc)
+E' un'istruzione con output un solo byte che viene messo a 1 se cc è vera e 0 altrimenti.
+
+	int f(int x, int y)
+	{
+		return x < y;
+	}
+
+Attualmente dovrei tradurlo in un if-else. SETcc lo fa in automatico. In pratica salva il risultato booleano del Condition Code cc.
+
+	f:
+		movl 4(%esp), %eax
+		movl 8(%esp), %ecx
+		cmpl %ecx, %eax			# Fa destinazione (eax) meno sorgente (ecx) e setta il registro di flag (sorgente non può essere un immediato!)
+		setl %al 				# Attenzione, qui l è la condizione "lesser"
+		movzbl %al, %eax 		# Fill con zeri (potevo anche mettere tutto eax a zero prima di fare setl %al)
+		ret
+
+Quelle esposte fin qui sono le istruzioni più frequenti per la programmazione Assembly intera.
+Ci sono in generale centinaia (se non migliaia) di istruzioni Assembly, ma sono quasi tutte incredibilmente specifiche.
+Uno può andarsele a guardare sul manuale Intel. ATTENZIONE: Il linguaggio Intel è diverso da AT&T, in particolare scambia l'ordine di destinazione e sorgente!!
+
+Cose importanti da leggere sul manuale:
+
+	- Le varie versioni della stessa operazione (ad esempio, imul è definita diversamente a seconda che si mettano uno, due o tre operandi);
+	- I registri di flag su cui l'operazione fa side-effect (ad esempio la mov non ne fa alcuno, quindi posso metterla tra cmp e Jcc)
+
+
+Seguono funzioni ad hoc per ottimizzare la scrittura dei programmi.
+
+	- MOV condizionale: Dal punto di vista hardware, un salto può essere molto meno efficiente rispetto all'esecuzione sequenziale.
+		La mov condizionale compatta lo schema {salto condizionato - mov - prosieguo} in un'unica istruzione.
+
+
+			cmpl %eax, %ecx		# Confronto eax ed ecx
+			Jle E 				# Se eax < ecx salto ad E
+			movl %ecx, %eax 	# Altrimenti copio ecx in eax
+			E: ...
+			
+		è equivalente a
+
+			cmpl %eax, %ecx
+			cmovgl %ecx, %eax 	# Se ecx è maggiore (condizione g in cmovgl) di eax allora eseguo la mov
+
+		Si tratta di un'operazione "branchless", ovvero non altera ("ramifica") il flusso di controllo, il che è meglio.
+		Si usa solo a 16 e 32 bit. La sorgente non può essere un immediato, la destinazione deve essere un registro.
+
+	- Azzeramento di un registro: al posto di
+
+			movl $0, %eax
+
+		posso fare
+
+			xorl %eax, %eax
+
+		perché tendenzialmente xor (usa 2 byte) è più efficiente di una mov (usa 5 byte).
+
+	- Istruzione TEST: Si usa al posto di una cmp tra $0 e un registro, ad esempio %eax. Questo perché
+
+			cmpl $0, %eax
+
+		esegue eax - 0 = eax, mentre
+
+			test %eax, %eax
+
+		esegue eax and eax = eax. La cmp usa 3 byte, la test 2.
+
+	- Load Effective Address (LEA): LEA S, D scrivo in D l'indirizzo di S. Se invece faccio una mov, scrivo in D il valore di S.
+		Questo perché con la mov non posso fare una cosa del tipo
+
+			movl 4 + %esp, %eax
+
+		perché la sintassi è sbagliata. In pratica, la mov accede alla memoria mentre la lea no. Quindi la riga precedente si scrive
+
+			leal 4(%esp), %eax
+
+		C'è anche un uso creativo. Se devo fare ad esempio x + 2y - 7, questo ha lo stesso schema di offset(base, indice, scala).
+		La lea serve a calcolare indirizzi, ma gli indirizzi sono numeri! Questo fermo restando che la scala deve essere una potenza di due.
+
+			leal -7(%ecx, %eax, 2), %eax 	# Se ho messo x in ecx e y in eax
+
+		Questo mi risparmia l'uso di imul, molto costosa computazionalmente e lenta. Molto in generale, si fa così.
+
+			imull $16, %eax
+
+		posso farlo come
+
+			xorl %ecx, %ecx
+			leal (%ecx, %eax, 16), %eax
+
+		(imul è talmente costosa che mi conviene fare due operazioni più semplici), oppure considerando che fare uno shift a sinistra di n bit su x significa fare x*2^n
+
+			sall $4, %eax
+
+		dove 4 è ln_2(16). In generale posso sostituire moltiplicazioni e divisioni per potenze di due con shift ARITMETICO a sinistra e destra.
+
+			Nota: Lo shift aritmetico di distingue da quello logico perché preserva il segno.
+
+		Nota: lea NON fa side-effect su EFLAGS.
+
+
+SHIFT
+
+		logico		aritmetico
+
+sx		shl 		sal
+
+dx 		shr 		sar

@@ -1,0 +1,229 @@
+ Architettura di Von Neumann
+
+Il calcolatore è un oggetto che riceve dati in input e li trasforma in dati di output.
+I dati sono entità numeriche rappresentate internamente al calcolatore (nella memoria, intesa sempre come RAM).
+La trasformazione dei dati avviene mediante l'esecuzione di un programma, e a diversi programmi corrispondono diverse elaborazioni.
+Quando devono essere eseguiti, i programmi si spostano dalla memoria secondaria alla RAM.
+
+COMPONENTI
+
+Memoria Centrale (RAM): Memorizza dati e istruzioni da eseguire finché è alimentata (è detta infatti memoria volatile). Esegue due operazioni:
+	
+		Memorizzazione: copia un dato/istruzione in una Locazione di Memoria;
+		Accesso: il valore di una certa Locazione viene consultato per essere copiato altrove.
+	
+	Strutturalmente, è divisa in:
+
+		- MAR (Memory Address Register): contiene l'indirizzo della Locazione a cui accedere;
+		- Controllo lettura/scrittura: determina se la memoria deve essere letta o sovrascritta;
+		- MDR (Memory Data Register): contiene il valore della Locazione individuata dal MAR;
+		
+	Lo schema di funzionamento è il seguente:
+
+		- Il BUS (vedi più avanti) comunica
+
+			- L'indirizzo della cella interessata al MAR;
+			- L'operazione da eseguire al Controllo lettura/scrittura;
+			- Se si esegue scrittura, il valore da scrivere al MDR.
+
+		- Il MAR accede alla Locazione;
+
+		- In caso di lettura, il valore viene copiato dalla Locazione al MDR che poi la passa al BUS.
+
+		- In caso di scrittura, il valore già passato al MDR viene sovrascritto nella Locazione indicata dal MAR.
+
+	Le Locazioni hanno un valore associato e sono identificate univocamente da un indirizzo, e il tempo di accesso non dipende dalla posizione
+	della Locazione (da cui Random Access).	Intuitivamente, è come cercare dentro una matrice tramite delle coordinate (bitlines, righe, e wordlines,
+	colonne), in contrapposizione alla SAM (Serial Access Memory) di tipo nastro. Le Locazioni hanno dimensione fissa (es 32bit), e corrispondono ad
+	una Parola di Memoria che viene tipicamente utilizzata per intero (i dati sono manipolati a gruppi di (ad esempio) 32bit). Vi è quindi una
+	distinzione interna:
+
+		- DRAM (Dynamic...): A livello elettronico, i bit di una cella di memoria DRAM sono costituiti da un condensatore (carico/scarico, memorizza
+			il bit) e un transistor (che funge da interruttore,	permettendo di leggere o modificare lo stato del condensatore). Il condensatore ha un
+			tempo di scarica, dunque i bit devono essere letti e "ricaricati" migliaia di volte al secondo.	Questi continui refresh richiedono tempo
+			e rallentano la memoria. C'è un'intera infrastruttura interna che si occupa di:
+
+				- Identificare ogni riga e colonna;
+				- Tenere traccia della sequenza di refresh;
+				- Leggere e ripristinare il segnale in una cella;
+				- Stabilire se una cella può essere scritta o meno.
+
+		- SRAM (Static...): Composta da flip-flop (una mezza dozzina di transistor) che non vanno refreshati. Occupa più spazio sul circuito ed è più
+			costosa della DRAM, ma è più veloce. Viene utilizzata come CACHE, mentre la DRAM più capiente e meno costosa gestisce il resto.
+
+
+Processore (CPU): Si occupa di elaborazione dati e coordinamento dei componenti. Ogni CORE di cui è composta consta di tre parti:
+
+	- ALU (Arithmetic Logic Unit): Esegue le istruzioni (addizione, divisione, confronto, ...). (Quasi) ogni circuito di cui è composta è specifico
+		per una di queste operazioni;
+
+	- CU (Control Unit): Coordina i componenti decidendo quali istruzioni eseguire. Per ogni istruzione prepara l'esecuzione spostando i dati nei
+		registri opportuni;
+
+	- Registri: Memoria ad alta velocità per i risultati temporanei. Il valore massimo memorizzabile è dato dalla loro dimensione fissa.
+		Si dividono a loro volta in (oltre al resto):
+
+		- PC (Program Counter): Contiene l'indirizzo della prossima istruzione da eseguire. Si aggiorna automaticamente salvo operazioni di salto;
+			- Come si aggiorna? Ogni istruzione contiene l'istruzione di salto di lunghezza pari alla lunghezza dell'istruzione (architettura x86).
+				Esistono architetture (come Spark) in cui ogni istruzione ha lunghezza fissa, quindi il PC avanza sempre della stessa quantità.
+		- IR (Instruction Register): Contiene l'istruzione che deve essere eseguita;
+		- PSW (Program Status Word): Contiene informazioni, opportunamente codificate, sull’esito dell’ultima istruzione che è stata eseguita;
+		- MAR (Memory Address Register): Conitene l'indirizzo della cella di memoria a cui bisogna accedere in lettura o scrittura;
+		- MDR (Memory Data Register): Contiene il dato letto o da memorizzare;
+		- Stack Pointer: Contiene l'indirizzo della testa della pila di esecuzione (RDA);
+		- Registri generali: Memorizzano gli operandi ed il risultato di una operazione (in generale dati, come una variabile locale). Sono pochi (8/16).
+			
+	Tramite il BUS, l'ALU accede ai valori degli opportuni registri, esegue le operazioni e scrive il risultato in un nuovo valore di registro.
+	Il duo ALO-CU supportato dai registri si occupa di operazioni di elaborazione dati, controllo di flusso (cicli, sequenze, salti, ...) e trasferimento dati (CPU-RAM e CPU-I/O).
+	Il tutto avviene su un singolo circuito integrato (CHIP) che sfrutta la tecnologia VLSI.
+	Il codice che controlla quali registri usare, quali operazioni eseguire, ecc... è il LINGUAGGIO MACCHINA. L'Assembly viene tradotto dall'Instruction Decoder in impulsi.
+	Ad esempio, ad ogni circuito che esegue una determinata operazione è associato un codice identificativo. Il Linguaggio Macchina, tra le altre cose, deve specificare quel codice.
+	La CPU esegue poche operazioni ma in modo molto efficiente (centinaia di miliardi di operazioni al secondo).
+	L'attività del processore è scandita dalla FREQUENZA DI CLOCK (Ordine dei GHz, ovvero miliardi di segnali al secondo), e il suo inverso t_p (tempo tra un segnale e l'altro)
+	deve essere maggiore del tempo che impiega il singolo segnale a raggiungere qualsiasi parte della CPU. t_p è il tempo impiegato ad eseguire la singola operazione elementare.
+
+
+BUS: Rete che collega fisicamente tutti i componenti hardware della macchina. Per aggiungere un nuovo componente è sufficiente collegarlo al BUS.
+	Si divide in BUS Indirizzi, BUS Dati e BUS di Controllo, tre linee privilegiate su cui viaggiano diversi tipi di informazione. Ad esempio, in ACCESSO alla Memoria il Processore 
+	invia l’indirizzo della cella da visitare attraverso il BUS INDIRIZZI. Il valore è reso disponibile attraverso il BUS DATI.
+	In MEMORIZZAZIONE, il Processore invia il dato da copiare in Memoria attraverso il BUS DATI e l’indirizzo della locazione in cui eseguire la copia attraverso il BUS INDIRIZZI.
+	Il valore viene copiato nella cella indicata. Nello specifico:
+		- BUS di Controllo: Scambia informazioni con tutti gli elementi della macchina (CPU, RAM e componenti di I/O), collegandoli;
+		- BUS Dati: Principalmente fornisce informazioni alla CPU e le scambia con tutti gli elementi della macchina;
+		- BUS Indirizzi: Scambia informazioni con l'I/O, riceve informazioni dalla CPU e le passa alla RAM.
+
+
+
+Memoria CACHE: La CPU è l'elemento con la velocità caratteristica più alta. Un processore a 64bit che lavora a 1GHz può leggere ogni secondo 8bytes x 1 miliardo di volte = 8mld di byte al secondo.
+	La memoria RAM e il BUS hanno velocità tipicamente inferiori, e la CPU potrebbe essere costretta a fermarsi in attesa di ricevere i dati necessari.
+	Sia RAM che BUS hanno parametri come Width e Speed, ovvero come per la CPU numero di bit trasferiti simultaneamente e frequenza di trasferimento, il conto è analogo (e il risultato è inferiore).
+	Per ovviare al rischio di rallentamento vi sono delle piccole memorie temporanee e ultraveloci (quanto la CPU stessa) dove vengono immagazzinati i dati utilizzati più di frequente. Si distinguono:
+		- Cache di Livello 1 (L1): Intorno ai 64KB, spesso integrata nella CPU. All'occorrenza vi vengono trasferite sezioni contigue della RAM, sostituite via via a seconda dell'utilità;
+		- Cache di Livello 2 (L2,  ed eventuali successivi): Genericamente fuori dalla CPU, un po' più grande (ma sempre molto più piccola della RAM, massimo qualche MB).
+	Quando al processore serve un dato, controlla gerarchicamente nei vari livelli di Cache fino a trovarlo (Cache Hit). In caso contrario (Cache Miss) va a cercare nella RAM, con tutto il
+	tempo di latenza che ne consegue. Chiaramente più si sale di livello più la memoria è costosa (gerarchicamente, al di sopra della L1 Cache ci sono solo i Registri).
+	Aumentare la Cache porta benefici fino a un certo punto. Secondo il principio di Locality of Reference, il processore tende ad accedere ripetutamente alle stesse locazioni di memoria
+	o adiacenti (località spaziale) in un breve lasso di tempo (località temporale), motivo per cui anche pochi KB o MB di Cache sono sufficienti.
+
+Memoria SECONDARIA (HDD, CD, DVD, ...): Anche detta "di massa", capiente ed economica ma molto più lenta della RAM. Per quando oggi con gli SSD M.2 NVMe qualcosa di buono lo stiamo facendo.
+
+Memoria VIRTUALE: Coinvolge un pezzo di HDD. Nel caso in cui la RAM finisca lo spazio disponibile, può migrare sulla memoria Virtuale dell'HDD (detta Page File, su Win sono file aventi estensione SWP)
+	parte delle informazioni che conteneva. Il processo di via vai tra RAM e memoria Virtuale è detta Trashing, e rallenta parecchio la macchina. Soprattutto quelle vecchie, ora non credo ci siano
+	questi problemi.
+
+Read Only Memory (ROM): Realizzata in fase di produzione, contiene le informazioni necessarie all'avvio della macchina, come il Basic I/O System (BIOS). I dati che contiene non possono essere
+	modificati, e i particolari software che contiene sono detti Firmware. Composta da diodi con tensione di soglia (Breakover) intorno a 0.6V, tipicamente linea di separazione tra i valori logici 0 e 1.
+	Non essendo modificabile, è necessaria particolare accortezza nel progettarle. Per questo motivo sono state introdotte un bel po' di anni fa delle versioni programmabili.
+		- PROM (Programmable...): Sono ROM ordinarie con dei fusibili a ogni intersezione riga/colonna (bitlines, wordlines), in modo che un programmatore (inteso come oggetto in grado di erogare
+		una corrente intensa) possa bruciare i giusti fusibili e portare permanentemente a zero il valore del bit corrispondente. Presente anche in versioni con antifusibili, che quidni creano
+		il collegamento invece di interromperlo. Usate (in un lontano passato) come prototipo per costruire le vere ROM;
+		- EPROM (Ereasable...): Come da nome, si possono cancellare e riscrivere un numero limitato ma consistente di volte mediante Transistor a Effetto di Campo e Effetto Breakdown a Valanga.
+		La cancellazione (di tutta la memoria) avviene, dopo la rimozione dalla macchina, mediante luce UV e un bel po' di tempo di esposizione. Sono obsolete da almeno 30 anni;
+		- EEPROM (Electrically...): Come da nome, per la modifica è sufficiente un campo elettrico. Non devono essere rimosse ed è possibile riscrivere anche solo porzioni di memoria.
+		Di contro, il processo va effettuato un byte per volta e pertanto è versatile ma lento. Un particolare tipo di EEPROM, la FLASH MEMORY, può modificare in una volta diverse zone di byte.
+	Sulla ROM di ogni computer è presente un particolare Firmware, il BIOS. Ogni volta che si accende una macchina la CPU cerca le informazioni di avvio nella ROM, dove trova il BIOS.
+	Le istruzioni di base per l'avvio di un computer sono in genere, in sequenza:
+		- Controllo del CMOS Setup per i settaggi personalizzati (piccola area di memoria con i parametri del sistema alimentata da una batteria al litio a lunga durata);
+		- Caricamento dei gestori degli interrupt (segnale di "richiesta di attenzione" da parte di una periferica, cuscinetto tra Hardware e Sistema Operativo) e dei vari driver;
+		- Attivazione di eventuali chip BIOS su altri componenti HW (es. GPU);
+		- Controllo del tipo di avvio (Cold Boot o Reboot). Nel primo caso esecuzione di un controllo dell'HW e controllo della RAM, nel secondo lo salta in quanto già eseguito in precedenza;
+		- Inizializzaizone dei registri;
+		- Auto-test di funzionamento (power-on self-test);
+		- Display dei settaggi di sistema a video;
+		- Determinazione di quale hardware è bootable;
+		- Inizio della sequenza di boot.
+	E' possibile aggiornare il Firmware BIOS con una procedura dedicata.
+
+Graphic Processing Unit (GPU): Il processore grafico può essere integrato nella CPU o avere una sua scheda dedicata. La sua intrdoduzione ha sgravato CPU e BUS di una gran mole di lavoro.
+	Nel caso il chip abbia una scheda dedicata, vi sono componenti dedicati:
+		- vRAM (Video...): Memoria dove vengono depositate le informazioni dei pixel da inviare allo schermo. Oggi in versione GDDR6X;
+		- RAMDAC (... Digital-Analog Converter): Leggendo il frame buffer converte l'informazione binaria ivi contenuta in segnale RGB. La sua frequenza operativa determina (monitor permettendo) gli FPS; 
+		- Chip BIOS: Nella GPU mette in contatto i programmi con la scheda video;
+		- Driver Grafico: Software cuscinetto che traduce le istruzioni dei programmi in comandi per la scheda grafica.
+		
+
+Periferiche: Oggetti esterni gestiti mediante interfacce di I/O. Permettono di ricevere dati e istruzioni e/o tradurre i risultati del calcolatore in un formato comprensibile all'utente. 
+
+
+
+GERARCHIA DELLE MEMORIE
+
+NOME		CAPACITA'	TEMPI CARATTERISTICI
+REGISTRO	KB		1ns
+CACHE		MB		10ns
+RAM		GB		100ns
+HDD		nTB		1-10ms
+
+
+
+
+CENNI DI LINGUAGGIO MACCHINA
+
+Un'istruzione in linguaggio macchina può essere di diversi tipi. Immaginiamo di usare un'architettura a 32bit.
+
+	- Istruzione di RUN:
+		RUN (000001000000000111) inizia l'esecuzione del programma.
+	- Istruzione di Trasferimento (Registri-RAM):
+		8bit di CODICE, ad esempio LOAD (00000000, copia nel registro il contenuto di una locazione di memoria) o STORE (00000001, viceversa);
+		4bit che identificano il REGISTRO, usato dal processore come variabile;
+		20bit contenenti l'indirizzo della LOCAZIONE DI MEMORIA RAM.
+	- Istruzione Aritmetica (Interna alla CPU): 
+		8bit di CODICE, ad esempio ADD (00000010, somma i registri) o SUB, MULT, DIV, MOD;
+		4bit che identificano il PRIMO REGISTRO;
+		4bit che identificano il SECONDO REGISTRO;
+		I restanti bit non vengono utilizzati (tutti zeri).
+	- Istruzione di I/O (Unità I/O-RAM):
+		8bit di CODICE, ad esempio READ (00010000) o WRITE (00010001);
+		4bit che identificano l'UNITA' da trasferire;
+		20bit contenenti l'indirizzo della LOCAZIONE DI MEMORIA RAM.
+	- Istruzione di Confronto (Interna alla CPU):
+		Come per l'Istruzione Aritmetica, se R1 < R2 produco risultato -1, viceversa 1, per l'uguaglianza 0.
+	- Istruzione di Salto (Interna alla CPU):
+		Come per l'Istruzione Aritmetica, se R1 == R2 l'istruzione del corrispondente indirizzo sarà la prossima ad essere eseguita, altrimenti nulla di fatto.
+	- Istruzione di STOP:
+		STOP (10000001) termina il programma.
+
+Quando il programma viene mandato in esecuzione, avviene il caricamento (Loading) in memoria centrale e successivamente lo Start dell'esecuzione, copiando l'indirizzo della prima 
+istruzione nel registro PC (Program Counter). Poi vengono eseguite ripetutamente le tre FASI:
+
+	- FETCH: Il processore “si procura” l’istruzione da eseguire (ne ha l’indirizzo nel PC, ne fa richiesta e la mette nell’IR). Ovvero:
+		- La CU (Control Unit) accede al PC, acquisendo l'indirizzo della prossima istruzione da eseguire;
+		- Il contenuto del PC viene copiato nel MAR (Memory Address Register);
+		- La CU chiede l'accesso alla locazione cha ha indirizzo dato dal MAR (che contiene l'istruzione da eseguire) attraverso il Control Bus;
+		- La memoria invia alla CPU il contenuto della locazione tramite il Data Bus, copiandola nel registro MDR;
+		- La CU copia il contenuto del MDR nell'IR: adesso l'IR contiene l'istruzione da eseguire;
+		- PC viene incrementato di 1, in modo da puntare alla prossima istruzione da eseguire.
+
+	- DECODE: L’istruzione nell'IR viene decodificata, cioè si decide a quale istruzione corrisponde. Ovvero:
+		- La CU legge dall'IR il codice dell'istruzione. Di conseguenza sa anche quali operandi aspettarsi (numero di registro, indirizzo in RAM, ...)
+		- La CU recupera gli operandi con altre richieste sul Control Bus, ricevendo risposta sul Data Bus.
+		- I valori ricevuti vengono copiati nei registri della ALU coinvolti nell'operazione che sta per essere eseguita.
+
+	- EXECUTE: L’istruzione nell'IR viene eseguita, ovvero si attiva il circuito corrispondente (altre componenti del calcolatore potrebbero essere coinvolte). Ovvero:
+		- La CU coordina l'esecuzione, coinvolgendo le parti necessarie (periferiche I/O per le operazioni di r/w, ALU per le operazioni aritmetiche, bus e memoria per
+			accessi e memorizzazioni);
+		- L'esito dell'operazione viene registrato nella PSW (Program Status Word);
+		- I bit della PSW dicono, ad esempio, se l'ultima operazione aritmetica ha restituito 0, se c'è stato un riporto, se c'è stato un errore, se c'è un'interrupt 
+			(sospensione del programma);
+		- Il PC avanza all'istruzione successiva, oppure viene sovrascritto esplicitamente con l'indirizzo a cui saltare.
+
+
+
+
+
+In ACCESSO, il processore invia l’indirizzo della cella da visitare attraverso il BUS INDIRIZZI.
+E il valore a cui si accede e’ reso disponibile attraverso il BUS DATI.
+In MEMORIZZAZIONE, il processore invia il dato da copiare in memoria attraverso il BUS DATI,
+e l’indirizzo della locazione in cui eseguire la copia attraverso il BUS INDIRIZZI.
+E il valore viene copiato nella cella indicata.
+Ciascun accesso avviene in un tempo INDIPENDENTE DALLA LOCAZIONE (cioe’ indipendente dall’indirizzo, Accesso Diretto: Random Access Memory)
+
+
+
+
+
+CONCETTI CHIAVE
+
+MEMORIA: BILANCIARE PRESTAZIONI E COSTI PORTA A UNA GERARCHIA IN CUI SI USA POCA ROBA DI ALTA QUALITA' SU CUI OTTIMIZZARE LE PRESTAZIONI E MOLTA DI QUALITA' INFERIORE SU CUI SALVARE IL GROSSO DEI DATI.
+CODICE:  LINGUAGGIO MACCHINA - ASSEMBLY - C -... OGNI STRATO SUCCESSIVO DEVE (ALMENO PARZIALMENTE) DIMENTICARSI DI COSA C'E' SOTTO.
+CPU:	 LA GRANDE QUANTITA' DI OPERAZIONI NECESSARIE PER OGNI SINGOLA OPERAZIONE E' COMPENSATA DALLA FREQUENZA DI ESECUZIONE.

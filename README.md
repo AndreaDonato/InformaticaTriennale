@@ -1,1 +1,1 @@
-Le cartelle che terminano in OBS sono strutturate per essere aperte con l'app OBSIDIAN
+Le cartelle che terminano in OBS sono strutturate per essere aperte con l'app [Obsidian](https://obsidian.md/).

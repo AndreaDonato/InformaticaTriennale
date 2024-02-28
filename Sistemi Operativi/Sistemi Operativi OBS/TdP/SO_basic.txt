@@ -1,0 +1,68 @@
+Il software può in generale essere diviso in due macro-categorie:
+
+	- Software di Base: Insieme di programmi funzionanti in background o pronti a funzionare al bisogno che costituiscono il cuscinetto di base (appunto)
+		tra Hardware e utente, permettendo a quest'ultimo di usare le risorse del computer in modo virtualizzato (senza cioè doverne conoscere l'esatto
+		funzionamento meccanico). Vengono caricati in RAM durante il bootstrap. Si parla principalmente del SISTEMA OPERATIVO (SO);
+
+	- Software Applicativo: Singoli programmi che vengono eseguiti dall'utente e che interagiscono con il SO per usare le risorse del computer.
+
+Ogni livello funzionale (HW --> SB --> SA) realizza le proprie funzionalità utilizzando le proprie risorse e quelle del livello precedente.
+Le funzionalità di ciascun livello vengono realizzate mediante il linguaggio di quel livello, che permette di invocare funzionalità di quel livello
+che possono a loro volta chiamare quelle del livello sottostante.
+
+Un programma è in generale sempre memorizzato in un qualche supporto di memoria:
+
+	- Memoria Secondaria (HDD) quando non in esecuzione;
+	- Memoria Centrale (RAM) quando in esecuzione.
+
+Un programma in esecuzione costituisce un PROCESSO (o THREAD), o più di uno (un processo può attivare a sua volta ulteriori processi).
+Durante la vita del processo, la CPU esegue le istruzioni del programma.
+E se ci sono più proessi in vita? Serve una qualche forma di organizzazione, ed è data dal nucleo del SO.
+
+
+SOFTWARE DI BASE - SISTEMA OPERATIVO (SO)
+Si occupa principalmente di
+
+	- Gestire le risorse del calcolatore (CPU, RAM, HDD, periferiche, ...);
+	- Virtualizzare le risorse del calcolatore, ovvero renderle più semplici agli occhi dell'utente e del SA.
+
+Ad esempio, un doppio click da parte dell'utente per avviare un programma corrisponde a livello di SO a:
+
+	- Individuare le istruzioni del programma richiesto nell'HDD;
+	- Allocare le risorse necessarie per il programma (es: spazio in RAM);
+	- Copiare le istruzioni nello spazio allocato in RAM;
+	- Inviare alla CPU le istruzioni di avvio del programma.
+
+Di queste operazioni non sono visibili né al programma nè all'utente.
+Il SO può essere diviso gerarchicamente in diversi livelli:
+
+	- *SOFTWARE APPLICATIVO*
+	
+	- Interprete dei comandi: costituisce l'INTERFACCIA UTENTE, ed è l'unico livello con cui esso interagisce. Definisce e gestisce i comandi a disposizione dell'utente;
+	
+	- Gestore dei file: anche detto FILE SYSTEM, gestisce la memoria secondaria. I vecchi HDD ad esempio sono organizzati in superfici, settori e tracce, ma dal POV
+		dell'utente si ha una struttura gerarchica ad albero organizzata in:
+
+			- File (= "archivio"): è l'unità logica di archiviazione di dati (estensioni come .txt, .docx, .c, .mp3, ...) o programmi (.exe, .x, ...).
+				Il contenuto del file è interpretato sulla base del formato (dato dall'estensione). Vi si arriva tramite un percorso (PATH) che parte dalla
+				radice dell'albero e arriva alla directory in cui è contenuto;
+
+			- Directory: è il contenitore logico dei file. Ogni file è contenuto in una directory, che rientra nella gerarchia ad albero;
+			
+			- Volume: è una porzione di HDD (PARTIZIONE) alla quale corrisponde un albero. A ogni volume corrisponde una sola radice dell'albero (C:, /home, ...).
+
+		Riassumendo, quindi, il File System si occupa di virtualizzare la memoria secondaria.
+
+	- Gestore delle periferiche: il livello dei DRIVER. Trasforma le periferiche in periferiche virtuali, gestisce la traduzione dei dati dal formato del calcolatore
+		a quello delle periferiche (e viceversa), la comunicazione dei segnali da e verso le periferiche e i conflitti legati a processi multipli che vogliono accedere
+		alla stessa periferica;
+	
+	- Gestore della memoria: si occupa di rendere efficienti gli spostamenti tra HDD e RAM, assegna la memoria virtuale quando necessario;
+	
+	- Gestore dei processi: anche detto NUCLEO o KERNEL, fa da scheduler, ovvero organizza l'accesso dei processi al processore.
+		In assenza del Kernel, un calcolatore sarebbe costretto a eseguire un processo per volta (Uniprogrammazione), estremamente sconveniente.
+		La Multiprogrammazione (MULTITASKING) permette di eseguire più processi contemporaneamente. Naturalmente in ogni istante un singolo Core della CPU
+		esegue un solo processo, pertanto il Kernel dilaziona nel tempo l'esecuzione delle singole istruzioni di ogni singolo processo. Vedere immagine "Multitasking".
+
+	- *HARDWARE*
+

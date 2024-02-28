@@ -1,0 +1,2036 @@
+***** PAGINA 7 *****
+
+***** PAGINA 9 *****
+
+***** PAGINA 18 *****
+
+***** PAGINA 19 *****
+
+***** PAGINA 21 *****
+
+***** PAGINA 22 *****
+
+***** PAGINA 29 *****
+Computers have led to a third revolution for civilization, with the information
+revolution taking its place alongside the agricultural and industrial revolutions
+
+***** PAGINA 30 *****
+Personal computers (PCs
+good performance to single users at low cost and usually
+execute third-party software
+35 years old!
+Servers
+usually accessed only via a network.
+carrying sizable
+workloads
+or handling many small jobs
+usually based on
+software from another source (such as a database or simulation system
+emphasis
+on dependability, since a crash is usually
+costly
+supercomputers,
+at the present
+tens of thousands of processors
+and many terabytes of memory
+weather forecasting, oil exploration, protein structure
+determination
+supercompute
+configured
+as servers
+Embedded computer
+microprocessors
+networks of processors
+designed to run one application or one set of related
+applications that are normally integrated with the hardware and delivered as a
+single system
+
+***** PAGINA 31 *****
+minimum performance with stringent limitations on cost or power
+lower tolerance for failure
+consumer-oriented embedded applications
+emphasis is on doing one function as perfectly as possible
+large embedded
+systems
+redundancy
+often employed
+most concepts apply
+directly, or with slight modifications, to embedded computers
+
+***** PAGINA 32 *****
+personal mobile device (PMD
+smart phone or a tablet
+tomorrow it may include electronic glasses
+Personal mobile
+devices (PMDs
+are
+small wireless devices to
+connect to the Internet
+Cloud Computin
+large collections
+of servers that provide
+services over the Internet
+Software as a Service
+(SaaS
+delivers software
+and data as a service over
+the Internet
+via
+browser
+instead of
+binary code that must be
+installe
+runs wholly
+on that device
+web search
+social networking
+
+***** PAGINA 33 *****
+How are programs written in a high-level language
+translated into the language of the hardware, and how does the hardware
+execute the resulting program?
+What is the interface between the software and the hardware, and how does
+software instruct the hardware to perform needed functions
+improve energy
+efficiency
+programmer
+improve the performance
+hardware designers
+improve performance
+switch from
+sequential processing to parallel processing
+
+***** PAGINA 34 *****
+understanding
+these questions
+improving the
+performance
+scientific procedure
+Algorithm
+number of source-level
+statements
+number of I/O operations
+execute
+Programming language,
+compiler, and architectur
+number of computer instructions
+for each source-level statement
+Processor and memory
+how fast instructions can be
+execute
+I/O system (hardware and
+operating system
+how fast I/O operations may be
+executed
+
+***** PAGINA 35 *****
+
+***** PAGINA 36 *****
+Moore’s La
+integrated circuit resources double every 18–24 months
+computer designs can take years
+resources
+can easily double
+between the start
+and finish
+computer architects must anticipate
+where the technology will be when the design finishes
+ abstractions
+Ironically,
+common case fast will tend to enhance performance better than
+optimizing the rare case
+
+***** PAGINA 37 *****
+parallel performance
+particular pattern of parallelism
+pipelining.
+prediction.
+it can be faster on
+average to guess and start working rather than wait until you know for sure
+memory speed often
+shapes performanc
+capacity limits the size of problems
+cost of memory
+majority of computer cost
+ hierarchy of memories
+fastest, smallest, and the most expensive memory per bit at the top
+slowest, largest, and cheapest per bit at the bottom
+redundant components that
+can take over when a failure occurs and to help detect failures
+
+***** PAGINA 38 *****
+systems software sitting between the hardware and the application software
+two types
+are central to every computer
+operating system
+compiler.
+systems softwar
+operating
+systems, compilers,
+loaders, and assemblers
+operating syste
+Supervising program that
+manages the resources of
+a computer for the benefit
+of the programs that run
+on that computer
+basic input and output
+operating system interfaces between a user’s program and the hardware
+Allocating
+sharing of the computer among multiple applications
+
+***** PAGINA 39 *****
+compile
+translates high-level
+language statements
+into assembly language
+statements
+assemble
+translates a symbolic
+version of instructions
+into the binary version
+assembly language A symbolic representation
+of machine instructions
+Assembly language requires the programmer
+to write one line for every instruction that the computer will follow, forcing the
+programmer to think like the computer
+
+***** PAGINA 40 *****
+
+***** PAGINA 41 *****
+High-level programming languages
+allow the programmer to think in a more natural language
+Conciseness is a clear advantage of high- level languages
+programming languages allow programs to be
+independent of the computer on which they were developed
+
+***** PAGINA 42 *****
+five classic components of a computer are input, output, memory,
+datapath, and control, with the last two sometimes combined and called
+the processor
+
+***** PAGINA 43 *****
+
+***** PAGINA 44 *****
+integrated circui
+chip.
+dozens to
+millions of transistors.
+CPU
+contains the datapath and
+control
+ adds
+numbers, tests numbers,
+signals I/O devices to
+activate, and so on
+datapat
+performs
+arithmetic operations
+contro
+commands the datapath,
+memory, and I/O
+devices according to
+the instructions of the
+program.
+DRAM
+Memory built as an
+integrated circuit
+Access times
+are 50 nanoseconds
+In contrast to sequential access memories,
+such as magnetic tapes, the RAM portion of the term DRAM means that memory
+accesses take basically the same amount of time no matter what portion of the
+memory is read.
+Inside the processor is another type of memory—cache memory
+
+***** PAGINA 45 *****
+
+***** PAGINA 46 *****
+cache memor
+A small,
+fast memory that acts as a
+buffer for a slower, larger
+memory
+SRAM
+faster and less dense than
+DRAM
+cache is a safe place for hiding things
+Cache is
+SRAM).
+
+***** PAGINA 47 *****
+interface between the hardware
+and the lowest-level software
+architecture,
+includes anything programmers need to know to
+make a binary machine language program work correctly
+ombination of the basic instruction set and the operating system interface
+provided for application programmers is called the application binary interface
+(ABI)
+ implementation of
+an architectur
+is hardware that obeys the
+architecture abstraction
+each lower layer hiding details from the level above
+volatile memor
+Storage, such as DRAM,
+that retains data only if it
+is receiving power
+nonvolatile memor
+retains data even in the
+absence of a power source
+store
+programs between runs
+
+***** PAGINA 48 *****
+main
+primary memory
+hold
+programs while they are
+running; typically
+DRAM
+secondary memor
+Nonvolatile memory
+used to store programs
+and data between runs
+Secondary memory forms the
+next lower layer of the memory hierarchy
+flash memor
+nonvolatile semiconductor memory
+magnetic
+ hard disk
+rotating platters coated
+with a magnetic recording
+material
+access times
+5 to 20 milliseconds
+flash memor
+semi- conductor memory
+Access times
+5
+to 50 microseconds
+more power efficient than disks
+much smaller capacities
+more rugged
+standard
+secondary memory for PMDs
+flash memory bits
+wear out after 100,000 to 1,000,000 writes
+computers on the network can share I/O devices
+Nonlocal access
+Ethernet.
+up to a kilometer long and transfer at up to 40 gigabits per second
+
+***** PAGINA 49 *****
+LAN)
+network
+within a geographically
+confined area, typically
+within a single building
+WAN)
+network
+that can
+span a continent
+Today, local area network
+technology offers a capacity of from 1 to 40 gigabits per second
+Optical communications
+growth in the capacity of wide area networks
+to gigabits and
+ to a worldwide network
+Wireless technology
+enabled
+the post-PC era.
+low-cost semiconductor
+technology (CMOS) used for memory and microprocessors enabled
+improvement in price
+
+***** PAGINA 50 *****
+transisto
+on/off
+switch controlled by an
+electric signal.
+VLSI)
+millions of
+transistors
+manufacture of a chip begins with silicon
+ semiconductor.
+add materials to silicon that allow tiny areas to
+transform into
+Excellent conductors
+copper
+aluminum
+
+***** PAGINA 51 *****
+Excellent insulators
+plastic
+glass)
+conduct or insulate under specific conditions
+Transistors fall into the last category
+inches
+Today’s integrated circuits contain only one layer of transistors but may have from
+two to eight levels of metal conductor, separated by layers of insulators
+simplest way to
+cope with imperfection is to place many independent components on a single
+wafer
+starts
+silicon crystal ingo
+finely sliced into wafer
+then
+patterns of chemicals are placed
+on each wafer, creating the transistors, conductors, and insulators
+microscopic flaw in the wafer
+can result in
+failing.
+patterned wafer is
+diced,
+
+***** PAGINA 52 *****
+Dicing enables you to discard only
+dies that
+contain the flaws
+yiel
+percentage of
+good dies
+The cost of an integrated circuit rises quickly as the die size increases
+
+***** PAGINA 53 *****
+The final equation is based on
+empirical observations
+
+***** PAGINA 54 *****
+we can define computer performance in several distinct ways
+As an individual computer user
+response
+time—the time between the start and completion of a task
+
+***** PAGINA 55 *****
+Datacenter managers
+throughput or
+bandwidth
+total amount of work done in a given time.
+If
+as large as the throughpu
+system might force requests to queue up
+increasing the throughput could also improve response time
+demand for processing in the second case
+2
+EXAMPLE
+Performanc
+X
+Executiontim
+
+
+primarily concerned with
+response time
+
+***** PAGINA 57 *****
+wall clock time, response time, or elapsed tim
+total time
+to complete a task
+processor may work on several
+programs simultaneously
+system may try to optimize throughput
+rather than
+elapsed time
+CPU execution tim
+is the time the CPU spends computing for this
+task and does not include time spent waiting for I/O or running other programs
+further divided
+into
+CPU time spent in the program
+ user CPU time, and
+CPU time
+spent in the operating system performing tasks on behalf of the program
+system CPU tim
+Differentiating between system and user
+is difficult
+system
+performanc
+elapsed time on an unloaded system
+CPU performance
+user CPU time
+discussions of how to summarize performance can be applied to
+either elapsed time or CPU time measurements
+Many applications
+depend
+as much on I/O performance, which
+relies on both hardware and software.
+
+***** PAGINA 58 *****
+To improve the performance
+clear definition of what performance
+matters and
+find
+bottlenecks
+how fast the hardware can perform basic functions
+clock
+determines when events take
+place in the hardware
+clock period both
+complete clock cycle
+and as the clock rate
+
+***** PAGINA 59 *****
+CPUexecution time fora progra
+CPUclock cycles fora program
+Clock cycle time
+CPUexecution tim
+fora program
+CPUclock cycles fora program Clock rat
+improve performance
+by reducing
+clock cycles required
+or the length of
+the clock cycle
+often
+rade-off
+Many techniques that decrease the number of clock cycles may also increase
+the clock cycle time
+
+***** PAGINA 60 *****
+execution time must depend on the number of instructions in a
+program
+CPUclock cycles Instructions fora progra
+Averageclock cycles per instructio
+clock cycles per instruction
+ CPI.
+provides one
+way of comparing two different implementations of the identical instruction set
+architecture
+EXAMPLE
+
+***** PAGINA 61 *****
+instruction coun
+The
+number of instructions
+executed by the program
+CPUtim
+Instructioncoun
+CP
+Clockcycle tim
+Instructioncoun
+CP
+Clockrat
+
+***** PAGINA 63 *****
+Seconds/Progra
+the only complete and reliable measure of
+computer performance is time
+We can measure the CPU execution time by running the program
+clock
+cycle time is usually published
+instruction count and CPI can be more difficult to obtain
+instruction count by using software tools
+or by using a simulator of the architecture
+Alternatively,
+hardware counters
+included in most processors, to record a variety of
+measurements
+instruction count depends
+on the architecture, but not on the exact implementation
+
+***** PAGINA 64 *****
+ if the
+algorithm uses more divides, it will tend to have a higher CPI
+statements in the language
+translated to
+processor instructions
+determine instruction count
+invert CPI to talk about IPC
+instructions per
+clock cycle
+IPC of 2
+CPI of 0.5
+
+***** PAGINA 65 *****
+today’s processors can vary their clock rates
+Intel Core i7
+will temporarily increase clock rate by about 10% until the chip gets too warm. Intel calls
+this Turbo mode.
+Pick the right answer from the three
+choices below:
+clock rate and power
+are correlated
+
+***** PAGINA 66 *****
+power provides a limit to what we can cool
+energy metric joules is a better measure than
+a power rate like watts
+CMOS (complementary
+metal oxide semiconductor
+energy consumption
+is so-called dynamic energy
+integrated circuits
+consumed when transistors
+switch states from 0 to 1 and vice versa
+power required per transistor
+rC∝ 12/ apacitiveloadVoltageF2  requencyswitched
+Frequency
+function of the clock rat
+capacitive load
+function of 
+number of transistors connected to an output
+fanout)
+and
+Energy and thus power can be reduced by
+lowering the voltage
+technology
+technology
+In 20 years, voltages have gone from 5 V to 1 V
+
+***** PAGINA 67 *****
+modern problem is that further lowering of the voltage appears to make the
+transistors too leaky
+40% of the power consumption in server chips is due to leakage
+to address the power problem
+turn off parts of the chip that are not used in a
+given clock cycle
+there are many more expensive ways to cool chips
+generally too costly
+leakage current
+flows even
+when a transistor is off
+40% of the energy
+consumption
+increasing the number of transistors increases power dissipation
+hard to lower voltage further
+power
+must be brought in and distributed around the chip
+power
+is dissipated as heat and must be removed
+
+***** PAGINA 68 *****
+ pipelining,
+runs programs
+faster by overlapping the execution of instructions
+industry has bet its future that programmers will
+switch to
+explicitly parallel programming.
+
+***** PAGINA 69 *****
+the programmer
+must divide an application so that each processor has roughly the same amount to
+do at the same time, and that the overhead of scheduling and coordination doesn’t
+fritter away the potential performance benefits of parallelism
+ schedule the sub-tasks
+balance the
+
+***** PAGINA 70 *****
+loa
+fall short if
+conclusion, couldn’t be written until all
+the other parts were completed
+care must be taken to reduce communication
+and synchronization overhead
+
+***** PAGINA 71 *****
+workloa
+A set of
+programs run on a
+compute
+benchmark A program
+selected for use in
+comparing computer
+performance
+to evaluate a new computer
+set of benchmarks—programs
+specifically chosen to measure performance
+form a workload that
+the user hopes will predict the performance of the actual workload
+SPEC (System Performance Evaluation Cooperative)
+ standard sets of benchmarks
+for modern computer systems
+
+***** PAGINA 72 *****
+reference time, which is supplied by SPEC
+Dividing the execution time of a reference
+processor by the execution time of the evaluated computer normalizes the execution
+time measurements
+bigger numeric results indicate faster performance
+inverse of execution time
+A
+summary
+is obtained by taking the geometric mean of the SPECratios
+ SPECratio,
+apply the geometric
+mean so that it gives the same relative answer no matter what computer is used to
+normalize the results
+
+***** PAGINA 73 *****
+
+***** PAGINA 74 *****
+Execution time afer improvemen
+Executiontimeaected by improvemen
+Amount of improvemen
+Executiontimeunaected
+
+***** PAGINA 75 *****
+
+***** PAGINA 76 *****
+MIPS
+ck rat
+Clo
+CP
+106
+
+***** PAGINA 77 *****
+above.
+
+***** PAGINA 78 *****
+
+***** PAGINA 79 *****
+
+***** PAGINA 80 *****
+world’s first
+computer.
+ENIAC
+Electronic
+Numerical Integrator and Calculator
+
+***** PAGINA 81 *****
+1900 additions
+per second.
+provided conditional jumps and was programmable
+manually by
+plugging cables and setting switches
+von Neumann helped crystallize the ideas and wrote a
+memo
+basis for the
+term von Neumann compute
+EDSAC (Electronic Delay Storage Automatic
+Calculator)
+1949
+
+***** PAGINA 82 *****
+
+***** PAGINA 83 *****
+
+***** PAGINA 84 *****
+
+***** PAGINA 85 *****
+
+***** PAGINA 86 *****
+
+***** PAGINA 88 *****
+
+***** PAGINA 89 *****
+
+***** PAGINA 91 *****
+
+***** PAGINA 92 *****
+
+***** PAGINA 93 *****
+
+***** PAGINA 97 *****
+
+***** PAGINA 101 *****
+computer’s hardware
+vocabulary is called an
+instruction set
+similarity of instruction sets occurs because all computers are constructed
+from hardware technologies based on similar underlying principles and because
+there are a few basic operations that all computers must provide
+
+***** PAGINA 102 *****
+stored-program
+concep
+instructions and data of
+many types can be stored
+in memory as numbers
+RISC-V assembly
+add a, b, c
+add the two variables b and c and to put their sum in a
+each RISC-V arithmetic instruction performs only
+one operation and must always have exactly three variables
+each line of this language can contain at most one
+instruction
+comments always terminate at the
+end of a line.
+every
+instruction to have exactly three operands
+philosophy of keeping the hardware simple
+
+***** PAGINA 103 *****
+operands
+registers
+Fast locations for data
+data must be in registers to perform arithmetic. Register x0 always equals 0
+memory
+word
+Accessed only by data transfer instructions
+byte addresses, s
+sequential doubleword accesses differ by 8
+
+***** PAGINA 104 *****
+Design Principle 1: Simplicity favors regularity.
+
+***** PAGINA 105 *****
+
+***** PAGINA 106 *****
+operands
+must be from a limited number of special locations built directly
+in hardware called registers
+size of a register in
+RISC-V
+is 64 bits
+ doubleword
+32 bits, called a word
+ limited number of registers, typically 32
+ Smaller is faster
+large number of registers may increase the clock cycle time
+electronic signals
+must travel farther
+31 registers may not be
+faster than 32
+must balance the craving of
+programs for more registers with the designer’s desire to keep the clock cycle fast
+RISC-V convention is
+
+followed by the number of the register, except
+for a few register names
+for registers
+
+***** PAGINA 107 *****
+processor can keep only a small amount of data in registers
+(arrays and structures) are kept in memory
+RISC-V must include instructions that transfer data between
+memory and registers
+data transfer instruction
+must supply the
+memory address
+Memory is just a large, single-dimensional array, with the
+address acting as the index to that array, starting at 0
+
+***** PAGINA 108 *****
+
+***** PAGINA 109 *****
+
+***** PAGINA 110 *****
+
+***** PAGINA 111 *****
+
+***** PAGINA 112 *****
+
+***** PAGINA 119 *****
+
+***** PAGINA 120 *****
+
+***** PAGINA 121 *****
+
+***** PAGINA 122 *****
+
+***** PAGINA 124 *****
+
+***** PAGINA 125 *****
+
+***** PAGINA 126 *****
+
+***** PAGINA 127 *****
+
+***** PAGINA 128 *****
+
+***** PAGINA 130 *****
+
+***** PAGINA 131 *****
+
+***** PAGINA 132 *****
+
+***** PAGINA 135 *****
+
+***** PAGINA 137 *****
+
+***** PAGINA 139 *****
+
+***** PAGINA 142 *****
+
+***** PAGINA 143 *****
+
+***** PAGINA 144 *****
+
+***** PAGINA 145 *****
+
+***** PAGINA 147 *****
+
+***** PAGINA 150 *****
+
+***** PAGINA 151 *****
+
+***** PAGINA 153 *****
+
+***** PAGINA 156 *****
+
+***** PAGINA 157 *****
+
+***** PAGINA 159 *****
+
+***** PAGINA 160 *****
+
+***** PAGINA 162 *****
+
+***** PAGINA 163 *****
+
+***** PAGINA 165 *****
+
+***** PAGINA 166 *****
+
+***** PAGINA 168 *****
+
+***** PAGINA 169 *****
+
+***** PAGINA 170 *****
+
+***** PAGINA 171 *****
+
+***** PAGINA 172 *****
+
+***** PAGINA 173 *****
+
+***** PAGINA 174 *****
+
+***** PAGINA 178 *****
+
+***** PAGINA 179 *****
+
+***** PAGINA 180 *****
+
+***** PAGINA 183 *****
+
+***** PAGINA 184 *****
+
+***** PAGINA 185 *****
+
+***** PAGINA 187 *****
+
+***** PAGINA 189 *****
+
+***** PAGINA 191 *****
+
+***** PAGINA 192 *****
+
+***** PAGINA 194 *****
+
+***** PAGINA 195 *****
+
+***** PAGINA 198 *****
+
+***** PAGINA 200 *****
+
+***** PAGINA 201 *****
+
+***** PAGINA 203 *****
+
+***** PAGINA 204 *****
+
+***** PAGINA 205 *****
+
+***** PAGINA 206 *****
+
+***** PAGINA 207 *****
+
+***** PAGINA 208 *****
+
+***** PAGINA 210 *****
+
+***** PAGINA 211 *****
+
+***** PAGINA 212 *****
+
+***** PAGINA 213 *****
+
+***** PAGINA 214 *****
+
+***** PAGINA 215 *****
+
+***** PAGINA 216 *****
+
+***** PAGINA 217 *****
+
+***** PAGINA 218 *****
+
+***** PAGINA 219 *****
+
+***** PAGINA 220 *****
+
+***** PAGINA 221 *****
+
+***** PAGINA 222 *****
+
+***** PAGINA 223 *****
+
+***** PAGINA 224 *****
+
+***** PAGINA 225 *****
+
+***** PAGINA 226 *****
+
+***** PAGINA 227 *****
+
+***** PAGINA 229 *****
+
+***** PAGINA 230 *****
+
+***** PAGINA 232 *****
+
+***** PAGINA 234 *****
+
+***** PAGINA 235 *****
+
+***** PAGINA 236 *****
+
+***** PAGINA 239 *****
+
+***** PAGINA 242 *****
+
+***** PAGINA 244 *****
+
+***** PAGINA 245 *****
+
+***** PAGINA 248 *****
+
+***** PAGINA 250 *****
+
+***** PAGINA 251 *****
+
+***** PAGINA 252 *****
+
+***** PAGINA 253 *****
+
+***** PAGINA 254 *****
+
+***** PAGINA 255 *****
+
+***** PAGINA 256 *****
+
+***** PAGINA 257 *****
+
+***** PAGINA 258 *****
+
+***** PAGINA 259 *****
+
+***** PAGINA 260 *****
+
+***** PAGINA 261 *****
+
+***** PAGINA 263 *****
+
+***** PAGINA 266 *****
+
+***** PAGINA 267 *****
+
+***** PAGINA 268 *****
+
+***** PAGINA 273 *****
+
+***** PAGINA 275 *****
+
+***** PAGINA 276 *****
+
+***** PAGINA 279 *****
+
+***** PAGINA 281 *****
+
+***** PAGINA 283 *****
+
+***** PAGINA 285 *****
+
+***** PAGINA 286 *****
+
+***** PAGINA 288 *****
+
+***** PAGINA 289 *****
+
+***** PAGINA 290 *****
+
+***** PAGINA 291 *****
+
+***** PAGINA 292 *****
+
+***** PAGINA 293 *****
+
+***** PAGINA 294 *****
+
+***** PAGINA 295 *****
+
+***** PAGINA 296 *****
+
+***** PAGINA 298 *****
+
+***** PAGINA 299 *****
+
+***** PAGINA 300 *****
+
+***** PAGINA 301 *****
+
+***** PAGINA 302 *****
+
+***** PAGINA 309 *****
+
+***** PAGINA 311 *****
+
+***** PAGINA 312 *****
+
+***** PAGINA 313 *****
+
+***** PAGINA 320 *****
+
+***** PAGINA 321 *****
+
+***** PAGINA 322 *****
+
+***** PAGINA 323 *****
+
+***** PAGINA 324 *****
+
+***** PAGINA 325 *****
+
+***** PAGINA 326 *****
+
+***** PAGINA 327 *****
+
+***** PAGINA 328 *****
+
+***** PAGINA 329 *****
+
+***** PAGINA 330 *****
+
+***** PAGINA 331 *****
+
+***** PAGINA 333 *****
+
+***** PAGINA 334 *****
+
+***** PAGINA 335 *****
+
+***** PAGINA 336 *****
+
+***** PAGINA 337 *****
+
+***** PAGINA 338 *****
+
+***** PAGINA 339 *****
+
+***** PAGINA 340 *****
+
+***** PAGINA 343 *****
+
+***** PAGINA 344 *****
+
+***** PAGINA 345 *****
+
+***** PAGINA 346 *****
+
+***** PAGINA 347 *****
+
+***** PAGINA 348 *****
+
+***** PAGINA 349 *****
+
+***** PAGINA 350 *****
+
+***** PAGINA 351 *****
+
+***** PAGINA 352 *****
+
+***** PAGINA 353 *****
+
+***** PAGINA 354 *****
+
+***** PAGINA 356 *****
+
+***** PAGINA 357 *****
+
+***** PAGINA 358 *****
+
+***** PAGINA 359 *****
+
+***** PAGINA 360 *****
+
+***** PAGINA 361 *****
+
+***** PAGINA 362 *****
+
+***** PAGINA 363 *****
+
+***** PAGINA 364 *****
+
+***** PAGINA 365 *****
+
+***** PAGINA 366 *****
+
+***** PAGINA 367 *****
+
+***** PAGINA 368 *****
+
+***** PAGINA 370 *****
+
+***** PAGINA 371 *****
+
+***** PAGINA 372 *****
+
+***** PAGINA 373 *****
+
+***** PAGINA 374 *****
+
+***** PAGINA 375 *****
+
+***** PAGINA 376 *****
+
+***** PAGINA 377 *****
+
+***** PAGINA 378 *****
+
+***** PAGINA 379 *****
+
+***** PAGINA 381 *****
+
+***** PAGINA 382 *****
+
+***** PAGINA 384 *****
+
+***** PAGINA 385 *****
+
+***** PAGINA 386 *****
+
+***** PAGINA 387 *****
+
+***** PAGINA 388 *****
+
+***** PAGINA 389 *****
+
+***** PAGINA 390 *****
+
+***** PAGINA 391 *****
+
+***** PAGINA 392 *****
+
+***** PAGINA 394 *****
+
+***** PAGINA 396 *****
+
+***** PAGINA 398 *****
+
+***** PAGINA 399 *****
+
+***** PAGINA 400 *****
+
+***** PAGINA 401 *****
+
+***** PAGINA 403 *****
+
+***** PAGINA 405 *****
+
+***** PAGINA 406 *****
+
+***** PAGINA 408 *****
+
+***** PAGINA 409 *****
+
+***** PAGINA 410 *****
+
+***** PAGINA 411 *****
+
+***** PAGINA 412 *****
+
+***** PAGINA 413 *****
+
+***** PAGINA 415 *****
+
+***** PAGINA 417 *****
+
+***** PAGINA 418 *****
+
+***** PAGINA 420 *****
+
+***** PAGINA 421 *****
+
+***** PAGINA 422 *****
+
+***** PAGINA 424 *****
+
+***** PAGINA 425 *****
+
+***** PAGINA 426 *****
+
+***** PAGINA 427 *****
+
+***** PAGINA 428 *****
+
+***** PAGINA 430 *****
+
+***** PAGINA 431 *****
+
+***** PAGINA 432 *****
+
+***** PAGINA 433 *****
+
+***** PAGINA 435 *****
+
+***** PAGINA 437 *****
+
+***** PAGINA 438 *****
+
+***** PAGINA 440 *****
+
+***** PAGINA 443 *****
+
+***** PAGINA 444 *****
+
+***** PAGINA 445 *****
+
+***** PAGINA 449 *****
+
+***** PAGINA 455 *****
+
+***** PAGINA 459 *****
+
+***** PAGINA 460 *****
+
+***** PAGINA 461 *****
+
+***** PAGINA 462 *****
+
+***** PAGINA 463 *****
+
+***** PAGINA 466 *****
+
+***** PAGINA 467 *****
+
+***** PAGINA 468 *****
+
+***** PAGINA 469 *****
+
+***** PAGINA 470 *****
+
+***** PAGINA 471 *****
+
+***** PAGINA 472 *****
+
+***** PAGINA 473 *****
+
+***** PAGINA 475 *****
+
+***** PAGINA 477 *****
+
+***** PAGINA 478 *****
+
+***** PAGINA 482 *****
+
+***** PAGINA 487 *****
+
+***** PAGINA 488 *****
+
+***** PAGINA 489 *****
+
+***** PAGINA 490 *****
+
+***** PAGINA 491 *****
+
+***** PAGINA 493 *****
+
+***** PAGINA 494 *****
+
+***** PAGINA 495 *****
+
+***** PAGINA 496 *****
+
+***** PAGINA 498 *****
+
+***** PAGINA 500 *****
+
+***** PAGINA 501 *****
+
+***** PAGINA 503 *****
+
+***** PAGINA 504 *****
+
+***** PAGINA 506 *****
+
+***** PAGINA 507 *****
+
+***** PAGINA 508 *****
+
+***** PAGINA 509 *****
+
+***** PAGINA 512 *****
+
+***** PAGINA 513 *****
+
+***** PAGINA 514 *****
+
+***** PAGINA 515 *****
+
+***** PAGINA 516 *****
+
+***** PAGINA 518 *****
+
+***** PAGINA 519 *****
+
+***** PAGINA 521 *****
+
+***** PAGINA 523 *****
+
+***** PAGINA 524 *****
+
+***** PAGINA 525 *****
+
+***** PAGINA 526 *****
+
+***** PAGINA 527 *****
+
+***** PAGINA 528 *****
+
+***** PAGINA 529 *****
+
+***** PAGINA 530 *****
+
+***** PAGINA 533 *****
+
+***** PAGINA 535 *****
+
+***** PAGINA 540 *****
+
+***** PAGINA 541 *****
+
+***** PAGINA 544 *****
+
+***** PAGINA 545 *****
+
+***** PAGINA 546 *****
+
+***** PAGINA 547 *****
+
+***** PAGINA 548 *****
+
+***** PAGINA 549 *****
+
+***** PAGINA 550 *****
+
+***** PAGINA 551 *****
+
+***** PAGINA 552 *****
+
+***** PAGINA 553 *****
+
+***** PAGINA 555 *****
+
+***** PAGINA 556 *****
+
+***** PAGINA 557 *****
+
+***** PAGINA 559 *****
+
+***** PAGINA 561 *****
+
+***** PAGINA 563 *****
+
+***** PAGINA 564 *****
+
+***** PAGINA 566 *****
+
+***** PAGINA 568 *****
+
+***** PAGINA 569 *****
+
+***** PAGINA 570 *****
+
+***** PAGINA 571 *****
+
+***** PAGINA 572 *****
+
+***** PAGINA 573 *****
+
+***** PAGINA 574 *****
+
+***** PAGINA 575 *****
+
+***** PAGINA 576 *****
+
+***** PAGINA 578 *****
+
+***** PAGINA 579 *****
+
+***** PAGINA 580 *****
+
+***** PAGINA 581 *****
+
+***** PAGINA 582 *****
+
+***** PAGINA 583 *****
+
+***** PAGINA 584 *****
+
+***** PAGINA 586 *****
+
+***** PAGINA 587 *****
+
+***** PAGINA 588 *****
+
+***** PAGINA 589 *****
+
+***** PAGINA 590 *****
+
+***** PAGINA 598 *****
+
+***** PAGINA 600 *****
+
+***** PAGINA 601 *****
+
+***** PAGINA 603 *****
+
+***** PAGINA 605 *****
+
+***** PAGINA 606 *****
+
+***** PAGINA 607 *****
+
+***** PAGINA 608 *****
+
+***** PAGINA 609 *****
+
+***** PAGINA 610 *****
+
+***** PAGINA 611 *****
+
+***** PAGINA 613 *****
+
+***** PAGINA 615 *****
+
+***** PAGINA 616 *****
+
+***** PAGINA 617 *****
+
+***** PAGINA 620 *****
+
+***** PAGINA 622 *****
+
+***** PAGINA 623 *****
+
+***** PAGINA 627 *****
+
+***** PAGINA 628 *****
+
+***** PAGINA 632 *****
+
+***** PAGINA 633 *****
+
+***** PAGINA 635 *****
+
+***** PAGINA 638 *****
+
+***** PAGINA 639 *****
+
+***** PAGINA 640 *****
+
+***** PAGINA 641 *****
+
+***** PAGINA 645 *****
+
+***** PAGINA 648 *****
+
+***** PAGINA 652 *****
+
+***** PAGINA 653 *****
+
+***** PAGINA 654 *****
+
+***** PAGINA 655 *****
+
+***** PAGINA 658 *****
+
+***** PAGINA 659 *****
+
+***** PAGINA 660 *****
+
+***** PAGINA 662 *****
+
+***** PAGINA 663 *****
+
+***** PAGINA 664 *****
+
+***** PAGINA 665 *****
+
+***** PAGINA 667 *****
+
+***** PAGINA 668 *****
+
+***** PAGINA 669 *****
+
+***** PAGINA 670 *****
+
+***** PAGINA 671 *****
+
+***** PAGINA 674 *****
+
+***** PAGINA 675 *****
+
+***** PAGINA 676 *****
+
+***** PAGINA 677 *****
+
+***** PAGINA 679 *****
+
+***** PAGINA 681 *****
+
+***** PAGINA 682 *****
+
+***** PAGINA 684 *****
+
+***** PAGINA 685 *****
+
+***** PAGINA 687 *****
+
+***** PAGINA 688 *****
+
+***** PAGINA 690 *****
+
+***** PAGINA 691 *****
+
+***** PAGINA 692 *****
+
+***** PAGINA 693 *****
+
+***** PAGINA 694 *****
+
+***** PAGINA 695 *****
+
+***** PAGINA 696 *****
+
+***** PAGINA 698 *****
+
+***** PAGINA 699 *****
+
+***** PAGINA 701 *****
+
+***** PAGINA 702 *****
+
+***** PAGINA 703 *****
+
+***** PAGINA 704 *****
+
+***** PAGINA 705 *****
+
+***** PAGINA 706 *****
+
+***** PAGINA 708 *****
+
+***** PAGINA 709 *****
+
+***** PAGINA 710 *****
+
+***** PAGINA 712 *****
+
+***** PAGINA 713 *****
+
+***** PAGINA 714 *****
+
+***** PAGINA 715 *****
+
+***** PAGINA 716 *****
+
+***** PAGINA 719 *****
+
+***** PAGINA 721 *****
+
+***** PAGINA 723 *****
+
+***** PAGINA 726 *****
+
+***** PAGINA 728 *****
+
+***** PAGINA 729 *****
+
+***** PAGINA 730 *****
+
+***** PAGINA 731 *****
+
+***** PAGINA 732 *****
+
+***** PAGINA 733 *****
+
+***** PAGINA 734 *****
+
+***** PAGINA 737 *****
+
+***** PAGINA 741 *****
+
+***** PAGINA 742 *****
+
+***** PAGINA 743 *****
+
+***** PAGINA 748 *****
+
+***** PAGINA 749 *****
+
+***** PAGINA 750 *****
+
+***** PAGINA 753 *****
+
+***** PAGINA 754 *****
+
+***** PAGINA 755 *****
+
+***** PAGINA 757 *****
+
+***** PAGINA 758 *****
+
+***** PAGINA 759 *****
+
+***** PAGINA 761 *****
+
+***** PAGINA 764 *****
+
+***** PAGINA 765 *****
+
+***** PAGINA 768 *****
+
+***** PAGINA 769 *****
+
+***** PAGINA 771 *****
+
+***** PAGINA 773 *****
+
+***** PAGINA 774 *****
+
+***** PAGINA 776 *****
+
+***** PAGINA 777 *****
+
+***** PAGINA 778 *****
+
+***** PAGINA 779 *****
+
+***** PAGINA 780 *****
+
+***** PAGINA 781 *****
+
+***** PAGINA 783 *****
+
+***** PAGINA 785 *****
+
+***** PAGINA 787 *****
+
+***** PAGINA 790 *****
+
+***** PAGINA 791 *****
+
+***** PAGINA 792 *****
+
+***** PAGINA 793 *****
+
+***** PAGINA 794 *****
+
+***** PAGINA 795 *****
+
+***** PAGINA 796 *****
+
+***** PAGINA 797 *****
+
+***** PAGINA 798 *****
+
+***** PAGINA 799 *****
+
+***** PAGINA 800 *****
+
+***** PAGINA 801 *****
+
+***** PAGINA 802 *****
+
+***** PAGINA 803 *****
+
+***** PAGINA 804 *****
+
+***** PAGINA 807 *****
+
+***** PAGINA 809 *****
+
+***** PAGINA 811 *****
+
+***** PAGINA 812 *****
+
+***** PAGINA 813 *****
+
+***** PAGINA 814 *****
+
+***** PAGINA 815 *****
+
+***** PAGINA 817 *****
+
+***** PAGINA 818 *****
+
+***** PAGINA 819 *****
+
+***** PAGINA 820 *****
+
+***** PAGINA 821 *****
+
+***** PAGINA 823 *****
+
+***** PAGINA 827 *****
+
+***** PAGINA 828 *****
+
+***** PAGINA 829 *****
+
+***** PAGINA 830 *****
+
+***** PAGINA 858 *****
+
+***** PAGINA 859 *****
+
+***** PAGINA 860 *****
+
+***** PAGINA 861 *****
+
+***** PAGINA 862 *****
+
+***** PAGINA 863 *****
+
+***** PAGINA 864 *****
+
+***** PAGINA 865 *****
+
+***** PAGINA 868 *****
+
+***** PAGINA 869 *****
+
+***** PAGINA 870 *****
+
+***** PAGINA 871 *****
+
+***** PAGINA 873 *****
+
+***** PAGINA 874 *****
+
+***** PAGINA 877 *****
+
+***** PAGINA 878 *****
+
+***** PAGINA 879 *****
+
+***** PAGINA 880 *****
+
+***** PAGINA 881 *****
+
+***** PAGINA 883 *****
+
+***** PAGINA 885 *****
+
+***** PAGINA 886 *****
+
+***** PAGINA 887 *****
+
+***** PAGINA 888 *****
+
+***** PAGINA 889 *****
+
+***** PAGINA 891 *****
+
+***** PAGINA 893 *****
+
+***** PAGINA 894 *****
+
+***** PAGINA 895 *****
+
+***** PAGINA 896 *****
+
+***** PAGINA 897 *****
+
+***** PAGINA 898 *****
+
+***** PAGINA 899 *****
+
+***** PAGINA 901 *****
+
+***** PAGINA 902 *****
+
+***** PAGINA 903 *****
+
+***** PAGINA 904 *****
+
+***** PAGINA 905 *****
+
+***** PAGINA 906 *****
+
+***** PAGINA 907 *****
+
+***** PAGINA 908 *****
+
+***** PAGINA 910 *****
+
+***** PAGINA 912 *****
+
+***** PAGINA 913 *****
+
+***** PAGINA 914 *****
+
+***** PAGINA 915 *****
+
+***** PAGINA 916 *****
+
+***** PAGINA 917 *****
+
+***** PAGINA 918 *****
+
+***** PAGINA 919 *****
+
+***** PAGINA 920 *****
+
+***** PAGINA 921 *****
+
+***** PAGINA 922 *****
+
+***** PAGINA 923 *****
+
+***** PAGINA 924 *****
+
+***** PAGINA 925 *****
+
+***** PAGINA 929 *****
+
+***** PAGINA 933 *****
+
+***** PAGINA 934 *****
+
+***** PAGINA 935 *****
+
+***** PAGINA 937 *****
+
+***** PAGINA 938 *****
+
+***** PAGINA 939 *****
+
+***** PAGINA 940 *****
+
+***** PAGINA 941 *****
+
+***** PAGINA 942 *****
+
+***** PAGINA 944 *****
+
+***** PAGINA 945 *****
+
+***** PAGINA 946 *****
+
+***** PAGINA 947 *****
+
+***** PAGINA 949 *****
+
+***** PAGINA 950 *****
+
+***** PAGINA 951 *****
+
+***** PAGINA 952 *****
+
+***** PAGINA 953 *****
+
+***** PAGINA 954 *****
+
+***** PAGINA 956 *****
+
+***** PAGINA 957 *****
+
+***** PAGINA 958 *****
+
+***** PAGINA 959 *****
+
+***** PAGINA 960 *****
+
+***** PAGINA 961 *****
+
+***** PAGINA 964 *****
+
+***** PAGINA 965 *****
+
+***** PAGINA 967 *****
+
+***** PAGINA 970 *****
+
+***** PAGINA 971 *****
+
+***** PAGINA 972 *****
+
+***** PAGINA 973 *****
+
+***** PAGINA 974 *****
+
+***** PAGINA 975 *****
+
+***** PAGINA 976 *****
+
+***** PAGINA 980 *****
+
+***** PAGINA 981 *****
+
+***** PAGINA 982 *****
+
+***** PAGINA 983 *****
+
+***** PAGINA 985 *****
+
+***** PAGINA 986 *****
+
+***** PAGINA 988 *****
+
+***** PAGINA 989 *****
+
+***** PAGINA 991 *****
+
+***** PAGINA 992 *****
+
+***** PAGINA 993 *****
+
+***** PAGINA 996 *****
+
+***** PAGINA 997 *****
+
+***** PAGINA 998 *****
+
+***** PAGINA 1000 *****
+
+***** PAGINA 1003 *****
+
+***** PAGINA 1005 *****
+
+***** PAGINA 1006 *****
+
+***** PAGINA 1008 *****
+
+***** PAGINA 1009 *****
+
+***** PAGINA 1010 *****
+
+***** PAGINA 1011 *****
+
+***** PAGINA 1012 *****
+
+***** PAGINA 1030 *****
+
+***** PAGINA 1032 *****
+
+***** PAGINA 1033 *****
+
+***** PAGINA 1034 *****
+
+***** PAGINA 1035 *****
+
+***** PAGINA 1036 *****
+
+***** PAGINA 1037 *****
+
+***** PAGINA 1038 *****
+
+***** PAGINA 1039 *****
+
+***** PAGINA 1040 *****
+
+***** PAGINA 1041 *****
+
+***** PAGINA 1042 *****
+
+***** PAGINA 1043 *****
+
+***** PAGINA 1044 *****
+
+***** PAGINA 1045 *****
+
+***** PAGINA 1046 *****
