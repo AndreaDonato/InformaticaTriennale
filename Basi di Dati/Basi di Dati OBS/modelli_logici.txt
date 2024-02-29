@@ -1,0 +1,123 @@
+ MODELLI LOGICI
+Nati negli anni '60/'70, si distinguono i modelli
+
+	- GERARCHICO, strutture ad albero ('60);
+	- RETICOLARE, grafi ('70);
+	- RELAZIONALE, il grande protagonista del corso ('70/'80);
+	- A OGGETTI, che sfrutta la programmazione a oggetti ('80);
+	- XML, rivisitazione del modello gerarchico;
+	- NotSQL, non basati sul modello relazionale.
+
+Il relazionale è un enorme salto di qualità: è indipendente dalla memorizzazione fisica dei dati (portabili, modificabili senza
+cambiare lo schema, ...). Altro discorso è per i DATI MULTIMEDIALI (non si usa il relazionale).
+
+Modelli CONCETTUALI rappresentano schematicamente i requisiti dell'applicazione d'interesse per poi produrre il DB. Deve essere
+comprensibile e condiviso con chi dovrà usare il DB.
+
+Spesso una certa categoria di utenti può accedere solo a uno SCHEMA ESTERNO del DB, ovvero una rappresentazione del DB indipendente
+dal DB, senza sapere che esistono altri schemi e dati. Questo garantisce anche un layer di sicurezza. E' detta VISTA degli utenti.
+Agli utenti di una certa vista possono essere precluse informazioni sia per ridondanza sia per scelta.
+
+
+MODELLO RELAZIONALE
+Si basa sul concetto di matematico di relazione e sui valori (niente oggetti, niente puntatori).
+Una RELAZIONE è un insieme di tuple omogenee, cioè definite sugli stessi attributi.
+Dati n domini D_n (che possono essere interi, reali, date, stringhe, ore, personalizzato, ... spesso si usano tipi di dato astratti
+personalizzati per mettere un vincolo sui possibili valori di quel campo), il loro prodotto cartesiano è ogni possibile tupla in cui
+d_i \in D_i.
+
+ESEMPIO
+Se D_1 = {a, b} e D_2 = {x, y, z} posso avere solo 6 tuple distinte. Un DB è un INSIEME, quindi ogni tupla compare una e una sola volta.
+
+Una relazione è un sottoinsieme del prodotto cartesiano dei domini.
+
+	- Il GRADO di una relazione è il numero di domini (#colonne nella tabella);
+	- La CARDINALITA' è il numero di tuple realizzabili (#righe nella tabella).
+
+Rispetto alle tuple matematiche, le colonne delle tabelle hanno le ETICHETTE, quindi non devo rispettare per forza l'ordine
+(d_1, d_2, ...). Non ho più la relazione POSIZIONALE. L'etichetta dà la SEMANTICA al dato. Tutte le altre proprietà sono rispettate.
+
+Tramite i valori definisco i collegamenti tra le tabelle. Se ad esempio ho una tabella con i codici dei corsi, non posso avere una
+tabella con i voti degli esami in cui compare un codice di corso non presente nell'altra tabella. Questo concetto prende il nome di
+VINCOLO DI INTEGRITA' REFERENZIALE. Si noti che differisce da un modello a puntatori, che farebbe direttamente riferimento al valore
+inserito nella prima tabella.
+
+Se devo inserire una riga, quanto mi costa la verifica che non ci sia già? O(n), ma posso migliorarlo? Sì, in due modi:
+
+	- Introduco colonne privilegiate su cui effettuare i controlli. L'idea è che queste identifichino l'intera riga in modo univoco.
+		Ad esempio, in una tabella di studenti contenente nome, cognome, data di nascita e numero di matricola sarà sufficiente
+		controllare quest'ultima. In una tabella con matricola, esame e voto sarà necessario prendere le colonne matricola e corso,
+		in quanto non è possibile avere due voti positivi allo stesso esame;
+
+	- Introduco un ordinamento, e quindi faccio ricerca binaria.
+
+Se non conosco un dato è possibile far inserire al DBMS il valore NULL. Con questa cosa bisogna stare molto attenti:
+
+	- Se il dato che non conosco appartiene a una colonna privilegiata, non è ammissibile;
+	- Se non appartiene a una colonna privilegiata, posso decidere in fase di progettazione se consentire o meno il NULL.
+
+Nel momento in cui inserisco NULL, però, non so se quel dato non è stato inserito perché
+
+	- non lo conosco al momento, ma potrei conoscerlo in futuro;
+	- non esiste, e quindi non potrò mai conoscerlo;
+
+Da un lato, se non permettessi di inserire dati parziali risulterei troppo rigido. Dall'altro, ogni NULL abbassa la qualità del DB.
+Inoltre, ogni vincolo di integrità introdotto corrisponde a un costo di ricerca e verifica su una enorme mole di dati.
+
+I vincoli possono essere
+
+	- INTRARELAZIONALI, ovvero interni alla stessa tabella, e si distinguono in
+
+		- Vincoli di Tupla, che verificano l'intera riga. Possono essere sia verifiche sul singolo campo (es: un voto deve essere
+			compreso tra 0 e 30) sia tra campi diversi (es: il campo lode può assumere solo valori vero/falso, ma può essere vero
+			solo se voto è uguale a 30);
+
+		- Vincoli di Chiave, che verificano solo le colonne privilegiate. Se una tabella è grande, fare avanti e indietro tra RAM
+			e HDD è scomodo. Allora posso costruire una tabella più snella costituita dalle sole chiavi. Una SUPERCHIAVE è un
+			insieme di attributi al cui interno c'è una chiave. Segue che una chiave è una superchiave minimale. Non è detto che
+			la chiave sia unica. Il MAX è il numero di attributi. In definitiva, il Vincolo di Chiave è un'asserzione che specifica
+			che un insieme di attributi forma una chiave per una relazione. Se ho una relazione R(A, B, C, D), dichiarare un Vincolo
+			di Chiave su {A, B} significa dire che in R non possono esistere due tuple che coincidano negli attributi A e B.
+			Inoltre, incidentalmente, sto anche dicendo che nessun sottoinsieme di {A, B} è una chiave. Si noti che la tupla di per
+			sé sarebbe una chiave (essendo un insieme), ma a livello pratico risulta un po' troppo lunga. Ogni tabella ha una e una
+			sola CHIAVE PRIMARIA, per la quale non ha senso ammettere valori nulli (in tabella, si indica sottolineando l'intestazione
+			del campo), e poi opzionalmente N chiavi secondarie. L'importante, comunque, è che la tupla sia identificabile: vieto valori
+			nulli in almeno una chiave (la primaria).
+
+	- INTERRELAZIONALI, tra tabelle diverse
+
+		- Vincoli di Integrità Referenziale (o di Foreign Key), lavora sulla chiave primaria di una tabella di riferimento. In particolare,
+			data la tabella R_1 e il suo campo X non chiave, il Vincolo di Integrità Refernziale impone che ogni valore che compare in X
+			compaia anche nel campo chiave Y della tabella R_2. Detta in modo diverso, l'insieme dei valori del campo REFERENZIANTE sono
+			un sottoinsieme dell'insieme dei valori del campo REFERENZIATO.
+
+E'importante notare che è sempre meglio evitare campi ridondanti. Segue esempio.
+
+	R_1 è una tabella di infrazioni stradali. I campi sono codice infrazione, data, matricola vigile, provincia, numero verbale. C'è
+	un vincolo di foreign key sulla tabella dei vigili, R_2, che contiene matricola vigile (chiave primaria, quindi campo referenziato
+	dall'omonimo referenziante di R_1), cognome e nome. Se nella tabella infrazioni volessi inserire il cognome del vigile (quindi un'
+	informazione ridondante) potrei effettuare un altro controllo di tipo foreign key sul cognome di R_2, ma è importante notare che
+	i due vincoli sono indipendenti. Di conseguenza, potrei inserire in input di R_1 lo stesso codice vigile associato a due cognomi
+	diversi, e per i vincoli andrebbe bene. Porterebbe chiaramente a un'inconsistenza del DB.
+
+		- Per ovviare al problema volendo mantenere il cognome dovrei usare la coppia, ma tecnicamente è più difficile da implementare.
+		- In generale nella stessa tabella possono esserci più referenzianti.
+
+Un'istanza che rispetta tutti i vincoli è detta LEGALE. Un modo per assicurarsi che l'utente immetta in input una stringa corretta,
+è impostare una GUI per farlo scegliere tra i valori ammissibili piuttosto che lasciarlo libero di scrivere. Ad esempio, se voglio
+prenotare un aereo non è l'utente a immettere la data, ma sceglie dal calendario. Meglio prevenire che verificare.
+
+Cosa succede se ho R con Squadra1 Squadra2 e Risultato? Qual è la chiave primaria? Squadra1 Squadra2. E se possono incontrarsi un
+numero indefinito di volte? Ho diverse opzioni:
+
+	- Aggiungo un attributo che funge da chiave primaria, come un codice partita;
+	- Aggiungo un attributo che unito alla vecchia chiave primaria mi dia la nuova chiave primaria. Se ad esempio so che nella stessa
+		data due squadre si possono incontrare solo una volta, Sq1 Sq2 Data è la chiave primaria.
+
+NULL è un valore compatibile col foreign key. Mettere troppi vincoli può portare all'impossibilità di trovare una tupla che li
+soddisfi tutti. Oltretutto, ognuno di essi introduce rallentamenti. Infine, se elimino una tupla referenziata potrebbero succedere
+disastri. Vedremo dopo come ovviare a questi problemi.
+
+
+In SQL NON ESISTE L'IF!! Devo gestirmela solo con la logica booleana. Questo potrebbe rendere particolarmente inefficienti alcuni
+tipi di verifiche, così come 

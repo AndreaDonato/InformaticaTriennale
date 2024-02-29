@@ -1,23 +1,23 @@
 {
   "main": {
-    "id": "f896a99bc77f07c1",
+    "id": "66f5c1efc55dce6d",
     "type": "split",
     "children": [
       {
-        "id": "8337a39fc890d28f",
+        "id": "0788afb6fde66d88",
         "type": "tabs",
         "children": [
           {
-            "id": "2985f49c9bb966cf",
+            "id": "e6971a209349bf93",
             "type": "leaf",
             "state": {
               "type": "canvas",
               "state": {
-                "file": "MI In a (big) Nutshell.canvas",
+                "file": "HowToBDD.canvas",
                 "viewState": {
-                  "x": 804.0854202845069,
-                  "y": 368.8694594238399,
-                  "zoom": -1.6599999999999993
+                  "x": -205.66465479804782,
+                  "y": 537.0003488602435,
+                  "zoom": -1.2000000000000002
                 }
               }
             }
@@ -28,15 +28,15 @@
     "direction": "vertical"
   },
   "left": {
-    "id": "6ad3c98cf31e06c6",
+    "id": "d0d091d71ba3a160",
     "type": "split",
     "children": [
       {
-        "id": "88c220c694b8dff3",
+        "id": "52602249fbc71e87",
         "type": "tabs",
         "children": [
           {
-            "id": "2807b5db5af5feac",
+            "id": "cc3837d69ce973d9",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -46,7 +46,7 @@
             }
           },
           {
-            "id": "794fe0ad09380b75",
+            "id": "944233211d0e99c3",
             "type": "leaf",
             "state": {
               "type": "search",
@@ -61,7 +61,7 @@
             }
           },
           {
-            "id": "d80d34a79eba5bba",
+            "id": "6b86c4cc84385e5c",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
@@ -72,23 +72,23 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 300
   },
   "right": {
-    "id": "d858f07f26bc944b",
+    "id": "f71eb72e6e643466",
     "type": "split",
     "children": [
       {
-        "id": "92bac382267937ff",
+        "id": "75cefd2c7a920890",
         "type": "tabs",
         "children": [
           {
-            "id": "e4ac91b0fb697711",
+            "id": "bc12321880ec72b3",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-                "file": "MI In a (big) Nutshell.canvas",
+                "file": "HowToBDD.canvas",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -100,19 +100,19 @@
             }
           },
           {
-            "id": "ec0379980bde64cb",
+            "id": "47f3de9df2ef7160",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "MI In a (big) Nutshell.canvas",
+                "file": "HowToBDD.canvas",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
             }
           },
           {
-            "id": "34e36540aa560b77",
+            "id": "7db2761464da0eb9",
             "type": "leaf",
             "state": {
               "type": "tag",
@@ -123,12 +123,12 @@
             }
           },
           {
-            "id": "2bf95731de2a5340",
+            "id": "d7294f97462c2ea6",
             "type": "leaf",
             "state": {
               "type": "outline",
               "state": {
-                "file": "MI In a (big) Nutshell.canvas"
+                "file": "HowToBDD.canvas"
               }
             }
           }
@@ -149,10 +149,11 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "2985f49c9bb966cf",
+  "active": "e6971a209349bf93",
   "lastOpenFiles": [
-    "senses.png",
     "Welcome.md",
-    "MI In a (big) Nutshell.canvas"
+    "HowToBDD.canvas",
+    "modelli_logici.txt",
+    "0 - Introduzione.txt"
   ]
 }

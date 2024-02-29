@@ -1,0 +1,217 @@
+Per gestire dati e informazioni si costruisce un SISTEMA INFORMATIVO (es: biblioteca). Questo si occupa di:
+
+	- Raccolta e acquisizione delle informazioni;
+	- Archiviazione e conservazione delle informazioni;
+	- Elaborazione delle informazioni;
+	- Distribuzione delle informazioni.
+
+E' un modello indipendente dall'implementazione, e quindi dall'informatica (per quanto sia ottimale mettere le due cose insieme).
+Tutte le organizzazioni esistenti usano un SI. I dati vanno strutturati in modo preciso per permettere al software di manipolarli.
+
+
+DATABASE E DBMS
+Una BASE DI DATI (o Database, DB) è una collezione di dati omogenei: le informazioni si riferiscono a un contesto ben preciso.
+Non è utile generalizzare un'implementazione del genere, quanto concentrarsi sul problema specifico.
+Il software in grado di interrogare le basi di dati è il DBMS (Data Base Management System), fortunatamente già scritto da qualcun
+altro (si compra la licenza). Caratteristiche di un DBMS:
+
+	- Gestisce collezioni di dati
+		- Grandi: autoesplicativo;
+		- Persistenti: i dati sono la risorsa più stabile (rispetto ai metodi, gli algoritmi e simili, che possono cambiare).
+			Il DBMS gestisce processi di BACKUP e RECOVERY per minimizzare il rischio di perderli;
+		- Condivise: accessibili ad altri sistemi e ad utenti. Questo porta a complicazioni nel momento in cui molti utenti
+			accedono contemporaneamente al DBMS, il quale attua il CONTROLLO DI CONCORRENZA.
+
+	- Garantisce (o dovrebbe garantire)
+		- Privacy: il DBMS fa accedere ai dati (o a loro porzioni) solo gli utenti autorizzati. Gli admin possono accedere
+			a tutti i dati in r/w. Ci sono definizioni molto dettagliate di cosa l'utente può o non può fare, tipicamente specificate
+			al momento della richiesta;
+		- Affidabilità: il DBMS fornisce risultati corretti;
+		- Efficienza: i risultati vengono restituiti in un tempo ragionevole.
+
+Esempi di DMBS sono:
+
+	- DB2, di IBM, per grandissime quantità di dati e grandi organizzazioni;
+	- Oracle, il più diffuso poiché flessibile rispetto al piano tariffario;
+	- SQLServer, di Microsoft, simile a Oracle ma "un po' peggio";
+	- MySQL, MicrosoftAccess, DBMS "giocattolo";
+	- PostgreSQL, non basato sulla logica relazionale.
+
+
+PERCHE' SERVE UN DBMS?
+Se non ho un DBMS, dovrei costruire un DB tramite un file system come Excel, o addirittura un semplice file.txt. Chiaramente non
+ho garanzia di evitare DUPLICATI o INCONSISTENZE. Più ci si affida all'intervento umano e a diversi DB contenenti informazioni simili
+che non si parlano, più aumenta il rischio di duplicazione e inconsistenze, da cui rischio di estrarre dati e informazioni false.
+In un DBMS, il tipo di dato può essere molto semplice (alfanumerico) o molto pesante (video). Il DB può essere grande sia in senso di
+numero di dati sia in senso di quanto occupa il singolo dato. Ma dove li metto tutti questi dati? La memoria centrale non basta, serve
+memoria secondaria. Il DBMS deve quindi trovare il dato sulla memoria secondaria e caricarlo in centrale. Uno dei problemi degli ultimi
+30 anni è come velocizzare questo processo. Nessuno vuole aspettare 3 minuti per comprare un biglietto!
+
+
+CONTROLLO DI CONCORRENZA
+Voglio che ogni accesso sia sicuro e coerente, permettendo a ogni utente di fare le operazioni. Se ad esempio devo comprare un biglietto,
+il DBMS deve garantirmi che mentre lo faccio non ci sia qualcun altro che lo compra in contemporanea. Ogni utente deve avere l'impressione
+di essere l'unico utente sul sistema e che le operazioni avvengano in NEAR-REAL_TIME. Per fare questo, il DBMS non può mettere le richieste
+degli utenti (TRANSAZIONI) in fila, ma deve parallelizzarle quanto più possibile. Gli accessi al disco sono frequenti e lenti, motivo per
+cui deve sfruttare quanto più possibile la CPU. Ogni transazione deve sempre e comunque rispettare i VINCOLI DI INTEGRITA', ovvero
+vincoli che impongono di lasciare il DB in uno stato consistente.
+
+	Esempio: Mario e Anna guadagnano 1000, e il vincolo è che debbano guadagnare entrambi la stessa cifra. Due dirigenti usano il DBMS
+		per alzare loro lo stipendo, in particolare
+
+			- Il primo dirigente (X) vuole eseguire l'operazione +100;
+			- Il secondo dirigente (Y) vuole eseguire l'operazione *2;
+
+		X e Y accedono contemporaneamente. X inizia a modificare Mario, portandolo a 1100. Y trova Mario occupato, ed esegue la sua
+		operazione su Anna, portandola a 2000. Poi liberano i rispettivi record e passano al successivo, portando in definitiva Marco
+		a guadagnare 2200 e Anna 2100. Inconsistenza con il vincolo! Il DBMS non deve permetterlo.
+
+Il DBMS impedisce che esistano errori di questo tipo nel seguente modo: va bene fare operazioni in contemporanea, ma solo a patto che
+esista una qualche successione di operazioni non parallele che portino il DB nello stesso risultato.
+
+	- Nell'esempio di prima, se agisse prima X e poi Y avrei entrambi gli stipendi a 2200, ed entrambi a 2100 viceversa.
+		Non esiste quindi alcuna esecuzione seriale che permetta a Mario di guadagnare 2200 e Anna 2100.
+		E' importante ricordare che il DBMS non sa qual è lo stipendio giusto. Se dovesse verificarsi un accesso in contemporanea, il
+		DBMS sceglierebbe casualmente l'esecuzione seriale associata garantendo il rispetto del vincolo (entrambi hanno lo stesso stipendio).
+
+La garanzia più robusta è il protocollo di STRICT TWO PHASE LOCKING (Strict 2PL).
+
+	- Prima di leggere e/o scrivere uno o più oggetti, la transazione X richiede al DBMS un LOCK su tali oggetti. Ovvero, un qualsiasi altra
+		transazione Y che vuole interagire con questi oggetti dovrà aspettare l'esecuzione della prima;
+
+	- I lock vengono rilasciati al termine dell'esecuzione di X;
+
+	- Y potrà accedere agli oggetti, e a sua volta richiederà un lock.
+
+Questo chiaramente può portare a tempi di attesa lunghi. Ci sono sistemi più sofisticati che rilasciano i lock in modo graduale (rilassano
+la condizione STRICT), ma a quel punto si rischia un DEADLOCK (in cui due oggetti sono necessari per il prosieguo delle transazioni X e Y
+ma sono bloccati dall'altra transazione), situazione che richiede il riavvio di una delle due transazioni.
+
+
+COME E' FATTO UN DBMS?
+Il DBMS si struttura tipicamente a più livelli.
+
+	- Livello dei Dati: Livello a cui opera il DBMS in senso stretto.
+		- Gestione dello spazio su disco e sulla memoria centrale. All'avvio il DBMS occupa una certa porzione che diventa inaccessibile
+			per qualsiasi altra applicazione;
+		- Gestione del buffer, ovvero spostamento dei dati tra memoria centrale e secondaria;
+		- Accesso ai dati fisici, quindi file system;
+		- Operatori relazionali e ottimizzazione ed esecuzione delle interrogazioni, sono layer che rendono le richieste quanto più veloci
+			possibile;
+
+	- Livello della Logica dell'Applicazione: dove operano le applicazioni utilizzate dagli utenti. Scambia dati con il DB e riceve
+		input dall'interfaccia utente;
+
+	- Livello della Presentazione: quello che vede l'utente, che può essere una GUI o altro, da cui invia le richieste alle applicazioni.
+
+
+Quando si progetta una gestione di DB, si elabora un modello di dati indipendente dal DBMS e poi la si implementa, delegando al DBMS
+tutte le garanzie.
+
+La stragrande maggioranza dei DBMS usa il MODELLO RELAZIONALE. In pratica, tabelle con intestazione, attributi e record (dati).
+Servono quindi nome e struttura per la tabella, e tutti i dati devono essere omogenei a livello di struttura. Distinguo quindi
+
+	- Aspetto INTENSIONALE, nomi e strutture delle tabelle (che non si modificano);
+	- Aspetto ESTENISONALE, i dati che memorizzo nelle tabelle (parte dinamica).
+
+
+IL LOG
+Esempio: Ritiro al bancomat, ma poco prima che eroghi i soldi salta la luce. Ho perso i soldi?
+Pur essendo ogni transazione costituita da molte micro-operazioni, in un DBMS viene trattata come unica entità, seguendo un principio di
+"o tutto o niente". Come faccio ad esserne certo? Intanto non succede sempre. Può essere ABORTITA per qualche motivo (deadlock o banalmente
+mancanza di elettricità). Allora come riparo? Annullo le operazioni parziali fatte. La transazione deve arrivare a dare il comando di COMMIT
+per non essere annullata. Ma in pratica fare recovery in qualsiasi momento richiederebbe un backup in tempo reale, idea inverosimile. Allora,
+invece di scrivere nel DB scrivo nel LOG delle transazioni sia il vecchio che il nuovo valore per ogni micro-operazione, e ogni tot aggiorno
+il DB. In questo modo il DB resta sempre consistente (è in uno STATO LEGALE), e se una transazione si interrompe nel log è sufficiente riavviare il log.
+In pratica il log è il foglio di brutta e il DB è la bella.
+
+
+
+COME SI INTERAGISCE CON UN DBMS?
+Si utilizza un linguaggio ad hoc, detto LINGUAGGIO DI INTERROGAZIONE, ovvero SQL (Structured Query Language). Si può accedere anche
+con i linguaggi canonici (C, Java, ...) se al loro interno includono i comandi di SQL. Questo si distingue in due linguaggi formali:
+
+	- DML (Data Manipulation Language): Gestisce le richieste sui dati;
+	- DDL (Data Definition Language): Definisce gli schemi del DBMS. Serve nella fase di progettazione.
+
+Il potere espressivo (ovvero ciò che posso calcolare con un linguaggio) è dato dalla classe di query calcolabili, ed è diverso da quello
+di un normale linguaggio Touring-completo. I motivi per la scrittura ad hoc di un linguaggio di interrogazione rispetto a uno classico sono
+
+	- Maggiore semplicità di utilizzo per il compito specifico;
+	- Costante ottimizzazione per le interrogazioni.
+
+Tra un'operazione ottimizzata e una non ottimizzata ci possono essere differenze di svariati ordini di grandezza. Poi moltiplica per il
+numero di operazioni e il disastro è compiuto. Dentro SQL ci sono due linguaggi equivalenti:
+
+	- Algebra relazionale: linguaggio procedurale (fornisce la procedura per ottenere il risultato);
+	- Calcolo relazionale (che non si studia, ma alcune cose di SQL si basano su di esso): linguaggio dichiarativo, descrivo in modo formale
+		le caratteristiche del risultato che voglio senza darne la procedura.
+
+Ci focalizziamo sull'algebra. Costituita da
+
+	- Operandi: tabelle relazionali;
+	- Operatori: unari o binari su operandi.
+
+E' chiusa rispetto al risultato e gode di tutte le proprietà delle algebre (associativa, commutativa, ...). Seguono gli operatori ad hoc per
+operare sulle tabelle:
+
+	- Insiemistici
+		- Unione
+		- Intersezione
+		- Differenza (presenti nella prima ma non nella seconda), non simmetrica.
+	
+	- Ridenominazione, puramente sintattico, forma P(R(F), E) dove
+		- P è l'operatore Ridenominazione;
+		- R è il risultato;
+		- F è la LISTA DI RIDENOMINAZIONE nella forma (vecchio nome -> nuovo nome; posizione -> nuovo nome; ...);
+		- E è l'istanza di input.
+
+	- Prodotto cartesiano, che invero è insiemistico vabb. Permette di creare nuove tuple modificando quelle esistenti. Se faccio RxS ottengo
+		tutte le possibili combinazioni delle tuple di R con tutte quelle di S. Quindi se R ha campi ABC e S DE RxS ha ABCDE. Molto importante
+		ottimizzare questa operazione perché il risultato esplode. Raramente, infatti, lo si usa. Si usa il JOIN. Se unisco tabelle aventi campi
+		con lo stesso nome, nel risultato NON avranno nome, le devo rinominare con la posizione.
+	
+	- Selezione, la condizione è booleana. Taglia le righe.
+
+	- Proiezioni, taglia le colonne, nuova tabella contiene colonne specificate nella condizione. Le tuple sono <= (= se prendo la chiave, se
+		non la prendo non è detto che sia strettamente minore). Bisogna stare attenti alle chiavi. Non c'è l'oggetto tupla, ma solo i valori
+		che contiene. In genere è l'ultimo operatore applicato, seppure l'algebra sia commutativa. Questo perché prima costruisco il risultato
+		senza rischiare di tagliare fuori le chiavi (e quindi far collassare tuple diverse nella stessa tupla, e quindi perdere informazione);
+
+Poi operatori derivati, ma un paio sono così utilizzati che vale la pena menzionarli
+
+	- Join (o theta-join): perno delle query, prodotto cartesiano + selezione. Costruisce solo le tuple utili del prodotto cartesiano. Il
+		DBMS implementa i Join, non il cartesiano. I più interessanti sono con condizione di uguaglianza (EQUI-JOIN) con campi di cui uno
+		dei due è chiave, l'altro è foreign key. Perché?
+	
+	- Join Naturale, ovvero equi-join in cui specifico una condizione per ogni attributo comune alle due tabelle;
+
+	- Divisione, introdotta per cose del tipo "dimmi gli studenti che hanno fatto tutti gli esami".
+		Sia A una relazione con due campi, x e y. Sia B una relazione con il solo campo y. A/B contiene i valori x in A associati a tutti gli
+		elementi y che compaiono in B. Concettualmente, si opera trovando tutti i valori x che NON vanno bene e si sottraggono.
+
+La compatibilità delle interrogazioni è puramente sintattica (e non semantica). Sta a chi scrive assicurarsi che abbiano senso concettuale.
+Per convenzione, se unisco due tabelle i nomi delle colonne sono quelli della prima tabella. E qui entra in gioco Ridenominazione.
+
+In algebra relazionale (e quindi in SQL) non ho modo di confrontare tuple diverse. Se devo fare un confronto, mi servono i valori da confrontare
+scritti nella stessa tupla. Non ci sono variabili, blocchi condizionali o cicli.
+
+	Se ad esempio devo trovare un minimo di una colonna, piuttosto che confrontarli elimino a coppie quelli più grandi.
+
+In generale succede sempre così quando mi servirebbe un ciclo. In algebra relazionale non si possono ricostruire catene di riferimenti o
+alberi genealogici.
+Se facendo operazioni incontro un valore NULL, il sistema non lo includerà nel risultato se non diversamente specificato.
+
+
+RIASSUMENDO
+
+	PRO
+		- I dati sono condivisi, unificati, privi di ridondanze e incoerenze;
+		- Protezione da crash dei sistemi;
+		- Ottimizzazione dell'accesso concorrente;
+		- Facilità di interfacciamento con applicazioni esterne.
+
+	CONTRO
+
+		- Prodotto complesso e costoso;
+		- Se il DB è piccolo, il gioco non vale la candela.
