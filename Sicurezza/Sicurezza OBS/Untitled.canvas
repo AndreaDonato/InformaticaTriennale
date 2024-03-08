@@ -1,0 +1,16 @@
+{
+	"nodes":[
+		{"id":"99eaf26b9b4d8606","x":-470,"y":-429,"width":250,"height":160,"type":"text","text":"# Intro"},
+		{"id":"0446e3a3dba39d04","x":-40,"y":-560,"width":340,"height":60,"type":"text","text":"# Modelli di CompSec"},
+		{"id":"3ff1b55e96f7934a","x":-470,"y":-760,"width":301,"height":112,"type":"text","text":"# Impatto (ma forse è banale)"},
+		{"id":"9662a42f72c6a6e1","x":-1122,"y":-620,"width":320,"height":120,"type":"text","text":"# Cosa devo garantire (CIA)"},
+		{"id":"6395ba5bd51e3403","x":-900,"y":-220,"width":500,"height":460,"type":"text","text":"# Minacce e attacchi\n\ntraffic analysis tipicamente su canali cifrati per fare inferenza\n\ncontromisure tecniche -> firewall, encryption, ...\n- controllo accessi (e.g. username e password, biometrici, due livelli, ...)\nfunzionali -> come gestisco la sicurezza\n- audit = controllo (se va tutto bene)\n- sviluppatori possono avere certificazioni che li autorizzano ad accedere a determinate risorse. Cert. anche per software obv\n\nin pratica le funzionali sono la vista \"dall'alto\"\n\n\n- superficie di attacco = insieme delle vulnerabilità"},
+		{"id":"f4ecfb9fc48710ee","x":-300,"y":-220,"width":820,"height":700,"type":"text","text":"# Security Design Principles\n- Economy of mechanism - la sicurezza non deve consumare troppe risorse o metterci troppo tempo o creare bottleneck (eg una vpn è sicura ma lenta). componenti dovrebbero essere semplici (altrimenti è facile nascondere sw malevolo in mezzo al caos)\n- Fail-safe defaults - autorizzazioni, privilegi. Di base NON puoi accedere salvo esplicitissimo avviso contrario\n- Least privilege - ogni utente deve avere solo il set di privilegi minimi per svolgere le sue cose\n- Separation of privilege - Più stratifico i privilegi più separo con precisione i limiti dei vari utenti\n- Complete mediation - mediazione del sistema di autorizzazione\n- Layering - diversi layer di autorizzazioni\n- Isolation\n\t- fisico (e.g. server con dati sensibili sono in luogo fisico diverso rispetto al resto, oppure se faccio backup non lo tengo nella stessa area)\n\t- logico: ambienti in cui vengono eseguiti i processi (e.g. se ho più utenti non voglio che interferiscano. inoltre se isolato un processo è ben tracciabile come risorse)\n- Encapsulation e.g. programmazione a oggetti, in cui i metodi sono nell'oggetto\n- Open design - algoritmo di cifratura dovrebbe essere open-source altrimenti 1) non mi fido, magari ha delle backdoor 2) tutti possono verificare che sia sicuro, e migliorarlo. l'importante è la chiave.\n- Modularity separo sicurezza da altre cose del sistema\n\nLeast common mechanism\nPsychological acceptability\nLeast astonishment"},
+		{"id":"ef8bdfad5d598ad9","x":-900,"y":320,"width":500,"height":300,"type":"text","text":"# Alberi di attacco\n\n"},
+		{"id":"0ff285e0697110f6","x":-300,"y":520,"width":596,"height":528,"type":"file","file":"Screenshot from 2024-03-07 12-42-20.png"},
+		{"id":"3e32de95ab7a043b","x":-1240,"y":720,"width":455,"height":307,"type":"text","text":"# Cifratura\n\nla più comune è la simmetrica (anche se spesso non basta). Anche detto a chiave singola"}
+	],
+	"edges":[
+		{"id":"778bda792bdc0ef3","fromNode":"ef8bdfad5d598ad9","fromSide":"right","toNode":"0ff285e0697110f6","toSide":"left"}
+	]
+}

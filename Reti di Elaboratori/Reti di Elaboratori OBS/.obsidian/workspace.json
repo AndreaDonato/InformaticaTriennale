@@ -1,0 +1,158 @@
+{
+  "main": {
+    "id": "3d572a013e3a7a55",
+    "type": "split",
+    "children": [
+      {
+        "id": "6f8e7df52a5d0b81",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "fcf5f3edeede3096",
+            "type": "leaf",
+            "state": {
+              "type": "canvas",
+              "state": {
+                "file": "Reti.canvas",
+                "viewState": {
+                  "x": 2140.2962594643736,
+                  "y": 2100.920365313203,
+                  "zoom": -0.013333333333332184
+                }
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "85a2740bc614b174",
+    "type": "split",
+    "children": [
+      {
+        "id": "7e3d391dbfb56105",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "3530a94123399d29",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "89e0a23be3374e50",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "283f0b5bcc6b776c",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "right": {
+    "id": "fba4b2378247d122",
+    "type": "split",
+    "children": [
+      {
+        "id": "0fae09c0c6803727",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "340e344dc7d6293c",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Reti.canvas",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "f9878b2e7ff2d4ce",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Reti.canvas",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "b413de0442d9ef47",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "bac6c6894a8c2f88",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Reti.canvas"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "fcf5f3edeede3096",
+  "lastOpenFiles": [
+    "Welcome.md",
+    "Reti.canvas"
+  ]
+}

@@ -15,9 +15,9 @@
               "state": {
                 "file": "MI In a (big) Nutshell.canvas",
                 "viewState": {
-                  "x": 804.0854202845069,
-                  "y": 368.8694594238399,
-                  "zoom": -1.6599999999999993
+                  "x": 304.06085079155525,
+                  "y": 73.48089007931053,
+                  "zoom": -0.7433333333333331
                 }
               }
             }
@@ -72,7 +72,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 200,
+    "collapsed": true
   },
   "right": {
     "id": "d858f07f26bc944b",
