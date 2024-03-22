@@ -6,11 +6,12 @@
 
 
 .text
+
 main:
-	la $s5, vector # registro base di vector in $5. Errore comune la vs lw
-	la $s6, n # registro base della variabile n
-	lw  $t0,24($s5) # $t0 = vector[6] (7)
-	lw  $t1,($s6) # lw  $t1,0($s6) (5)
+	la $s5, vector 		# registro base di vector in $5. Errore comune la vs lw
+	la $s6, n 		# registro base della variabile n
+	lw  $t0,24($s5) 	# $t0 = vector[6] (7)
+	lw  $t1,($s6) 		# lw  $t1,0($s6) (5)
 
 	add $t0,$t1,$t0
 	sw  $t0,48($s5)

@@ -15,7 +15,7 @@ main:
 	lw $s3, vector + 12 # D
 
 	and $s4, $s4, $zero # inizializza $s4
-    or  $s4, $zero, $s0  # assumo A è il massimo per ora
+    	or  $s4, $zero, $s0  # assumo A è il massimo per ora
 CheckB:
 	slt $t0, $s4, $s1
 	beq $t0, $zero, CheckC
