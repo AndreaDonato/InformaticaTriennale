@@ -15,10 +15,20 @@
               "state": {
                 "file": "Reti.canvas",
                 "viewState": {
-                  "x": -3434.5854807261794,
-                  "y": 9352.955230994958,
-                  "zoom": -0.45999999999999963
+                  "x": -8071.792333725387,
+                  "y": 10723.425200852695,
+                  "zoom": 0.12336764060909367
                 }
+              }
+            }
+          },
+          {
+            "id": "05861cb616e0fb28",
+            "type": "leaf",
+            "state": {
+              "type": "release-notes",
+              "state": {
+                "currentVersion": "1.5.12"
               }
             }
           }
@@ -72,8 +82,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "fba4b2378247d122",
@@ -152,10 +161,14 @@
   },
   "active": "fcf5f3edeede3096",
   "lastOpenFiles": [
+    "Reti.canvas",
+    "HTTP_2.0.png",
+    "HTTP_1.1.png",
+    "stateful_protocol.png",
+    "HTTP_1.0.png",
     "chifacosa.png",
     "Layering.png",
     "Screenshot from 2023-12-27 22-51-43.png",
-    "Welcome.md",
-    "Reti.canvas"
+    "Welcome.md"
   ]
 }
