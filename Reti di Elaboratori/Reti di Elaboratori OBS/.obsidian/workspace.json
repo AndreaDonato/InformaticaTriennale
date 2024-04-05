@@ -15,9 +15,9 @@
               "state": {
                 "file": "Reti.canvas",
                 "viewState": {
-                  "x": -8071.792333725387,
-                  "y": 10723.425200852695,
-                  "zoom": 0.12336764060909367
+                  "x": -8473.971910482865,
+                  "y": 7804.8181719922195,
+                  "zoom": -0.19999999999999984
                 }
               }
             }
@@ -161,6 +161,9 @@
   },
   "active": "fcf5f3edeede3096",
   "lastOpenFiles": [
+    "RitardoMedioInCoda.png",
+    "proxy.png",
+    "proxy.png",
     "Reti.canvas",
     "HTTP_2.0.png",
     "HTTP_1.1.png",
