@@ -15,9 +15,9 @@
               "state": {
                 "file": "Reti.canvas",
                 "viewState": {
-                  "x": -2779.4177204011494,
-                  "y": 11565.9069829907,
-                  "zoom": -0.6066666666666659
+                  "x": -10159.009685213223,
+                  "y": 7097.226751033507,
+                  "zoom": -1.7999999999999998
                 }
               }
             }
@@ -82,8 +82,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "fba4b2378247d122",
@@ -162,17 +161,18 @@
   },
   "active": "fcf5f3edeede3096",
   "lastOpenFiles": [
+    "Screenshot from 2024-04-08 21-29-11.png",
+    "Reti.canvas",
+    "Screenshot from 2024-04-09 01-46-25.png",
+    "DNSRicorsivo.png",
+    "DNSIterativo.png",
+    "GerarchiaDNS.png",
+    "FTP.png",
+    "Untitled.canvas",
     "RitardoMedioInCoda.png",
     "proxy.png",
     "proxy.png",
-    "Reti.canvas",
     "HTTP_2.0.png",
-    "HTTP_1.1.png",
-    "stateful_protocol.png",
-    "HTTP_1.0.png",
-    "chifacosa.png",
-    "Layering.png",
-    "Screenshot from 2023-12-27 22-51-43.png",
     "Welcome.md"
   ]
 }
