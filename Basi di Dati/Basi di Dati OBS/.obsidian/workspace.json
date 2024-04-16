@@ -4,21 +4,33 @@
     "type": "split",
     "children": [
       {
-        "id": "0788afb6fde66d88",
+        "id": "da4de723f744830e",
         "type": "tabs",
         "children": [
           {
-            "id": "e6971a209349bf93",
+            "id": "b3c5c0d649469bfa",
             "type": "leaf",
             "state": {
               "type": "canvas",
               "state": {
                 "file": "HowToBDD.canvas",
                 "viewState": {
-                  "x": -1435.7186361421486,
-                  "y": 1490.2055951706259,
-                  "zoom": -1.6
+                  "x": -1107.5025032780354,
+                  "y": 1966.77138803042,
+                  "zoom": -1.600000000000001
                 }
+              }
+            }
+          },
+          {
+            "id": "cc0428595c9d7cb4",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Untitled.md",
+                "mode": "source",
+                "source": false
               }
             }
           }
@@ -132,7 +144,8 @@
               }
             }
           }
-        ]
+        ],
+        "currentTab": 3
       }
     ],
     "direction": "horizontal",
@@ -149,10 +162,12 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "e6971a209349bf93",
+  "active": "b3c5c0d649469bfa",
   "lastOpenFiles": [
-    "Welcome.md",
+    "Untitled.md",
     "HowToBDD.canvas",
+    "Screenshot from 2024-04-13 20-40-23.png",
+    "Welcome.md",
     "modelli_logici.txt",
     "0 - Introduzione.txt"
   ]
