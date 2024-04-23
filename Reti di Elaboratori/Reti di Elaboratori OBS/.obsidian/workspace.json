@@ -15,9 +15,9 @@
               "state": {
                 "file": "Reti.canvas",
                 "viewState": {
-                  "x": -9358.769309542733,
-                  "y": 8441.7915636795,
-                  "zoom": 1
+                  "x": 795.5999120680736,
+                  "y": 2363.441914162191,
+                  "zoom": -0.5966666666666659
                 }
               }
             }
@@ -82,7 +82,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "fba4b2378247d122",
