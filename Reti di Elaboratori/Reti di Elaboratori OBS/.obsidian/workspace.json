@@ -15,9 +15,9 @@
               "state": {
                 "file": "Reti.canvas",
                 "viewState": {
-                  "x": -847.8913954123827,
-                  "y": 7136.461892314535,
-                  "zoom": 0.39999999999999947
+                  "x": -2186.725482711402,
+                  "y": 3530.300493640544,
+                  "zoom": -0.6066666666666664
                 }
               }
             }
@@ -82,7 +82,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "fba4b2378247d122",
@@ -161,19 +162,20 @@
   },
   "active": "fcf5f3edeede3096",
   "lastOpenFiles": [
+    "Screenshot from 2024-04-27 18-36-45.png",
+    "Screenshot from 2024-04-27 18-20-49.png",
+    "Screenshot from 2024-04-27 18-20-29.png",
+    "RDT e TCP/SenderWindow.png",
+    "Reti.canvas",
+    "RDT e TCP/ReceiverWindow.png",
+    "RDT e TCP/RDT3.0.png",
+    "RDT e TCP/RDT2.2.png",
+    "RDT e TCP/RDT2.1_Destinatario.png",
+    "RDT e TCP/RDT2.1_Mittente.png",
+    "RDT e TCP/RDT2.0.png",
     "RDT e TCP",
     "RDT e TCP/SchemaRDT.png",
-    "RDT e TCP/RDT1.0.png",
-    "Reti.canvas",
-    "Protocolli Applicazione/FTP.png",
-    "Protocolli Applicazione/DNS/RichiestaRispostaDNS.png",
-    "Screenshot from 2024-04-08 21-29-11.png",
-    "Stack Protocollare/chifacosa.png",
     "Stack Protocollare",
-    "Stack Protocollare/Layering.png",
-    "RitardoMedioInCoda.png",
-    "FormalismoFSM.png",
-    "Protocolli Applicazione/HTTP/stateful_protocol.png",
     "Protocolli Applicazione",
     "Protocolli Applicazione/HTTP",
     "Protocolli Applicazione/DNS",
