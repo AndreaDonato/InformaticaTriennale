@@ -15,9 +15,9 @@
               "state": {
                 "file": "Reti.canvas",
                 "viewState": {
-                  "x": 1880.4459049985646,
-                  "y": 4260.090739080329,
-                  "zoom": -0.23666666666666697
+                  "x": 2435.883402257644,
+                  "y": 6047.735423031259,
+                  "zoom": -1.1102230246251565e-16
                 }
               }
             }
@@ -82,8 +82,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "fba4b2378247d122",
@@ -162,19 +161,24 @@
   },
   "active": "fcf5f3edeede3096",
   "lastOpenFiles": [
-    "Screenshot from 2024-04-27 18-36-45.png",
-    "Screenshot from 2024-04-27 18-20-49.png",
-    "Screenshot from 2024-04-27 18-20-29.png",
-    "RDT e TCP/SenderWindow.png",
+    "Data Link Layer/VLAN_Header.png",
+    "Data Link Layer",
+    "GoBackN",
+    "Protocolli Trasporto/RDT/ReceiverWindow.png",
     "Reti.canvas",
-    "RDT e TCP/ReceiverWindow.png",
-    "RDT e TCP/RDT3.0.png",
-    "RDT e TCP/RDT2.2.png",
-    "RDT e TCP/RDT2.1_Destinatario.png",
-    "RDT e TCP/RDT2.1_Mittente.png",
-    "RDT e TCP/RDT2.0.png",
-    "RDT e TCP",
-    "RDT e TCP/SchemaRDT.png",
+    "Protocolli Trasporto/FormalismoFSM.png",
+    "Protocolli Trasporto/RDT/RDT1.0.png",
+    "Protocolli Trasporto/RDT/Untitled.md",
+    "Protocolli Trasporto/RDT",
+    "Untitled",
+    "Stack Protocollare/Screenshot from 2024-05-01 16-10-50.png",
+    "Data Link Layer/VLAN_2.png",
+    "Data Link Layer/VLAN_1.png",
+    "Protocolli Trasporto/SelectiveRepeat.png",
+    "Protocolli Trasporto/Receiver_GoBackN.png",
+    "Protocolli Trasporto/Sender_GoBackN.png",
+    "Protocolli Trasporto/RDT/SenderWindow.png",
+    "Protocolli Trasporto",
     "Stack Protocollare",
     "Protocolli Applicazione",
     "Protocolli Applicazione/HTTP",
