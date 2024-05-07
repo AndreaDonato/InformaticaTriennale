@@ -15,9 +15,9 @@
               "state": {
                 "file": "main.canvas",
                 "viewState": {
-                  "x": -3795.6116140541026,
-                  "y": 3337.638100359463,
-                  "zoom": -1.6900000000000008
+                  "x": -4923.665667771998,
+                  "y": 4246.583921918436,
+                  "zoom": -3.116666666666666
                 }
               }
             }
@@ -152,24 +152,28 @@
   },
   "active": "f433313ef5ed4fdb",
   "lastOpenFiles": [
+    "Screenshot from 2024-05-07 13-01-11.png",
+    "Screenshot from 2024-05-07 12-42-58.png",
+    "D Flip-Flop.png",
+    "Screenshot from 2024-05-05 19-15-16.png",
+    "Screenshot from 2024-05-05 19-15-06.png",
+    "SR_Latch_Logic.png",
+    "SR_Latch.png",
+    "Screenshot from 2024-05-05 18-18-36.png",
+    "RegoleLogicaBooleana.png",
+    "Screenshot from 2024-05-05 17-56-35.png",
     "main.canvas",
     "Ottimizzazione.txt",
     "pipelining.txt",
     "Demetrescu/IA-32.txt",
     "IA-32.txt",
     "Capitolo 2/x86vsRISCvsMIPS.png",
-    "Capitolo 2/RISCvsMIPS.png",
     "Capitolo 2",
     "Untitled.md",
     "Capitolo 1",
-    "Capitolo 2/ARMandOthers.png",
     "Demetrescu/pipelining.txt",
     "Demetrescu/Ottimizzazione.txt",
     "Demetrescu",
-    "Capitolo 1/BenchmarksSPEC.png",
-    "Capitolo 1/PowerAndClockRate.png",
-    "Capitolo 1/ComputerScheme.png",
-    "Capitolo 1/conversions.png",
     "Welcome.md"
   ]
 }
