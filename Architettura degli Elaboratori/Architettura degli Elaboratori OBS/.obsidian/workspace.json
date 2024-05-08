@@ -15,9 +15,9 @@
               "state": {
                 "file": "main.canvas",
                 "viewState": {
-                  "x": -4923.665667771998,
-                  "y": 4246.583921918436,
-                  "zoom": -3.116666666666666
+                  "x": -4892.842463328071,
+                  "y": 2182.537675560276,
+                  "zoom": -1.2000000000000006
                 }
               }
             }
@@ -72,8 +72,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "352bfcaea41d8c98",
@@ -152,22 +151,23 @@
   },
   "active": "f433313ef5ed4fdb",
   "lastOpenFiles": [
-    "Screenshot from 2024-05-07 13-01-11.png",
-    "Screenshot from 2024-05-07 12-42-58.png",
-    "D Flip-Flop.png",
-    "Screenshot from 2024-05-05 19-15-16.png",
-    "Screenshot from 2024-05-05 19-15-06.png",
-    "SR_Latch_Logic.png",
-    "SR_Latch.png",
-    "Screenshot from 2024-05-05 18-18-36.png",
-    "RegoleLogicaBooleana.png",
-    "Screenshot from 2024-05-05 17-56-35.png",
+    "VerilogOutput(example_module).png",
+    "Progettazione Sistemi Digitali/FPGA.png",
+    "Progettazione Sistemi Digitali/DefinizioniLogicaBoole.png",
     "main.canvas",
+    "Progettazione Sistemi Digitali/DRAM.png",
+    "Progettazione Sistemi Digitali",
+    "Progettazione Sistemi Digitali/PLA.png",
+    "Progettazione Sistemi Digitali/ROM.png",
+    "Progettazione Sistemi Digitali/SRAM.png",
+    "Progettazione Sistemi Digitali/VincoloDiHold.png",
+    "Progettazione Sistemi Digitali/VincoloDiSetup.png",
+    "Progettazione Sistemi Digitali/D Flip-Flop.png",
+    "Progettazione Sistemi Digitali/D_Latch_Logic.png",
     "Ottimizzazione.txt",
     "pipelining.txt",
     "Demetrescu/IA-32.txt",
     "IA-32.txt",
-    "Capitolo 2/x86vsRISCvsMIPS.png",
     "Capitolo 2",
     "Untitled.md",
     "Capitolo 1",
