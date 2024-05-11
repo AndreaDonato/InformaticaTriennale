@@ -15,9 +15,9 @@
               "state": {
                 "file": "main.canvas",
                 "viewState": {
-                  "x": -4892.842463328071,
-                  "y": 2182.537675560276,
-                  "zoom": -1.2000000000000006
+                  "x": -5926.26517401057,
+                  "y": 5484.296241910101,
+                  "zoom": -0.14666666666666758
                 }
               }
             }
@@ -72,7 +72,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "352bfcaea41d8c98",
@@ -151,6 +152,10 @@
   },
   "active": "f433313ef5ed4fdb",
   "lastOpenFiles": [
+    "BranchPredictionFSM.png",
+    "SaltoAssoluto.png",
+    "BranchNotTaken.png",
+    "Screenshot from 2024-05-10 12-18-43.png",
     "VerilogOutput(example_module).png",
     "Progettazione Sistemi Digitali/FPGA.png",
     "Progettazione Sistemi Digitali/DefinizioniLogicaBoole.png",
@@ -160,10 +165,6 @@
     "Progettazione Sistemi Digitali/PLA.png",
     "Progettazione Sistemi Digitali/ROM.png",
     "Progettazione Sistemi Digitali/SRAM.png",
-    "Progettazione Sistemi Digitali/VincoloDiHold.png",
-    "Progettazione Sistemi Digitali/VincoloDiSetup.png",
-    "Progettazione Sistemi Digitali/D Flip-Flop.png",
-    "Progettazione Sistemi Digitali/D_Latch_Logic.png",
     "Ottimizzazione.txt",
     "pipelining.txt",
     "Demetrescu/IA-32.txt",
