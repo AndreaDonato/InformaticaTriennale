@@ -15,9 +15,9 @@
               "state": {
                 "file": "Reti.canvas",
                 "viewState": {
-                  "x": 2292.7481323577276,
-                  "y": 3352.8094699021162,
-                  "zoom": 0.5166666666666663
+                  "x": 1470.3169541393333,
+                  "y": 5801.387426814965,
+                  "zoom": -0.2966666666666674
                 }
               }
             }
@@ -162,6 +162,7 @@
   },
   "active": "fcf5f3edeede3096",
   "lastOpenFiles": [
+    "SwitchingFabric.png",
     "802.1q.png",
     "Data Link Layer/Confronto_VLAN_Header.png",
     "Data Link Layer",
@@ -178,7 +179,6 @@
     "Data Link Layer/VLAN_1.png",
     "Protocolli Trasporto/SelectiveRepeat.png",
     "Protocolli Trasporto/Receiver_GoBackN.png",
-    "Protocolli Trasporto/Sender_GoBackN.png",
     "Protocolli Trasporto",
     "Stack Protocollare",
     "Protocolli Applicazione",
