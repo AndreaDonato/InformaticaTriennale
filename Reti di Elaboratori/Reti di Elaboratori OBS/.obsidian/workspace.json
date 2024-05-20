@@ -15,9 +15,9 @@
               "state": {
                 "file": "Reti.canvas",
                 "viewState": {
-                  "x": 1470.3169541393333,
-                  "y": 5801.387426814965,
-                  "zoom": -0.2966666666666674
+                  "x": -4879,
+                  "y": 12120,
+                  "zoom": 0
                 }
               }
             }
@@ -82,8 +82,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "fba4b2378247d122",
@@ -99,7 +98,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Reti.canvas",
+                "file": "Protocolli Trasporto/TCP/Congestione/ThroughputEffettivoCongestione.png",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -116,7 +115,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Reti.canvas",
+                "file": "Protocolli Trasporto/TCP/Congestione/ThroughputEffettivoCongestione.png",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -139,7 +138,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Reti.canvas"
+                "file": "Protocolli Trasporto/TCP/Congestione/ThroughputEffettivoCongestione.png"
               }
             }
           }
@@ -162,23 +161,24 @@
   },
   "active": "fcf5f3edeede3096",
   "lastOpenFiles": [
+    "Protocolli Trasporto/TCP/Congestione",
+    "Protocolli Trasporto/TCP",
+    "Protocolli Trasporto/TCP/Congestione/ScenarioCongestione.png",
+    "Protocolli Trasporto/TCP/Congestione/TrasmissioneEffettivaCongestione.png",
+    "Protocolli Trasporto/TCP/Congestione/ThroughputEffettivoCongestione.png",
+    "Protocolli Trasporto/RDT/Untitled.md",
+    "Reti.canvas",
+    "Protocolli Trasporto/RDT/Compare_GBN-SR.png",
+    "Protocolli Trasporto/RDT/RecapRDT.png",
+    "Piggybacking.md",
     "SwitchingFabric.png",
     "802.1q.png",
     "Data Link Layer/Confronto_VLAN_Header.png",
     "Data Link Layer",
     "GoBackN",
     "Protocolli Trasporto/RDT/ReceiverWindow.png",
-    "Reti.canvas",
-    "Protocolli Trasporto/FormalismoFSM.png",
-    "Protocolli Trasporto/RDT/RDT1.0.png",
-    "Protocolli Trasporto/RDT/Untitled.md",
+    "Protocolli Trasporto/RDT/FormalismoFSM.png",
     "Protocolli Trasporto/RDT",
-    "Untitled",
-    "Stack Protocollare/Screenshot from 2024-05-01 16-10-50.png",
-    "Data Link Layer/VLAN_2.png",
-    "Data Link Layer/VLAN_1.png",
-    "Protocolli Trasporto/SelectiveRepeat.png",
-    "Protocolli Trasporto/Receiver_GoBackN.png",
     "Protocolli Trasporto",
     "Stack Protocollare",
     "Protocolli Applicazione",
