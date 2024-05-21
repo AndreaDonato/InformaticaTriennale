@@ -15,9 +15,9 @@
               "state": {
                 "file": "Reti.canvas",
                 "viewState": {
-                  "x": -4879,
-                  "y": 12120,
-                  "zoom": 0
+                  "x": -6048.34646973447,
+                  "y": 10109.851410416728,
+                  "zoom": -3.0833333333333326
                 }
               }
             }
@@ -98,7 +98,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Protocolli Trasporto/TCP/Congestione/ThroughputEffettivoCongestione.png",
+                "file": "Reti.canvas",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -115,7 +115,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Protocolli Trasporto/TCP/Congestione/ThroughputEffettivoCongestione.png",
+                "file": "Reti.canvas",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -138,7 +138,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Protocolli Trasporto/TCP/Congestione/ThroughputEffettivoCongestione.png"
+                "file": "Reti.canvas"
               }
             }
           }

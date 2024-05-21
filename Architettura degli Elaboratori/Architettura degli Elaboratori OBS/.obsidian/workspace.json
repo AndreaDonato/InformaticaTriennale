@@ -11,18 +11,35 @@
             "id": "f433313ef5ed4fdb",
             "type": "leaf",
             "state": {
+              "type": "graph",
+              "state": {}
+            }
+          },
+          {
+            "id": "9a853e828833e024",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {}
+            }
+          },
+          {
+            "id": "e61c37cc6e20790e",
+            "type": "leaf",
+            "state": {
               "type": "canvas",
               "state": {
                 "file": "main.canvas",
                 "viewState": {
-                  "x": -2021.1399999999967,
-                  "y": 3088.329999999999,
-                  "zoom": 0
+                  "x": -98.82641765082957,
+                  "y": 3488.922719416041,
+                  "zoom": -1.5671754827938749
                 }
               }
             }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -72,8 +89,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "352bfcaea41d8c98",
@@ -150,8 +166,14 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "f433313ef5ed4fdb",
+  "active": "e61c37cc6e20790e",
   "lastOpenFiles": [
+    "Untitled.canvas",
+    "Ciao 2.md",
+    "Ciao.md",
+    "main.canvas",
+    "DecodeIR.png",
+    "Fetch.png",
     "BranchPredictionFSM.png",
     "SaltoAssoluto.png",
     "BranchNotTaken.png",
@@ -159,18 +181,13 @@
     "VerilogOutput(example_module).png",
     "Progettazione Sistemi Digitali/FPGA.png",
     "Progettazione Sistemi Digitali/DefinizioniLogicaBoole.png",
-    "main.canvas",
     "Progettazione Sistemi Digitali/DRAM.png",
     "Progettazione Sistemi Digitali",
-    "Progettazione Sistemi Digitali/PLA.png",
-    "Progettazione Sistemi Digitali/ROM.png",
-    "Progettazione Sistemi Digitali/SRAM.png",
     "Ottimizzazione.txt",
     "pipelining.txt",
     "Demetrescu/IA-32.txt",
     "IA-32.txt",
     "Capitolo 2",
-    "Untitled.md",
     "Capitolo 1",
     "Demetrescu/pipelining.txt",
     "Demetrescu/Ottimizzazione.txt",
