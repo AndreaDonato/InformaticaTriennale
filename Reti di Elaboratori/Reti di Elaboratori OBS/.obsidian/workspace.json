@@ -15,9 +15,9 @@
               "state": {
                 "file": "Reti.canvas",
                 "viewState": {
-                  "x": -6048.34646973447,
-                  "y": 10109.851410416728,
-                  "zoom": -3.0833333333333326
+                  "x": -6439.191208842103,
+                  "y": 11846.166836769227,
+                  "zoom": -2.8000000000000003
                 }
               }
             }
@@ -161,23 +161,24 @@
   },
   "active": "fcf5f3edeede3096",
   "lastOpenFiles": [
+    "FairnessAIMD.png",
+    "HandshakingErrorDuplicateData.png",
+    "HandshakingErrorNoClient.png",
+    "SegmentoTCP.png",
+    "Protocolli Trasporto/TCP/Congestione/CongestionWindow.png",
+    "Reti.canvas",
+    "Protocolli Trasporto/TCP/Congestione/CubicTCP.png",
+    "Protocolli Trasporto/TCP/Congestione/TahoeRenoTCP.png",
+    "Protocolli Trasporto/TCP/Congestione/RenoTCP.png",
     "Protocolli Trasporto/TCP/Congestione",
     "Protocolli Trasporto/TCP",
     "Protocolli Trasporto/TCP/Congestione/ScenarioCongestione.png",
-    "Protocolli Trasporto/TCP/Congestione/TrasmissioneEffettivaCongestione.png",
+    "Protocolli Trasporto/TCP/Congestione/ThroughputEffettivoCongestioneTantiHost.png",
     "Protocolli Trasporto/TCP/Congestione/ThroughputEffettivoCongestione.png",
     "Protocolli Trasporto/RDT/Untitled.md",
-    "Reti.canvas",
-    "Protocolli Trasporto/RDT/Compare_GBN-SR.png",
-    "Protocolli Trasporto/RDT/RecapRDT.png",
     "Piggybacking.md",
-    "SwitchingFabric.png",
-    "802.1q.png",
-    "Data Link Layer/Confronto_VLAN_Header.png",
     "Data Link Layer",
     "GoBackN",
-    "Protocolli Trasporto/RDT/ReceiverWindow.png",
-    "Protocolli Trasporto/RDT/FormalismoFSM.png",
     "Protocolli Trasporto/RDT",
     "Protocolli Trasporto",
     "Stack Protocollare",
