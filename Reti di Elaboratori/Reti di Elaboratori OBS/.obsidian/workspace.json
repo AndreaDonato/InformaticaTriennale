@@ -15,9 +15,9 @@
               "state": {
                 "file": "Reti.canvas",
                 "viewState": {
-                  "x": -6439.191208842103,
-                  "y": 11846.166836769227,
-                  "zoom": -2.8000000000000003
+                  "x": 655.4558479285851,
+                  "y": 11209.237086300096,
+                  "zoom": -1.1102230246251565e-16
                 }
               }
             }
@@ -161,20 +161,20 @@
   },
   "active": "fcf5f3edeede3096",
   "lastOpenFiles": [
+    "TopologiaRete.png",
+    "CleverMiddleboxes.png",
+    "ICMP.png",
+    "LawISP.png",
+    "Reti.canvas",
+    "Screenshot from 2024-05-23 17-31-44.png",
+    "ReteMistaIPv4IPv6.png",
+    "NAT_Disambigua.png",
+    "IPv4.png",
     "FairnessAIMD.png",
     "HandshakingErrorDuplicateData.png",
     "HandshakingErrorNoClient.png",
-    "SegmentoTCP.png",
-    "Protocolli Trasporto/TCP/Congestione/CongestionWindow.png",
-    "Reti.canvas",
-    "Protocolli Trasporto/TCP/Congestione/CubicTCP.png",
-    "Protocolli Trasporto/TCP/Congestione/TahoeRenoTCP.png",
-    "Protocolli Trasporto/TCP/Congestione/RenoTCP.png",
     "Protocolli Trasporto/TCP/Congestione",
     "Protocolli Trasporto/TCP",
-    "Protocolli Trasporto/TCP/Congestione/ScenarioCongestione.png",
-    "Protocolli Trasporto/TCP/Congestione/ThroughputEffettivoCongestioneTantiHost.png",
-    "Protocolli Trasporto/TCP/Congestione/ThroughputEffettivoCongestione.png",
     "Protocolli Trasporto/RDT/Untitled.md",
     "Piggybacking.md",
     "Data Link Layer",
