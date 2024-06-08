@@ -1,7 +1,7 @@
 from socket import *
 
-serverName = input('Destination IP address: ')
-serverPort = 65535
+serverName = "192.168.1.191"#input('Destination IP address: ')
+serverPort = 65530
 clientSocket = socket(AF_INET, SOCK_DGRAM)
 clientSocket.bind(('', 2342))
 print("socket created:", clientSocket)

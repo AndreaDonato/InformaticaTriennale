@@ -15,9 +15,9 @@
               "state": {
                 "file": "Reti.canvas",
                 "viewState": {
-                  "x": -452.2957854999203,
-                  "y": 4993.91314239201,
-                  "zoom": 0.3400000000000002
+                  "x": -4119.28478192766,
+                  "y": 8247.007048817468,
+                  "zoom": -4
                 }
               }
             }
@@ -161,30 +161,30 @@
   },
   "active": "fcf5f3edeede3096",
   "lastOpenFiles": [
-    "TopologiaRete.png",
-    "CleverMiddleboxes.png",
-    "ICMP.png",
-    "LawISP.png",
+    "2 - Data Link Layer/PureAloha.png",
+    "2 - Data Link Layer/CSMA_CD.png",
     "Reti.canvas",
-    "Screenshot from 2024-05-23 17-31-44.png",
-    "ReteMistaIPv4IPv6.png",
-    "NAT_Disambigua.png",
-    "IPv4.png",
-    "FairnessAIMD.png",
-    "HandshakingErrorDuplicateData.png",
-    "HandshakingErrorNoClient.png",
-    "Protocolli Trasporto/TCP/Congestione",
-    "Protocolli Trasporto/TCP",
+    "2 - Data Link Layer/CSMA_CD.png",
+    "2 - Data Link Layer/SlottedAloha.png",
+    "3 - Rete/LawISP.png",
+    "2 - Data Link Layer/802.1q.png",
+    "4 - Trasporto/TCP/Congestione/FairnessAIMD.png",
+    "4 - Trasporto/TCP/HandshakingErrorDuplicateData.png",
+    "3 - Rete/Protocolli di Instradamento/HierarchicOSPF.png",
+    "3 - Rete/Screenshot from 2024-05-23 17-31-44.png",
+    "3 - Rete/DettaglioControllerSDN.png",
+    "3 - Rete/Protocolli di Instradamento",
+    "2 - Data Link Layer/Protocolli Collegamento",
+    "3 - Rete",
+    "4 - Trasporto/TCP/Congestione",
+    "4 - Trasporto/TCP",
     "Protocolli Trasporto/RDT/Untitled.md",
     "Piggybacking.md",
-    "Data Link Layer",
+    "2 - Data Link Layer",
     "GoBackN",
-    "Protocolli Trasporto/RDT",
-    "Protocolli Trasporto",
-    "Stack Protocollare",
-    "Protocolli Applicazione",
-    "Protocolli Applicazione/HTTP",
-    "Protocolli Applicazione/DNS",
+    "4 - Trasporto/RDT",
+    "4 - Trasporto",
+    "0 - Stack Protocollare",
     "Untitled.canvas",
     "Welcome.md"
   ]
