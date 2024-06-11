@@ -1,0 +1,9 @@
+- Capitolo 1
+
+- Capitolo 2 fino a 2.12 incluso
+
+- Capitolo 4 fino a 4.11 incluso
+
+- Capitolo 5 fino a 5.4 + 5.7
+
+- Appendice B

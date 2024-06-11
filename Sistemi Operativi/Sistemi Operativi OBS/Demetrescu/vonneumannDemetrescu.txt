@@ -1,0 +1,83 @@
+Un sistema di calcolo consiste di software e hardware che operano insieme per supportare l’esecuzione di programmi.
+Esempi di sistemi di calcolo sono gli smartphone, i tablet, i computer, ma anche le smart tv e i modem/router, le macchine fotografiche digitali e molto
+altro ancora che non sospetteremmo possa essere pensato come un sistema di calcolo. In generale, un sistema di calcolo è qualsiasi sistema programmabile,
+cioè in grado di eseguire compiti diversi in base alle istruzioni fornite da un programma. Può essere formato da un singolo nodo, cioè un insieme di parti
+hardware meccanicamente connesse tra loro, oppure da più nodi connessi mediante una rete di comunicazione. Esempi di sistemi multi-nodo sono i data center
+usati dai grandi provider come Facebook, Twitter e Google per gestire i loro sistemi di social networking e i supercomputer, in cui più nodi di calcolo
+sono connessi da una rete di comunicazione ad alta velocità (es. Infiniband). Questo tipo di sistema viene anche detto cluster.
+
+
+CPU <-- Bus del sistema --> I/O BRIDGE <-- Bus della memoria --> MEMORIA
+								^
+								|
+	Controller Disco	---------	
+
+Controller è un'unità del sistema che fa dialogare un dispositivo esterno con la macchina, i dati sul bus sono fruibili bilateralmente.
+Sono sulla MoBo. Altro esempio di controller è quello USB (Universal Serial Bus, molto flessibile).
+Altra unità: ADATTATORI (mobili, non saldati sulla MoBo) come video.
+
+CPU: le operazioni eseguibili dalla CPU è definito dall'ISA (Instruction Set Architecture) come x86 (Intel) o ARM (per smartphone).
+Il programma gira su una determinata ISA, motivo per cui un'app per telefono non gira su pc.
+
+ISA deve definire istruzioni per
+
+	- movimento dati tra registri e registri-memoria (es: assegnare una variabile);
+	- operazioni aritmetico-logiche (somma, ...)
+	- istruzioni di salto (if...else, ...)
+
+
+COMPILATORE/INTERPRETE
+Assembly è traduzione leggibile (con keyword) del linguaggio macchina binario (comprensibile alla CPU in fase decode).
+La traduzione da Assembly a linguaggio macchina è il processo di ASSEMBLAMENTO, eseguito dall'ASSEMBLATORE.
+L'inverso è eseguito dal DISASSEMBLATORE, uno degli strumenti preferiti dagli hacker.
+Per passare da un linguaggio ad alto livello (come C) ad Assembly si usa il COMPILATORE.
+
+C (file di testo) --> COMPILATORE --> x86 (assembly, file di testo) --> ASSEMBLER --> x86 (file binario)
+
+è una semplificazione (obv). Solo il compilatore fa preprocessamento che va da .c a .i preprocessato (senza direttive #). Posso isolare il preprocessamento con gcc -E.
+Solo compilatore: gcc -S, va da .i a .s. Poi l'assemblatore gcc -c  passa da .i a file oggetto .o in linguaggio macchina. Non è ancora l'eseguibile, manca il linker.
+Collega i vari .o (moduli a formare l'eseguibile).
+
+In questa cartella eseguo i comandi:
+
+	gcc -E hello.c > hello.i 		(altrimenti l'output è stdout, ovvero il terminale)
+
+Il file .i è il file .c con le librerie incluse copiate per intero in testa.
+In qualsiasi momento
+
+	file hello.i
+
+ci dice che tipo di file è. Quindi
+
+	gcc -S hello.i
+
+restituisce file in assembly, ancora apribile con editor di testo. Non è eseguibile. Non ha neanche i permessi (flag x). Se poi compilo
+
+	gcc -c hello.i
+
+il risultato è hello.o, non apribile con file di testo. Se voglio brutalmente vedere cosa c'è scritto in ASCII posso fare
+
+	cat hello.o
+
+A questo punto linko.
+
+	gcc hello.o
+
+Se non specifico altro chiama il file a.out. Se eseguo ls -l
+
+	(PERMESSI)   (USER)				BYTE	DATA 		NOME
+
+	-rw-rw-r-- 1 shaytaan shaytaan   104 set 16 15:27 hello.c
+	-rw-rw-r-- 1 shaytaan shaytaan 17990 set 16 15:27 hello.i
+	-rw-rw-r-- 1 shaytaan shaytaan   724 set 16 15:27 hello.s
+	-rw-rw-r-- 1 shaytaan shaytaan  1512 set 16 15:33 hello.o
+	-rwxrwxr-x 1 shaytaan shaytaan 15960 set 16 15:36 a.out
+
+
+Notare l'evoluzione dei byte. Nel primo passaggio ho copiato l'intera libreria stdio.h, poi sono passato in assembly e ho ridotto, poi il file oggetto è in linguaggio macchina
+e infine i byte aumentano perché il linker include i moduli come definizione della printf, ecc...
+
+Posso ricostruire il processo al contrario con il disassembler
+
+	objdump -d hello.o > confronto.txt
+

@@ -1,0 +1,159 @@
+{
+  "main": {
+    "id": "f896a99bc77f07c1",
+    "type": "split",
+    "children": [
+      {
+        "id": "8337a39fc890d28f",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "2985f49c9bb966cf",
+            "type": "leaf",
+            "state": {
+              "type": "canvas",
+              "state": {
+                "file": "MI In a (big) Nutshell.canvas",
+                "viewState": {
+                  "x": 2300.6884074121053,
+                  "y": -1395.2300375659852,
+                  "zoom": -1.286666666666663
+                }
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "6ad3c98cf31e06c6",
+    "type": "split",
+    "children": [
+      {
+        "id": "88c220c694b8dff3",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "2807b5db5af5feac",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "794fe0ad09380b75",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "d80d34a79eba5bba",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 200,
+    "collapsed": true
+  },
+  "right": {
+    "id": "d858f07f26bc944b",
+    "type": "split",
+    "children": [
+      {
+        "id": "92bac382267937ff",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "e4ac91b0fb697711",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "MI In a (big) Nutshell.canvas",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "ec0379980bde64cb",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "MI In a (big) Nutshell.canvas",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "34e36540aa560b77",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "2bf95731de2a5340",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "MI In a (big) Nutshell.canvas"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "2985f49c9bb966cf",
+  "lastOpenFiles": [
+    "senses.png",
+    "Welcome.md",
+    "MI In a (big) Nutshell.canvas"
+  ]
+}

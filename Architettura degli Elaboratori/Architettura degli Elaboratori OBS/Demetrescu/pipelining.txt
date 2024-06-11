@@ -1,0 +1,121 @@
+Siamo abituati a pensare alla CPU come una macchina che esegue in sequenza delle istruzioni.
+Ogni istruzione è in realtà divisa in tre fasi: fetch-dfecode-efxecute. Ognuna di queste fasi tiene occupata una parte distinta della CPU.
+Se mando alla CPU le istruzioni in fila otterrò una cosa del tipo
+
+	FET_1 	DEC_1 	EXE_1 	FET_2 	DEC_2 	EXE_2 	FET_3 	DEC_3 	EXE_3...
+
+dove ogni step occupa un ciclo di clock e uno solo dei tre settori della CPU. Posso fare di meglio? Naturalmente sì. Se mando il secondo ciclo di istruzioni
+uno step dopo il primo e il terzo uno step dopo il secondo ottengo una cosa del tipo
+
+	FET_1 	DEC_1 	EXE_1
+	     	FET_2 	DEC_2 	EXE_2
+	    	  		FET_3 	DEC_3 	EXE_3
+
+Dove notiamo che al terzo step tutte le parti della CPU sono in funzione. A questo punto basta accodare alla prima istruzione la quarta, alla seconda la quinta, ...
+
+	FET_1 	DEC_1 	EXE_1 	FET_4 	DEC_4 	EXE_4 	FET_7 	DEC_7 	EXE_7 	...
+		 	FET_2 	DEC_2 	EXE_2 	FET_5 	DEC_5 	EXE_5 	FET_8 	DEC_8 	... 
+			  		FET_3 	DEC_3 	EXE_3 	FET_6 	DEC_6 	EXE_6 	FET_9 	... 
+
+Tutti felici e contenti, abbiamo triplicato la velocità della CPU. Questa roba in generale si chiama Instruction-Level Parallelism, e i microprocessori che la supportano si
+chiamano CPU Superscalari. Questa specifica tecnica per implementare un ILP, ovvero il PIPELINING, è solo uno dei possibili modi per velocizzare le esecuzioni.
+Un'altra possibilità è ad esempio dare istruzioni vettoriali e sfruttare un hardware la cui operazione fondamentale è su un vettore. L'esempio più ovvio è una GPU,
+ma anche unità interne della CPU, come l'unità SIMD (Single Instruction, Multiple Data) sviluppata da Intel) che esegue set di istruzioni vettoriali quali SSE (Streaming
+SIMD Extensions) o il più recente AVX (Advanced Vector Extensions).
+
+Tutto troppo bello, dove sta il problema?
+Il problema è che si tratta di un caso abbastanza ideale che non funziona sempre.
+
+	movl $0, %eax		(1)
+	addl %eax, %ecx 	(2)
+	movl $10, %edx 		(3)
+	addl %edx, %ebx 	(4)
+
+Anzitutto, nei processori reali la fase di EXECUTE è divisa in calcolo e scrittura del risultato (detta fase di "write-back" WB). Quindi per prima cosa
+
+	FET_1 	DEC_1 	EXE_1 	WB_1
+		 	FET_2 	DEC_2 	EXE_2 	WB_2
+			  		FET_3 	DEC_3 	EXE_3 	WB_3
+			  				FET_4 	DEC_4 	EXE_4 	WB_4
+
+A questo punto noto che ho dei vincoli. Ad esempio, non posso eseguire la ADD se prima non ho ultimato la MOV. Questa è una situazione detta di HAZARD, ovvero può
+verificarsi un'inconsistenza nei risultati dovuta all'errata organizzazione della pipeline. Se eseguo EXE_2 dove l'ho messa adesso, rischio di usare il valore di %eax
+prima che su questo venga copiato il valore $0. Come si risolve? Andando in STALLO. Ovvero aspettando.
+
+	FET_1 	DEC_1 	EXE_1 	WB_1
+		 	FET_2 	DEC_2 	-		EXE_2 	WB_2
+			  		FET_3 	DEC_3 	-		EXE_3 	WB_3     							# Qua devo inserire uno stallo perché non posso fare EXE_2 ed EXE_3 simultaneamente
+			  				FET_4 	DEC_4 	-		-		EXE_4 	WB_4 				# Due stalli, ovvero i due problemi precedenti che avvengono insieme
+
+Quella diagonale di stalli è detta BOLLA, ed è normale che uno stallo di propaghi. Tuttavia come programmatori possiamo minimizzarli minimizzando la diretta dipendenza tra
+righe di codice contigue. Ovvero, in questo caso, invertire le operazioni 2 e 3.
+
+	FET_1 	DEC_1 	EXE_1 	WB_1
+		 	FET_3 	DEC_3 	EXE_3 	WB_3
+			  		FET_2 	DEC_2 	EXE_2 	WB_2 										# Adesso EXE_2 avviene naturalmente dopo WB_1
+			  				FET_4 	DEC_4 	EXE_4 	WB_4 								# Ed EXE_4 dopo WB_3
+
+
+La buona notizia è che gcc fa questo tipo di ottimizzazione, detta Instruction Scheduling. Lo può fare anche la CPU, e viene detta Out Of Order Execution.
+
+Tornando agli Hazard, ce ne sono di diversi tipi.
+
+	- Dati: un dato viene richiesto prima della sua generazione (visto prima);
+	- Strutturali: un'unità richiesta è già in uso (visto prima);
+	- Controllo: se c'è un salto che faccio?
+
+Già, che faccio? Il processore ha un raffinatissimo algoritmo interno di BRANCH PREDICTION, e prova a indovinare quale strada prenderà il codice. "Segreti militari,
+i dettagli sono noti solo al produttore". E se sbaglia? "Fermi tutti, ho sbagliato, cancelliamo tutto e rifacciamo". Ma questo non fa perdere un sacco di tempo?
+Sì, ma evidentemente avere un algoritmo con una buona accuracy in prediction che eventualmente perde un po' di tempo quando sbaglia conviene di più rispetto ad
+andare sempre in stallo.
+
+	"E' per questo che alcune operazioni sono più lente di altre?"
+
+		- In parte è perché in situazioni simili potrebbero tendere a provocare misprediction;
+		- In parte è perché tutto questo schema è semplificato. Una divisione richiede più di un ciclo di clock in fase di EXECUTION, mentre per una ADD uno è sufficiente.
+
+Allora bisognerebbe EVITARE I SALTI. Come? Usando istruzioni BRANCHLESS come CMOV che non alterano il PC.
+
+A livello di prestazioni, come si misura l'efficacia del pipelining?
+
+	- Instructions Per Cycle (IPC), ovvero il numero medio di istruzioni eseguite per ciclo di clock;
+	- Cycles Per Instruction (CPI), ovvero il suo inverso.
+
+Entrambi hanno ovviamente come valore di riferimento 1. Con questi numeri è facile fare il conto di quante operazioni svolgo al secondo:
+
+	IPC = 2 e CPU = 2 GHz  -->  4*10^9 istruzioni al secondo.
+
+E come faccio a visualizzare questi valori? Ci sono dei profiler che accedono ai CONTATORI HW, come RETIRED (counter delle istruzioni completate) e i cicli richiesti,
+fino ai counter dei BRANCH MISPREDICTION. Uno di questi profiler si chiama "perf".
+
+
+NOTA STORICA
+Ci sono due scuole di pensiero sull'architettura e sull'ISA dei processori.
+
+	- RISC (Reduced Instruction Set Computing): fornisce un ISA minimale formato da operazioni semplici e veloci. L'obiettivo è un controllo fine sulle prestazioni;
+
+	- CISC (Complex Instruction Set Computing): fornisce un ISA più ricco formato da operazioni più lente e complesse. L'obiettivo è scrivere meno codice possibile;
+
+Questo ha anche impatti su:
+
+	- Efficienza energetica: RISC consuma meno.
+
+	- Complessità dell'HW: ad esempio, un processore RISC non fornirà una ADD che accetta sorgente in memoria, perché l'HW non ha un circuito interno in grado di eseguire
+		in una sola operazione il prelevamento dalla HEAP e la somma;
+
+	- Codifica: tipicamente in un RISC ogni operazione è codificata dallo stesso numero di byte;
+
+	- Obiettivo: RISC si condentra sul design, CISC sul designer.
+
+Esempi di RISC sono supercomputer e smartphone (serve efficienza), sono invece CISC le architetture come x86. Oltretutto il pipelining nasce con RISC (per ovvie ragioni).
+
+
+MODI DI ESECUZIONE
+La CPU ha un flag che tiene traccia dei privilegi con cui sta effettuando una certa operazione. Quelle principali sono
+
+	- Utente: la CPU può eseguire solo determinate istruzioni, dette "sicure";
+	- Supervisore: la CPU può eseguire tutte le istruzioni.
+
+Questo perché lasciare la libertà all'utente di scrivere su certi indirizzi non è una grande idea. Il SO ha i permessi da supervisore (ovviamente).
+NON esiste alcuna istruzione per passare in modalità supervisore. Cose come root e sudo ti permettono di trasformarti nel super-utente con tutti i permessi da utente,
+ma sempre utente resti.
