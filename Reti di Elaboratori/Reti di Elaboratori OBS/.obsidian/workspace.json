@@ -15,9 +15,9 @@
               "state": {
                 "file": "Reti.canvas",
                 "viewState": {
-                  "x": -4119.28478192766,
-                  "y": 8247.007048817468,
-                  "zoom": -4
+                  "x": 2237.7957282236084,
+                  "y": 4989.5019212332145,
+                  "zoom": -0.4966666666666677
                 }
               }
             }
@@ -161,6 +161,8 @@
   },
   "active": "fcf5f3edeede3096",
   "lastOpenFiles": [
+    "Screenshot from 2024-06-12 12-02-06.png",
+    "ARPFormat.png",
     "2 - Data Link Layer/PureAloha.png",
     "2 - Data Link Layer/CSMA_CD.png",
     "Reti.canvas",
@@ -171,8 +173,6 @@
     "4 - Trasporto/TCP/Congestione/FairnessAIMD.png",
     "4 - Trasporto/TCP/HandshakingErrorDuplicateData.png",
     "3 - Rete/Protocolli di Instradamento/HierarchicOSPF.png",
-    "3 - Rete/Screenshot from 2024-05-23 17-31-44.png",
-    "3 - Rete/DettaglioControllerSDN.png",
     "3 - Rete/Protocolli di Instradamento",
     "2 - Data Link Layer/Protocolli Collegamento",
     "3 - Rete",
