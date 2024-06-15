@@ -15,10 +15,22 @@
               "state": {
                 "file": "Reti.canvas",
                 "viewState": {
-                  "x": 2237.7957282236084,
-                  "y": 4989.5019212332145,
-                  "zoom": -0.4966666666666677
+                  "x": -1063.8943366347335,
+                  "y": 4632.962126357491,
+                  "zoom": 0.3999999999999999
                 }
+              }
+            }
+          },
+          {
+            "id": "30be8d4bbec48825",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Backoff Esponenziale.md",
+                "mode": "source",
+                "source": false
               }
             }
           },
@@ -161,18 +173,19 @@
   },
   "active": "fcf5f3edeede3096",
   "lastOpenFiles": [
+    "VPN.png",
+    "AutenticazioneCompleta.png",
+    "FirmaDigitale.png",
+    "DES.png",
+    "RFID.png",
+    "Bluetooth.png",
+    "Backoff Esponenziale.md",
+    "Reti.canvas",
+    "PrenotazioneCanale.png",
+    "CSMA_CA.png",
     "Screenshot from 2024-06-12 12-02-06.png",
     "ARPFormat.png",
     "2 - Data Link Layer/PureAloha.png",
-    "2 - Data Link Layer/CSMA_CD.png",
-    "Reti.canvas",
-    "2 - Data Link Layer/CSMA_CD.png",
-    "2 - Data Link Layer/SlottedAloha.png",
-    "3 - Rete/LawISP.png",
-    "2 - Data Link Layer/802.1q.png",
-    "4 - Trasporto/TCP/Congestione/FairnessAIMD.png",
-    "4 - Trasporto/TCP/HandshakingErrorDuplicateData.png",
-    "3 - Rete/Protocolli di Instradamento/HierarchicOSPF.png",
     "3 - Rete/Protocolli di Instradamento",
     "2 - Data Link Layer/Protocolli Collegamento",
     "3 - Rete",

@@ -1,0 +1,3 @@
+- dopo l'$n$-esima collisione, il NIC estrae a caso un valore $k$ nell'intervallo $[0, 2^n-1]$, attende $k$ slot ($\Rightarrow$ tempo per tramettere un frame di $512\,bit$) e torna al punto 2;
+	- più collisioni allungano l'intervallo di backoff;
+	- I tempi si aggiornano in modo un po' caotico, non è ovvio prevederne il comportamento a livello teorico.
