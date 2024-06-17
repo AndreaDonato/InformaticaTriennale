@@ -15,9 +15,9 @@
               "state": {
                 "file": "Reti.canvas",
                 "viewState": {
-                  "x": -1063.8943366347335,
-                  "y": 4632.962126357491,
-                  "zoom": 0.3999999999999999
+                  "x": -2341.2418538268953,
+                  "y": 3169.297486157338,
+                  "zoom": -1.5999999999999996
                 }
               }
             }
@@ -38,13 +38,19 @@
             "id": "05861cb616e0fb28",
             "type": "leaf",
             "state": {
-              "type": "release-notes",
+              "type": "canvas",
               "state": {
-                "currentVersion": "1.5.12"
+                "file": "Reti.canvas",
+                "viewState": {
+                  "x": -4796.885801202114,
+                  "y": 1340.8886822000622,
+                  "zoom": -5.551115123125783e-16
+                }
               }
             }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -171,8 +177,10 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "fcf5f3edeede3096",
+  "active": "05861cb616e0fb28",
   "lastOpenFiles": [
+    "Untitled.canvas",
+    "Reti.canvas",
     "VPN.png",
     "AutenticazioneCompleta.png",
     "FirmaDigitale.png",
@@ -180,12 +188,10 @@
     "RFID.png",
     "Bluetooth.png",
     "Backoff Esponenziale.md",
-    "Reti.canvas",
     "PrenotazioneCanale.png",
     "CSMA_CA.png",
     "Screenshot from 2024-06-12 12-02-06.png",
     "ARPFormat.png",
-    "2 - Data Link Layer/PureAloha.png",
     "3 - Rete/Protocolli di Instradamento",
     "2 - Data Link Layer/Protocolli Collegamento",
     "3 - Rete",
@@ -198,7 +204,6 @@
     "4 - Trasporto/RDT",
     "4 - Trasporto",
     "0 - Stack Protocollare",
-    "Untitled.canvas",
     "Welcome.md"
   ]
 }
