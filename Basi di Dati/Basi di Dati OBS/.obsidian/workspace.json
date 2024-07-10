@@ -15,9 +15,9 @@
               "state": {
                 "file": "HowToBDD.canvas",
                 "viewState": {
-                  "x": -5805.219957993656,
-                  "y": 4153.375891587866,
-                  "zoom": -0.8000000000000006
+                  "x": -2267.991208608902,
+                  "y": 4962.031324976744,
+                  "zoom": 0.19999999999999996
                 }
               }
             }
@@ -152,9 +152,19 @@
   },
   "active": "b3c5c0d649469bfa",
   "lastOpenFiles": [
-    "Untitled.md",
+    "Screenshot from 2024-07-08 15-49-23.png",
+    "CartesianoRelazione.png",
     "HowToBDD.canvas",
-    "Screenshot from 2024-04-13 20-40-23.png",
+    "Screenshot from 2024-07-06 22-24-32.png",
+    "Transazioni.png",
+    "ScheduleSerializzabile.png",
+    "B-Tree_Reorganized_Inserimento25.png",
+    "B-Tree.png",
+    "BadHashing20GoodHashing23.png",
+    "GoodHashing.png",
+    "SchemiIntegrati.png",
+    "SchemiUniformati.png",
+    "Untitled.md",
     "Welcome.md",
     "modelli_logici.txt",
     "0 - Introduzione.txt"
