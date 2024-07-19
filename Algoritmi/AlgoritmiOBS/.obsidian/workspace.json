@@ -1,23 +1,23 @@
 {
   "main": {
-    "id": "66f5c1efc55dce6d",
+    "id": "28e7e7f850e4f5df",
     "type": "split",
     "children": [
       {
-        "id": "da4de723f744830e",
+        "id": "53aa87e36def1e0d",
         "type": "tabs",
         "children": [
           {
-            "id": "b3c5c0d649469bfa",
+            "id": "d2e0f8f7bb6fc5ac",
             "type": "leaf",
             "state": {
               "type": "canvas",
               "state": {
-                "file": "HowToBDD.canvas",
+                "file": "AlgoritmiCanvas.canvas",
                 "viewState": {
-                  "x": -5721.958550270755,
-                  "y": 3387.329361180427,
-                  "zoom": -2.4000000000000004
+                  "x": -102.80952555870911,
+                  "y": 670.3200167461844,
+                  "zoom": -0.9999999999999999
                 }
               }
             }
@@ -28,15 +28,15 @@
     "direction": "vertical"
   },
   "left": {
-    "id": "d0d091d71ba3a160",
+    "id": "bd8eaf8f3e78b5d0",
     "type": "split",
     "children": [
       {
-        "id": "52602249fbc71e87",
+        "id": "d85da70cafb3726a",
         "type": "tabs",
         "children": [
           {
-            "id": "cc3837d69ce973d9",
+            "id": "3e4208091d08a806",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -46,7 +46,7 @@
             }
           },
           {
-            "id": "944233211d0e99c3",
+            "id": "07b467f95f43756c",
             "type": "leaf",
             "state": {
               "type": "search",
@@ -61,7 +61,7 @@
             }
           },
           {
-            "id": "6b86c4cc84385e5c",
+            "id": "1b1ce8497b69f108",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
@@ -75,20 +75,20 @@
     "width": 300
   },
   "right": {
-    "id": "f71eb72e6e643466",
+    "id": "f2fb60b5818f7ea2",
     "type": "split",
     "children": [
       {
-        "id": "75cefd2c7a920890",
+        "id": "b1522e3ee259ecb4",
         "type": "tabs",
         "children": [
           {
-            "id": "bc12321880ec72b3",
+            "id": "a4e4263c6ca53933",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-                "file": "HowToBDD.canvas",
+                "file": "AlgoritmiCanvas.canvas",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -100,19 +100,19 @@
             }
           },
           {
-            "id": "47f3de9df2ef7160",
+            "id": "3b01097723a66737",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "HowToBDD.canvas",
+                "file": "AlgoritmiCanvas.canvas",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
             }
           },
           {
-            "id": "7db2761464da0eb9",
+            "id": "7e49e8663a0c7dd7",
             "type": "leaf",
             "state": {
               "type": "tag",
@@ -123,17 +123,16 @@
             }
           },
           {
-            "id": "d7294f97462c2ea6",
+            "id": "3f32acec8ad216f0",
             "type": "leaf",
             "state": {
               "type": "outline",
               "state": {
-                "file": "HowToBDD.canvas"
+                "file": "AlgoritmiCanvas.canvas"
               }
             }
           }
-        ],
-        "currentTab": 3
+        ]
       }
     ],
     "direction": "horizontal",
@@ -150,23 +149,9 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "b3c5c0d649469bfa",
+  "active": "d2e0f8f7bb6fc5ac",
   "lastOpenFiles": [
-    "Screenshot from 2024-07-08 15-49-23.png",
-    "CartesianoRelazione.png",
-    "HowToBDD.canvas",
-    "Screenshot from 2024-07-06 22-24-32.png",
-    "Transazioni.png",
-    "ScheduleSerializzabile.png",
-    "B-Tree_Reorganized_Inserimento25.png",
-    "B-Tree.png",
-    "BadHashing20GoodHashing23.png",
-    "GoodHashing.png",
-    "SchemiIntegrati.png",
-    "SchemiUniformati.png",
-    "Untitled.md",
     "Welcome.md",
-    "modelli_logici.txt",
-    "0 - Introduzione.txt"
+    "AlgoritmiCanvas.canvas"
   ]
 }
