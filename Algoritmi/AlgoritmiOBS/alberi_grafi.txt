@@ -1,0 +1,86 @@
+Rilassare la condizione di avere al più due figli porta agli alberi n-ari.
+Rilassare la condizione di avere uno e un solo padre porta ai GRAFI.
+
+ALBERI N-ARI
+Dal momento che non conosco il numero di figli del generico nodo, ognuno di essi si compone del campo info e di un
+puntatore alla lista dei figli. Come sono fatti gli elementi della lista? Ognuno di essi ha un campo next che punta
+al figlio successivo e un campo puntatore a nodo, la cui struttura è di nuovo info + puntatore a lista di figli.
+
+	NodoAlbero
+		- info
+		- puntatore a ListaFigli
+
+	ListaFigli
+		- next
+		- puntatore a NodoAlbero
+
+Si tratta di una definizione circolare, in cui NodoAlbero è definita tramite ListaFigli e ListaFigli tramite NodoAlbero.
+Appare evidente che almeno in C/C++ è necessario prima dichiarare l'esistenza della seconda struct e poi scrivere
+l'implementazione. 
+
+	typedef int tree_type;
+	struct StructNodoFiglio;
+
+	struct StructAlbero
+	{
+		tree_type info;
+		struct StructNodoFiglio* figli;
+	};
+
+	struct StructNodoFiglio					// Lista avente elementi puntatori ad albero
+	{
+		struct StructAlbero* albero;
+		struct StructNodoFiglio* next;
+	};
+
+	typedef struct StructAlbero Tree_Node;
+	typedef struct StructAlbero* Tree;
+	typedef struct StructNodoFiglio* Tree_Son;
+
+Le funzioni utilizzate per l'albero N-ario sono la naturale estensione di quelle usate nel caso binario.
+L'unica differenza sostanziale è che i figli non hanno un nome esplicito (destro/sinistro), e nel creare un albero devo
+aggiungere esplicitamente il subtree alla lista dei figli, preferibilmente in testa alla lista per motivi di efficienza
+(e quindi a sinistra). Il modo di visitare l'albero diventa
+
+	- Preordine: Visito prima la radice e poi tutti i figli;
+	- Postordine: Visito prima tutti i figli e poi la radice.
+
+Non ha molto senso la visita simmetrica, per ovvi motivi. Naturalmente non sapendo quante sono le chiamate per leggere i
+figli devo usare un metodo iterativo o ricorsivo. In genere il modo più semplice è scrivere una funzione ad hoc, che itera
+sui figli e a sua volta richiama la funzione di visita sui figli visitati, rendendo il tutto un processo ricorsivo.
+
+NB: Approssimativo. Riguarda lezione 32 su YT.
+
+
+GRAFI
+Insiemi di nodi collegati tra loro in qualunque modo. Oltre a questo, una prima distinzione è tra
+
+	- Grafi NON ORIENTATI, ovvero in cui gli archi indicano collegamenti bidirezionali: se A è collegato a B, allora
+		B è collegato ad A;
+
+	- Grafi ORIENTATI, in cui gli archi si indicano con una freccia e implicano un verso di collegamento: A può essere
+		collegato a B anche se B non è collegato ad A.
+
+Oltre a questo, è possibile mettere delle ETICHETTE sugli archi (GRAFI PESATI). Una seconda distinzione è tra grafi
+
+	- STATICI, in cui il numero dei nodi è noto a priori;
+
+		- Si possono rappresentare in modo più semplice, come una matrice avente come ingressi i nodi e valori booleani
+			che indicano se è presente o meno quel collegamento (MATRICE DI ADIACENZA). Si noti che per un grafo non
+			orientato questa matrice è simmetrica. Se il grafo è pesato, al posto dei valori booleani 0/1 si possono
+			mettere direttamente i pesi.
+
+		- Se il grafo è SPARSO (pochi elementi collegati rispetto al totale) la matrice di adiacenza è sconveniente.
+	
+	- DINAMICI, in cui non lo è.
+
+		- La rappresentazione dipende dal numero effettivo dei nodi e degli archi.
+		- Si implementa con SCL. Ad esempio, vettore con elementi corrispondenti ai nodi che puntano a SCL con
+			collegamenti degli archi (liste di successori). Oppure lista di liste. Oppure albero n-ario senza
+			vincoli sui figli che devono fare riferimento a nodi adiacenti.
+
+SALTATA IMPLEMENTAZIONE IN C
+
+NB: Approssimativo. Riguarda lezione 33 su YT.
+
+NMB: Oggi sto fuso.

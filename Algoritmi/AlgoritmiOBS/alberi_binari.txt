@@ -1,0 +1,184 @@
+L'albero è un tipo di dato non lineare utilizzato per memorizzare informazioni in modo gerarchico.
+E'costituito da nodi, che rappresentano le informazioni, e archi, che rappresentano relazioni di discendenza
+diretta tra nodi. In particolare, dato un generico nodo X si possono riconoscere:
+
+	- Suo PADRE, ovvero il nodo che ha un collegamento in uscita verso X. In generale, ogni nodo ha esattamente
+		un padre eccezion fatta per il NODO RADICE, da cui si genera l'albero;
+
+	- I suoi FRATELLI, ovvero i nodi che hanno lo stesso padre di X;
+
+	- I suoi FIGLI, ovvero nodi verso cui X ha collegamenti in uscita (di cui X è quindi il padre);
+
+	- Le FOGLIE DELL'ALBERO, ovvero nodi che non sono padri o equivalentemente non hanno figli.
+
+Il nodo radice costituisce il LIVELLO ZERO dell'albero, e ogni nodo si trova al livello del padre + 1.
+Il massimo livello raggiunto da una foglia è detto PROFONDITA'. E' possibile individuare dei SOTTOALBERI
+a partire da un generico nodo, ovvero alberi aventi come nodo radice, ad esempio, i figli di quel nodo.
+Si noti che tutti i sottoalberi sono disgiunti.
+
+ALBERI BINARI
+Sono alberi con il vincolo che ogni nodo può avere al più 2 figli, distinti in DESTRO e SINISTRO.
+Conviene definire l'albero binario nel seguente modo:
+
+	- l'albero vuoto è un albero binario;
+
+	- se S e D sono due alberi binari, allora l’albero che ha un nodo radice e S e D come sottoalberi
+		è un albero binario;
+
+	- nient’altro è un albero binario.
+
+Questo perché si presta alla ricorsione. Se il numero massimo di figli è fissato, si può definire un albero
+COMPLETO se ogni nodo non-foglia ha esattamente due (N) figli e le foglie sono tutte allo stesso livello.
+Se la profondità è k, un albero binario completo ha esattamente 2^{k+1} - 1 nodi.
+
+
+TIPO ASTRATTO ALBERO BINARIO
+Le funzioni caratteristiche del tipo astratto albero binario sono:
+
+	- empty_binary_tree() → BinaryTree
+		Restituisce l'albero binario vuoto (senza nodi);
+
+	- Create_Binary_Tree(tree_type x, BinaryTree s, BinaryTree d) → BinaryTree
+		Restituisce l'albero avente radice x e sotto alberi destro e sinistro s e d;
+
+	- is_tree_empty(BinaryTree t) → Boolean
+		True se l'albero in input è vuoto;
+
+	- tree_root(BinaryTree t) → tree_type
+		Restituisce il valore del nodo radice;
+
+	- Left_SubTree(BinaryTree t) → BinaryTree
+		Restituisce il sottoalbero sinistro di t;
+
+	- Right_SubTree(BinaryTree t) → BinaryTree
+		Restituisce il sottoalbero destro di t.
+
+L'implementazione è effettuabile sia con array che con SCNL (NON LINEARE!).
+
+	- ARRAY: Si presta particolarmente per alberi completi. Devo allocare memoria a priori. Dato un generico nodo in
+		posizione i, per accedere al figlio sinistro dovrò andare in posizione 2i+1, per il destro 2i+2. Se l'albero
+		non è completo devo prevedere un carattere speciale per le locazioni prive di nodo. Ad esempio, ogni elemento
+		è una struct a due campi contenenti l'informazione e un valore booleano di validità. Inoltre, se l'albero è molto
+		vuoto alloco memoria O(exp(n)) inutilmente. Esempio di implementazione in C sulle dispense, p. 331;
+
+	- SCNL: La rappresentazione collegata è dinamica dal punto di vista della memoria. 
+
+			struct StructAlbero
+			{
+				tree_type info;
+				struct StructAlbero *right, *left;		// Due puntatori a struct -> NON LINEARE
+			};
+			typedef struct StructAlbero Tree_Node;
+			typedef TipoNodoAlbero* Tree;
+
+		L'albero vuoto è NULL. Sulle dispense (p. 334) c'è un'implementazione.
+		Il costo di un albero è costante per ogni nodo, dunque per N nodi sarà O(N). Notare che anche qui per un albero
+		molto vuoto devo allocare memoria con costo O(N).
+
+	- STRINGHE: Anche detta RAPPRESENTAZIONE PARENTETICA, particolarmente utile nell'I/O.
+
+		- L'albero vuoto è rappresentato da ();
+
+		- L'albero avente nodo radice R e sottoalberi S e D è indicato come (R f(S) f(D)), dove le f indicano le
+			rappresentazioni degli alberi S e D.
+
+		Rappresentazione sulle dispense p. 337.
+
+
+VISITA DEGLI ELEMENTI DELL'ALBERO
+Come sempre, si possono usare metodi iterativi o ricorsivi. Entrambi usano struttre dati di supporto di tipo pila o
+coda, ma mentre nell'iterazione deve scriverle esplicitamente il programmatore, nella ricorsione il tipo pila è
+implicito (pila dei RDA). Non essendo una struttura lineare ci sono diversi modi di visitare l'albero.
+
+	- VISITA IN PROFONDITA': Ci si sposta lungo gli archi padre-figlio. La struttura di supporto è di tipo PILA, quindi
+		si predilige il paradigma ricorsivo (pur restando fattibile quello iterativo).
+
+			if T non è vuoto
+			{
+				analizza il nodo radice di T 			// 1 -  Oeperazione dominante, se ha costo O(x) la visita ha
+														//		costo complessivo O(Nx).
+				visita il sottoalbero sinistro di T 	// 2
+				visita il sottoalbero destro di T 		// 3
+			}
+			else passo base;
+
+		Analogo alle SCL, ma con due chiamate ricorsive. Scambiare l'ordine delle operazioni porta a tipi di visite
+		diverse:
+
+			- Visita in preordine: sequenza di operazioni 1 2 3 (legge gli elementi dall'alto verso il basso e da
+				destra verso sinistra, schema a "rette parallele");
+
+			- Visita simmetrica	 : sequenza di operazioni 2 1 3 (legge prima i sottoalberi sinistri in senso orario
+				a partire dall'elemento sinistro, poi il nodo radice e poi i destri allo stesso modo);
+
+			- Visita in postrdine: sequenza di operazioni 2 3 1 (legge prima i sottoalberi sinistri in senso antiorario
+				a partire dall'elemento destro, poi quelli destri allo stesso modo e infine risale al nodo radice);
+
+		Nonostante non siano scritti nelle dispense (e magari non serve a niente) aggiungo che
+
+			- Preordine inverso (3 2 1) è uguale al postordine invertendo sinistro<->destro e orario<->antiorario;
+
+			- Simmetrica inversa (3 1 2) è uguale alla simmetrica invertendo sinistro<->destro e orario<->antiorario;
+
+			- Postordine inverso (1 3 2) è uguale al preordine invertendo destra<->sinistra.
+
+		Seguono applicazioni (p. 343). Ad esempio, il calcolo della profondità come
+
+		int f(Tree T)
+		{
+			return 1 + max(f(T->Left), f(T->Right));
+		}
+
+		è un processo in postordine (visito prima i sottoalberi e poi ne calcolo il massimo per aggiungerli al nodo
+		radice).
+
+	- VISITA IN AMPIEZZA (o PER LIVELLI): Ci si sposta appunto per livelli, quindi tra fratelli. La struttura di
+		supporto è una CODA, motivo per cui è altamente sconveniente usare la ricorsione (bisogna implementare una
+		coda a partire dalla pila dei RDA...). Si usa quindi solo l'ITERAZIONE.
+
+
+RAPPRESENTAZIONE DELL'ARITMETICA E ALBERI SINTATTICI
+Tramite gli alberi binari è possibile rappresentare esperessioni algebriche.
+
+	- I nodi non foglie rappresentano operazioni (+, -, *, /, ...);
+	- Le foglie rappresentano valori numerici (2, 7, ...).
+
+Così facendo, oltre a poter valutare le espessioni a partire dal loro albero, è possibile verificare la correttezza
+sintattica di un'espressione. Se dovessi scrivere 5*7-/ l'albero creato avrebbe * come nodo radice, 5 come sottoalbero
+sinistro (foglia), - come radice del sottoalbero destro avente a sua volta foglie 7 e /. Ma / non può essere una foglia,
+e infatti l'espressione di partenza non ha senso. Secondo questo stesso principio, il precompilatore costruisce l'
+ALBERO SINTATTICO secondo le regole del linguaggio di programmazione da compilare e verifica eventuali errori del
+programmatore. Notare che l'esecuzione delle operazioni è un processo in postordine, mentre se si volesse stampare
+l'espressione a partire dall'albero sarebbe necessario un processo simmetrico. Inoltre è conveniente usare la condizione
+di essere su una foglia come caso base (piuttosto che l'albero vuoto).
+
+
+ALBERI DI RICERCA
+Strutture collegate con ricerca efficiente (nelle SCL non potevo usare la ricerca binaria di costo O(log(N))).
+Contengono informazioni ordinabili (in modo algebrico, lessico-grafico, ...) e sono tali che
+
+	- il valore di ogni nodo nel sottoalbero sinistro è minore o uguale al valore della radice rispetto alla
+		relazione d’ordine;
+	- il valore di ogni nodo nel sottoalbero destro è maggiore o uguale al valore della radice rispetto alla
+		relazione d’ordine;
+	- i sottoalberi sinistro e destro sono a loro volta alberi binari di ricerca.
+
+Segue che posso implementare la ricerca binaria. Faccio al più una operazione per livello, quindi al più
+k operazioni, dove k è la profondità dell'albero. Ma devo esprimere il costo in funzione dell'input!
+Nel caso peggiore (albero degenere), il numero di elementi coincide con la profondità (quindi O(N)).
+Si tratta appunto di un caso peggiore, e ci sono metodi per far sì che l'albero sia bilanciato. Nel caso migliore
+l'albero è completo, e il costo è O(log(N)).
+
+
+ESEMPIO: OPERAZIONI SU LIVELLI CON VISITA IN PROFONDITA'
+Essendo la visita in ampiezza molto complessa, può essere utile sapere che alcuni problemi che lavorano sul livello
+possono essere risolti in modo ricorsivo. Questo avviene passando il livello come parametro e aggiornandolo nelle
+chiamate di funzione.
+
+	void f(Tree T, ..., int level);			// Poi chiamata come f(T->Left/Right, ..., level + 1);
+
+Un esempio può essere verificare se esiste una foglia al livello L, o stampare tutti i nodi di quel livello.
+
+
+NB: Ho lasciato in sospeso il dettaglio della visita per livelli e l'implementazione manuale di pile/code per
+il caso iterativo delle visite. Mancano inoltre le ultime due esercitazioni.
