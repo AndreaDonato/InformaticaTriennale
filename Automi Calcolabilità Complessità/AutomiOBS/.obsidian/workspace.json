@@ -15,9 +15,9 @@
               "state": {
                 "file": "AutomiCanvas.canvas",
                 "viewState": {
-                  "x": 0,
-                  "y": 0,
-                  "zoom": 0
+                  "x": 1165.5427617854984,
+                  "y": 3195.730268699168,
+                  "zoom": 0.6233333333333323
                 }
               }
             }
@@ -151,7 +151,19 @@
   },
   "active": "5a651728612d250d",
   "lastOpenFiles": [
-    "Welcome.md",
-    "AutomiCanvas.canvas"
+    "PumpingLemmaRegex.png",
+    "RiduzioneGNFA.png",
+    "RegEx.png",
+    "M6.png",
+    "M5.png",
+    "Esempi/M1.png",
+    "AutomiCanvas.canvas",
+    "Esempi",
+    "Esempi/M4-DFA.png",
+    "Esempi/M4_NFA.png",
+    "Esempi/M3.png",
+    "Esempi/M2.png",
+    "GNFA.png",
+    "Welcome.md"
   ]
 }

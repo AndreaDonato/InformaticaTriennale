@@ -15,9 +15,9 @@
               "state": {
                 "file": "Reti.canvas",
                 "viewState": {
-                  "x": -5141.075349629306,
-                  "y": 5746.754517389534,
-                  "zoom": -3.5999999999999996
+                  "x": 2102.9865324877765,
+                  "y": 13833.261782624084,
+                  "zoom": -3.2
                 }
               }
             }
@@ -151,8 +151,9 @@
   },
   "active": "05861cb616e0fb28",
   "lastOpenFiles": [
-    "Backoff Esponenziale.md",
+    "4 - Trasporto/RDT/Compare_GBN-SR.png",
     "Reti.canvas",
+    "Backoff Esponenziale.md",
     "Untitled.canvas",
     "VPN.png",
     "AutenticazioneCompleta.png",
