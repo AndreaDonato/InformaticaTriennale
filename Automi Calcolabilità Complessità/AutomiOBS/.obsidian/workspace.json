@@ -15,9 +15,9 @@
               "state": {
                 "file": "AutomiCanvas.canvas",
                 "viewState": {
-                  "x": 1165.5427617854984,
-                  "y": 3195.730268699168,
-                  "zoom": 0.6233333333333323
+                  "x": -2466.2096491596917,
+                  "y": -2221.4193648375617,
+                  "zoom": -0.8000000000000002
                 }
               }
             }
@@ -151,19 +151,19 @@
   },
   "active": "5a651728612d250d",
   "lastOpenFiles": [
+    "PumpingLemmaCFL.png",
     "PumpingLemmaRegex.png",
-    "RiduzioneGNFA.png",
-    "RegEx.png",
-    "M6.png",
-    "M5.png",
-    "Esempi/M1.png",
     "AutomiCanvas.canvas",
-    "Esempi",
+    "P2.png",
     "Esempi/M4-DFA.png",
-    "Esempi/M4_NFA.png",
-    "Esempi/M3.png",
-    "Esempi/M2.png",
-    "GNFA.png",
+    "DFA_FromNFA.png",
+    "P1.png",
+    "PushdownAutomaton.png",
+    "AmbiguousG5.png",
+    "Screenshot from 2024-08-12 17-46-59.png",
+    "G4.png",
+    "Screenshot from 2024-08-02 11-09-23.png",
+    "Esempi",
     "Welcome.md"
   ]
 }
