@@ -1,23 +1,23 @@
 {
   "main": {
-    "id": "88a867de8d11fb45",
+    "id": "442572098878ab52",
     "type": "split",
     "children": [
       {
-        "id": "91c154802453b639",
+        "id": "e5f766e1ae8413d0",
         "type": "tabs",
         "children": [
           {
-            "id": "5a651728612d250d",
+            "id": "646b6734d5e7169f",
             "type": "leaf",
             "state": {
               "type": "canvas",
               "state": {
                 "file": "AutomiCanvas.canvas",
                 "viewState": {
-                  "x": 1465.1221514181566,
-                  "y": -840.3680045592184,
-                  "zoom": -3.0233333333333343
+                  "x": 815,
+                  "y": -68,
+                  "zoom": -4
                 }
               }
             }
@@ -28,15 +28,15 @@
     "direction": "vertical"
   },
   "left": {
-    "id": "c34f77a1113855d8",
+    "id": "4142c357bc24f807",
     "type": "split",
     "children": [
       {
-        "id": "5ae65adc2aa6c7f9",
+        "id": "13dc943ff5019f6a",
         "type": "tabs",
         "children": [
           {
-            "id": "3cc3e2fe707084fb",
+            "id": "9243f501be882e89",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -46,7 +46,7 @@
             }
           },
           {
-            "id": "6b1ee24884fa7ddf",
+            "id": "70d6252da2266ab5",
             "type": "leaf",
             "state": {
               "type": "search",
@@ -61,7 +61,7 @@
             }
           },
           {
-            "id": "c55c2c3543ac9cea",
+            "id": "e9e56106dd170998",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
@@ -75,15 +75,15 @@
     "width": 300
   },
   "right": {
-    "id": "1902201cb152b09e",
+    "id": "f436ad6ad697009b",
     "type": "split",
     "children": [
       {
-        "id": "d1d58281467b532a",
+        "id": "9f3cda3682fbfaf3",
         "type": "tabs",
         "children": [
           {
-            "id": "4f38b894bf090af1",
+            "id": "193e4223a48e4933",
             "type": "leaf",
             "state": {
               "type": "backlink",
@@ -100,7 +100,7 @@
             }
           },
           {
-            "id": "7f2a8a0afa69a5d1",
+            "id": "3ed6bd721640316a",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
@@ -112,7 +112,7 @@
             }
           },
           {
-            "id": "da8513572b59b7ea",
+            "id": "f46d2300ac999c7a",
             "type": "leaf",
             "state": {
               "type": "tag",
@@ -123,7 +123,7 @@
             }
           },
           {
-            "id": "3a42c2bbce289ebd",
+            "id": "f773f3b3c1fbb36b",
             "type": "leaf",
             "state": {
               "type": "outline",
@@ -149,21 +149,10 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "5a651728612d250d",
+  "active": "646b6734d5e7169f",
   "lastOpenFiles": [
-    "PumpingLemmaCFL.png",
-    "PumpingLemmaRegex.png",
-    "AutomiCanvas.canvas",
-    "P2.png",
-    "Esempi/M4-DFA.png",
-    "DFA_FromNFA.png",
-    "P1.png",
-    "PushdownAutomaton.png",
     "AmbiguousG5.png",
-    "Screenshot from 2024-08-12 17-46-59.png",
-    "G4.png",
-    "Screenshot from 2024-08-02 11-09-23.png",
-    "Esempi",
+    "AutomiCanvas.canvas",
     "Welcome.md"
   ]
 }

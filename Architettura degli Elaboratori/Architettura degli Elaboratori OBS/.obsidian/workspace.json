@@ -8,22 +8,6 @@
         "type": "tabs",
         "children": [
           {
-            "id": "f433313ef5ed4fdb",
-            "type": "leaf",
-            "state": {
-              "type": "graph",
-              "state": {}
-            }
-          },
-          {
-            "id": "9a853e828833e024",
-            "type": "leaf",
-            "state": {
-              "type": "graph",
-              "state": {}
-            }
-          },
-          {
             "id": "e61c37cc6e20790e",
             "type": "leaf",
             "state": {
@@ -31,15 +15,14 @@
               "state": {
                 "file": "main.canvas",
                 "viewState": {
-                  "x": -98.82641765082957,
-                  "y": 3488.922719416041,
-                  "zoom": -1.5671754827938749
+                  "x": 1944.2953191149427,
+                  "y": 3179.6902093809026,
+                  "zoom": -5.551115123125783e-16
                 }
               }
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "vertical"
