@@ -15,8 +15,8 @@
               "state": {
                 "file": "AutomiCanvas.canvas",
                 "viewState": {
-                  "x": -5635.468185442262,
-                  "y": -7122.078933981352,
+                  "x": -1535.496490367536,
+                  "y": -6442.424165917022,
                   "zoom": -0.8000000000000006
                 }
               }
@@ -151,6 +151,8 @@
   },
   "active": "d841f27e467f63bf",
   "lastOpenFiles": [
+    "Pasted image 20240903180925.png",
+    "StrategiaVincente.png",
     "Tableau.png",
     "ComplexityClasses2.png",
     "ComplexityClasses.png",
@@ -162,9 +164,7 @@
     "Screenshot from 2024-08-02 11-09-23.png",
     "Linguaggi Context-Free/ParseTree.png",
     "Linguaggi Context-Free/G4.png",
-    "Macchine di Touring/ClassiDiLinguaggi.png",
     "Linguaggi Context-Free",
-    "Linguaggi Regolari/GNFA.png",
     "Linguaggi Regolari",
     "Linguaggi Regolari/Esempi"
   ]
