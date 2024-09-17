@@ -15,9 +15,9 @@
               "state": {
                 "file": "AlgoritmiCanvas.canvas",
                 "viewState": {
-                  "x": 2161.576804058188,
-                  "y": 2497.790892322829,
-                  "zoom": -2.8000000000000003
+                  "x": 3816.927888553724,
+                  "y": 2613.546155130168,
+                  "zoom": -4
                 }
               }
             }
@@ -151,17 +151,21 @@
   },
   "active": "d2e0f8f7bb6fc5ac",
   "lastOpenFiles": [
-    "Screenshot from 2024-07-28 14-46-37.png",
+    "EsempioEliminazione.png",
     "AlgoritmiCanvas.canvas",
-    "Screenshot from 2024-07-27 19-06-58.png",
+    "PreOrder.gif",
+    "InOrder.gif",
+    "Postorder.gif",
+    "InDepthVisit.jpg",
+    "VisitaInProfondità.png",
+    " 1",
+    "RotazioniARB.png",
     "Screenshot from 2024-08-21 16-43-50.png",
     "().md",
     "alberi_binari.txt",
     "alberi_grafi.txt",
     "TerminologiaAlbero.png",
     "Heap.png",
-    "MergeSort.png",
-    "AlberoSuTreElementi.png",
     "Welcome.md"
   ]
 }

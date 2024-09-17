@@ -15,9 +15,9 @@
               "state": {
                 "file": "main.canvas",
                 "viewState": {
-                  "x": 1944.2953191149427,
-                  "y": 3179.6902093809026,
-                  "zoom": -5.551115123125783e-16
+                  "x": -6514.098779757362,
+                  "y": 2196.2025946174504,
+                  "zoom": -0.8000000000000006
                 }
               }
             }
@@ -151,20 +151,21 @@
   },
   "active": "e61c37cc6e20790e",
   "lastOpenFiles": [
+    "BasicArchitecture.png",
+    "main.canvas",
+    "ParallelismLoadWord.png",
+    "ParallelismJumpToRegister.png",
+    "Architecture+JumpToRegister.png",
+    "ParallelismJumpAndLink.png",
+    "Architecture+JumpAndLink.png",
+    "ParallelismStoreWord.png",
+    "StoreWord.png",
+    "LoadWord.png",
+    "ParallelismTypeJ.png",
+    "TypeR.png",
     "Untitled.canvas",
     "Ciao 2.md",
     "Ciao.md",
-    "main.canvas",
-    "DecodeIR.png",
-    "Fetch.png",
-    "BranchPredictionFSM.png",
-    "SaltoAssoluto.png",
-    "BranchNotTaken.png",
-    "Screenshot from 2024-05-10 12-18-43.png",
-    "VerilogOutput(example_module).png",
-    "Progettazione Sistemi Digitali/FPGA.png",
-    "Progettazione Sistemi Digitali/DefinizioniLogicaBoole.png",
-    "Progettazione Sistemi Digitali/DRAM.png",
     "Progettazione Sistemi Digitali",
     "Ottimizzazione.txt",
     "pipelining.txt",
