@@ -1,0 +1,416 @@
+Nonostante la realtà fisica sia diversa, è possibile vedere in modo astratto la memoria come un array lineare di byte.
+Le macchine passano la maggior parte del loro tempo eseguendo operazioni come
+
+	movl (%ecx), %eax 		# Lettura della memoria
+	movl %eax, (%ecx) 		# Scrittura della memoria
+
+Lo schema corrispondente sarà una cosa del tipo
+
+	CPU (Registri)  <--->  I/O Bridge  <--->  RAM
+
+dove le frecce di collegamento sono date dal Memory Bus.
+Vediamo, semplificando, cosa avviene in fase di transazione di lettura della memoria.
+
+	- L'indirizzo contenuto in %ecx (chiaimiamolo A) viene messo sul Memory Bus, ovvero ci sono 32 (64) linee fisiche
+		ognuna contenente l'informazione sottoforma di impulso elettrico di un bit di A che portano il segnale alla RAM;
+
+	- La RAM risponde rimpiazzando A con il valore (x) corrispondente all'indirizzo A;
+
+	- Il valore x viaggia sul bus e viene scritto in %eax.
+
+Questo processo spiega in parte perché nell'ISA non sono previste operazioni con due operandi a memoria. Nonostante sia
+CISC, un doppio spostamento di questo tipo risulta troppo complesso. Vediamo allora la scrittura (semplificata):
+
+	- La CPU deposita sul bus l'indirizzo destinazione A;
+
+	- La RAM, ricevuto A, si mette in attesa che sul bus venga scritto il valore x da memorizzare in A;
+
+	- La RAM prende x dal bus e lo scrive su A.
+
+Quanto tempo ci vuole per accedere alla memoria? Tipicamente parliamo di
+
+	- Decine di nanosecondi solo per mettere in piedi la comunicazione;
+
+	- Almeno il triplo per completare il trasferimento dati.
+
+Ma una CPU a 1 GHz ha tempi caratteristici di frazioni di nanosecondo, che vanno quindi confrontati con ordini di centinaia.
+Oltretutto, il divario tra questi due tempi caratteristici è cresciuto nel tempo, perché le CPU venivano velocizzate più rapidamente.
+L'ottimizzazione base (-O1) del compilatore gcc, a tal proposito, è proprio quella di allocare quanti più registri possibile per evitare I/O con memoria.
+
+Ora, come compenso questa cosa?
+C'è una roba chiamato Principio di Località: si è notato che i programmi non accedono ai dati in modo casuale, ma tendono a esibire LOCALITA' negli accessi.
+
+	- Località temporale: se accedo a un oggetto in memoria, è probabile che riaccederò allo stesso oggetto a breve (es: variabile indice di un ciclo).
+		Come conseguenza tengo questi oggetti nei registri;
+
+	- Località spaziale : se accedo a un oggetto in memoria, è probabile che accederò a oggetti con indirizzi "vicini" a breve (es: array).
+
+Sfruttare la località temporale è immediato, ma come sfrutto quella spaziale?
+Ricordando che esiste una gerarchia di memorie, invece di accedere alla DRAM provo ad accedere alla SRAM (CACHE). Ovvero, nel momento in cui ho
+un array e accedo a v[0], oltre a recuperarne il valore copio i blocchi di memoria limitrofi dalla DRAM alla SRAM. In questo modo se subito
+dopo accedo a v[1] dovrò interfacciarmi con la cache, il cui tempo caratteristico è un ordine di grandezza inferiore. Chiaro che se invece accedo
+a v[1000] questo meccanismo si rompe. Si devono però scrivere i programmi in modo che "esibiscano" località spaziale (ovvero, dopo v[0] chiedo v[1]).
+
+Una CACHE è costituita da "linee". Immaginiamo di "affettare" la DRAM in blocchi da 64byte. Ogni linea di cache può contenere uno di questi blocchi.
+Dal punto di vista della CPU le cose diventano più complesse rispetto al meccanismo di bus. Dato un indirizzo A è possibile risalire a
+
+	- Blocco di appartenenza, eseguendo A / 64 (divisione intera). Questo perché A è il numero progressivo della cella di memoria, che però è
+		divisa (dal punto di vista logico) in blocchi da 64byte. Si noti che A / 64 è equivalente ad azzerare i 6 bit meno significativi di A (64 = 2^6);
+
+	- Offset rispetto al blocco di appartenenza, eseguendo A % 64. Intuitivamente, i 6 bit meno significativi rappresentano quanto A è spostato rispetto
+		all'inizio del blocco.
+
+Ottenute queste informazioni, la CPU chiede alla CACHE se contiene il blocco in cui è contenuto A. Se la risposta è positiva (CACHE HIT), accede in posizione
+offset al blocco d'interesse. Altrimenti (CACHE MISS):
+
+	- Si cerca una linea libera in CACHE. Se non c'è si seleziona una "vittima" (tipicamente si sacrifica il blocco meno usato);
+	- Se si sacrifica un blocco che è stato modificato in CACHE, il suo contenuto va scritto in memoria;
+	- Il blocco di A viene copiato dalla RAM nella linea di CACHE.
+
+Tutto questo ha un costo ben più alto rispetto a un semplice accesso a memoria, quindi questo meccanismo ha senso se i CACHE MISS sono rari. Lo sono?
+	
+	- Se ho un array di n interi incontro un CACHE MISS per v[0], v[16], v[32], ...
+
+		- Se accedo linearmente all'array, ho ceil(n/16) miss. Molto conveniente;
+		- Se accedo a salti di 16 sono nel caso peggiore, ogni chiamata è un cache miss.
+
+	- Se ho una SCL di n elementi non ho assolutamente idea di dove siano allocati i nodi. Le strutture collegate sono i più grandi nemici della cache.
+
+Il concetto di caching è in realtà molto trasversale in informatica, ed è in generale riferito a contenitori di dati più frequentemente utilizzati.
+
+	- Cache browser, mantiene le pagine più visitate di recente;
+	- Cache di un Proxy Server, che mantiene le informazioni dei siti più richiesti localmente in una zona geografica;
+	- Cache disco, pezzi di HDD matenuti in RAM;
+	- ...
+
+
+GERARCHIE DELLA MEMORIA
+Quanto detto in realtà è una semplificazione. La gerarchia delle memorie si struttura su diversi livelli.
+
+	L 	Nome		Spazio 				Tempo
+
+	L0 	Registri	Centinaia di byte 	10^-9	Frazioni di nanosecondo
+	L1 	Cache		Centinaia di Kb 	10^-9	Frazioni di nanosecondo
+	L2 	Cache		Mb		 			10^-8	Nanosecondi
+	L3 	Cache		Decine di Mb		10^-7	Decine di nanosecondi
+	L4 	RAM 		Decine di Gb 		10^-6	Centinaia di nanosecondi
+	L5 	Disco 		Tb 					10^-4	Decine di microsecondi (SSD), millisecondi (HDD) 
+	L6 	Rete (NAS)	Pb 					10^-2	Decine di millisecondi
+
+	{Google "jeff dean numbers everyone should know"} Se accedere ai registri richiede 1 secondo, accedere ad SSD richiede quasi 2 giorni, per HDD 6 mesi.
+
+		L1 reference								0.5 	secondi
+		Branch Misprediction						5 		secondi
+		L2 reference 								7		secondi
+		RAM reference 								100 	secondi
+		Compressione di 1Kb 						50		minuti
+		Invio pacchetti su rete ad alta velocità	5.5 	ore
+		Accesso SSD 								1.7 	giorni
+		Lettura sequenziale di 1Mb da RAM 			2.9 	giorni
+		Accesso HDD 								16.5 	settimane
+		Invio pacchetto internet USA-EU 			4.8 	anni
+
+Nota: sia la SRAM che i registri sono implementati utilizzando flip-flop di tipo D (Data). Pare differiscano solo per l'uso che se ne fa (fonte ChatGPT, quindi attenzione).
+Notare anche che la spedizione di un pacchetto internet richiede centinaia di millisecondi. A livelli più alti corrispondono memorie più piccole, costose e veloci, e viceversa.
+
+Il processo di Cache Miss diventa quindi una cosa del tipo "se faccio HIT in L3 copio i blocchi in L2 ed L1 e uso il valore nel registro" (CACHE MULTI-LIVELLO).
+Posso addirittura avere un Page Fault quando arrivo alla RAM, e quindi dover cercare il dato su disco perché ho fatto memoria virtuale. Un processo che poteva essere dell'ordine
+delle frazioni di nanosecondo richiederà millisecondi (peggioramento di prestazioni di un fattore 10^6). Come conseguenza, è difficile valutare l'impatto sulle prestazioni
+anche solo di una singola MOV: che ne so dove il sistema recupera il dato? L'unica cosa che posso fare è scrivere i programmi in modo che esibiscano località spaziale.
+Se ad esempio implemento un algoritmo di ricerca in teoria efficientissimo ma che prende sempre i dati in RAM sarà meno efficiente di uno che in teoria lo è meno ma usa la L1.
+
+In realtà la cache L1 è divisa in due sezioni: Dati e Istruzioni. Particolarmente comodo in caso di flusso di controllo normale. Se devo eseguire codice, faccio Miss alla prima
+istruzione, la carico in L1-istruzioni e per i prossimi 64byte faccio solo Hit. Questo evidenzia come saltare sia un enorme rischio Miss. Si possono verificare situazioni
+apparentemente assurde in cui togliendo un'istruzione dal codice il tempo di esecuzione aumenta. Questo può essere dovuto al fatto che un salto che prima faceva riferimento a
+un oggetto nel suo stesso blocco (Hit) ora sia "scalato" a un blocco precedente, ritrovandosi a referenziarne un altro (ora fa continuamente Cache Miss).
+
+Altra situazione paradossale è la seguente: se in gcc metto diversi programmi per il linking, questi vengono scritti in memoria nell'ordine in cui compaiono su CLI.
+Ci sono esperimenti che mostrano che invertendo l'ordine dei programmi da compilare e linkare questi possono incastrarsi meglio o peggio in ottica Hit/Miss, portando a
+fluttuazioni di prestazioni in termini di tempo fino al 20% (!!).
+
+Facciamo un esempio pratico: Intel Core i7.
+Si tratta di una CPU multi-core (4, 6, 8, ...), in cui ogni core ha registri, L1-dati, L1-istruzioni ed L2.
+Sotto, comune a tutti i core, c'è la Cache L3.
+
+Ma in pratica, come esibisco località in un programma? valgrind --tool=cachegrind
+
+	- Se ho una matrice, accedo sequenzialmente agli elementi della riga piuttosto che della colonna.
+		Questo assumendo che programmo in C. Altri linguaggi (i.e. Fortran) allocano per colonna.
+
+	- Ho un prodotto riga per colonna A*B. Se lo implemento in modo "classico" devo scorrere ~n^2 elementi e fare ~n Cache Miss per ognuno (uno per ogni nuovo accesso
+		all'elemento successivo della colonna di B), ovvero ho O(n^3) Miss. Se invece faccio la trasposta di B (~(n^2)/2 operazioni) e poi faccio un "riga per riga", questa
+		operazione a livello di cache "va una bomba". In architettura 64byte faccio una Miss ogni 16 interi, ovvero porto l'ordine di tempi da O(n^3) a O(n^2 + (n^3)/16),
+		dove ovviamente n^2 è trascurabile.
+
+	- ...
+
+
+ALLINEAMENTO DEI DATI IN MEMORIA
+Come fa il bus ad accedere alla memoria? Ipotizziamo che il bus sia a 32bit. Questo significa che ha 32 canali ognuno dei quali corrisponde a un bit. Ma anche la memoria
+coerentemente sarà divisa in blocchi da 32bit. Quindi il bus si ALLINEA con un singolo blocco di memoria e scambia dati con ognuno dei 32bit del blocco.
+Cosa succede se voglio accedere a un elemento a cavallo tra due blocchi di memoria (posto che tendenzialmente non è una buona idea)?
+
+	- Alcune architetture, come SPARC, possono dare direttamente un BUS ERROR e un interrupt di memoria. "Il processo si schianta";
+	- Altre, tipicamente x86 di Intel, te lo fanno fare con dei compromessi di prestazioni.
+
+Che significa compromessi di prestazioni? Che in pratica si fanno due accessi, uno per rispettivo blocco adiacente, e poi si ricombinano i singoli bit per restituire il
+risultato. Come detto non è una buona idea, quindi c'è una regola per evitare che accada:
+
+	"Se devo accedere a un oggetto di k byte, il suo indirizzo deve essere un multiplo di k"
+
+Questo impedisce che un singolo oggetto si "spalmi" su due blocchi:
+
+	- Un char occupa un solo byte, quindi può stare ovunque senza rischio di sovrapposizioni;
+	- Uno short occupa due byte, quindi se devo scriverlo o leggerlo in memoria il suo indirizzo deve essere pari;
+	- Un int occupa 4 byte, quindi posso metterlo solo in un indirizzo multiplo di 4;
+	- ...
+
+Come allineo i parametri di una struct? Il C di default alloca i campi in sequenza, quindi se scrivo
+
+	struct T
+	{
+		char a;
+		int b;
+		short c;
+	}
+
+in memoria (ipotizziamo si parta dall'indirizzo 1000) la situazione sarà una cosa del tipo
+
+	<---a-->/ 		/ 		/ 		<---------------b--------------><-------c------>
+	1000	1001   	1002   	1003	1004	1005	1006	1007 	1008	1009	1010
+
+dove lo spazio contrassegnato da / è detto PADDING, ovvero spazio lasciato inutilizzato in nome dell'allineamento.
+Non solo! Per quanto detto, l'intera struttura dovrebbe occupare 10byte. Ma se facessi un array di strutture mi ritroverei in una situazione in cui la seconda finisce a
+1020, e conseguentemente la terza sarà a cavallo tra due blocchi (perché questo inizia a 992 e termina a 1023, mentre il successivo andrà da 1024 a 1056).
+Non ci piace, quindi C aggiungerà altri due spazi di Padding agli indirizzi 1010 e 1011 facendo risultare la sizeof(T) = 12.
+
+Si può fare di meglio? Certamente, basta cambiare l'ordine dei parametri!
+
+	<---------------b--------------><-------c------><---a-->/		
+	1000	1001   	1002   	1003	1004	1005	1006	1007 	1008	1009	1010
+
+In generale, dichiarare i parametri in ordine decrescente di memoria occupata ottimizza l'allineamento in memoria. La sizeof della struct complessiva, comunque, deve essere
+un multiplo della sizeof del campo più grande che contiene. In questo caso basta lasciare un solo spazio di Padding e troviamo una sizeof(T) = 8.
+Sembra banale, ma significa ridurre del 30% la memoria occupata semplicemente invertendo un paio di righe di codice.
+
+
+ENDIANESS
+Come rappresento i numeri in memoria? Ci sono due scuole di pensiero. Prendiamo 0xABADCAFE.
+
+	- Big-Endian, ovvero memorizzo all'indirizzo più basso i bit più significativi. Utilizzato da architetture come SPARC.
+
+		AB 		AD 		CA 		FE	
+		1000	1001   	1002   	1003	1004	1005
+
+	- Little-Endian, ovvero l'esatto opposto. Utilizzato da x86.
+
+		FE 		CA 		AD 		AB	
+		1000	1001   	1002   	1003	1004	1005
+
+Cosa cambia? Dentro la singola macchina niente: una volta definito lo standard, tutte le operazioni avvengono coerentemente con esso. Se però devo comunicare su una
+rete devo avere una funzione che converte il formato locale in un formato universale standard (tipicamente Big-Endian), così come una funzione inversa per ricevere.
+Tipicamente a inizio file c'è un bit che dichiara in quale dei due formati sono rappresentati i numeri che contiene.
+E i registri? Porsi questa domanda non ha molto senso. %eax restituisce il valore contenuto, %ax i 16bit meno significativi (comunque siano rappresentati), stesso
+dicasi per %al. I registri non hanno indirizzi!
+
+
+
+MEMORIA DEI PROCESSI
+A ogni processo è associato uno spazio logico, tipicamente con puntatori che vaanno da 0 a (2^32)-1. Ogni puntatore/indirizzo è locale rispetto al processo stesso.
+Ma questo non può rispecchiare la memoria fisica! Ci sono INDIRIZZI FISICI visibili solo al Kernel e INDIRIZZI VIRTUALI visibili ai singoli programmi.
+Questi due mondi, da qualche parte devono incontrarsi. A ogni zona di memoria fisica in uso per ciascun processo deve corrispondere una e una sola zona di memoria fisica.
+Ovvero, esiste un sistema di traduzione chiamato MMU (Memory Management Unit) tra i due indirizzi. Se ne parla più avanti.
+I sistemi più semplici, come il microprocessore di una lavatrice (EMBEDDED), non hanno bisogno di processi e quindi di distinzione tra memoria virtuale e fisica.
+
+Gestire la memoria significa riservare alcuni blocchi per un certo programma. Si distinguono
+
+	- Blocchi in uso, ovvero a cui corrispondono puntatori attualmente in uso dal sistema (SO, Processo, ...);
+	- Blocchi liberi, ovvero disponibili ad essere resi blocchi in uso.
+
+Un ALLOCATORE DI MEMORIA è una struttura dati che suddivide uno spazio di memoria in blocchi in uso e liberi, e ha come primitive
+
+	- Allocazione di un blocco di k byte (i.e. malloc);
+	- Deallocazione di un blocco precedentemente allocato (i.e. free).
+
+Quando un blocco allocato non viene deallocato alla fine dell'uso si parla di MEMORY LEAK.
+A questo punto però la vera domanda è: come scelgo lo spazio migliore da allocare?
+Ipotizziamo di avere una situazione in cui i primi 20byte dell'heap sono liberi, i successivi 20 sono in uso e i successivi 30 sono liberi.
+
+	-		-		#		#		-		-		-
+	1000	1010	1020	1030	1040	1050	1060
+
+A questo punto arriva una malloc(10). In quale dei due spazi alloco? La decisione deve essere "online", praticamente istantanea. Ipotizziamo di allocare nel
+blocco libero a destra, ritrovandoci in una situazione
+
+	-		-		#		#		#		-		-
+	1000	1010	1020	1030	1040	1050	1060
+
+Adesso però il processo mi manda una malloc(30). Se prima avessi allocato a sinistra non avrei avuto problemi, ma ora sono costretto a chiedere altro spazio
+al SO, allargando l'heap. Questa situazione spiacevole si crea perché, in sostanza, non è possibile prevedere il futuro e conseguentemente come incastrare al meglio i blocchi.
+La logica di scelta di una malloc deve anzitutto rispettare dei tempi coerenti con quello che fa (quindi brevissimi, non posso fare un'analisi super-approfondita per allocare),
+e soprattutto cercare di ottimizzare l'uso della memoria. Due approcci possibili sono
+
+	- Best Fit: alloco lo spazio richiesto nel blocco più piccolo che può contenerlo. Tendenzialmente è una buona idea (e infatti è quello utilizzato più spesso),
+		ma ha dei difetti:
+
+			- Se ad esempio arrivano delle malloc(7) e scelgo sempre di allocare in spazi da 8, mi ritrovo con una scia di blocchi da 1byte inutilizzati e praticamente inutilizzabili;
+
+			- Per trovare il Best Fit in teoria devo scorrere tutta la memoria. Ci sono strutture dati più raffinate come gli alberi di ricerca, ma resta il fatto che nella
+				malloc si possono annidare problemi prestazionali non indifferenti. "Nel caso peggiore non è affatto O(1)". Ci sono casi in cui l'esecuzione di un software
+				passa da 2 ore a 5 minuti ottimizzando la malloc.
+
+	- Worst Fit: filosofia di pensiero totalmente opposta volta a evitare le scie di blocchetti piccoli e inutilizzabili. I problemi sono evidenti, vedi l'esempio sopra.
+
+In entrambi i casi si può verificare il problema della FRAMMENTAZIONE, ovvero una situazione in cui non si riesce a usare in modo efficiente lo spazio libero.
+Abbiamo due tipi di frammentazione:
+
+	- Esterna: Quando richiedo un'allocazione, esiste spazio libero sufficiente ma non contiguo (come nell'esempio di prima);
+	- Interna: Alloco blocchi più grandi di quello che serve, ad esempio chiamo malloc(28) e l'allocatore riserva 32byte.
+
+Perché mai dovrebbe esserci frammentazione interna? Quando chiamo la malloc non fornisco alcuna informazione sull'allineamento, né su che tipo di dato sto passando
+(tant'è che quando voglio usarla sul serio in C devo fare un cast, del tipo int i = (int) malloc(sizeof(int))). Se chiedo malloc(16), come fa l'allocatore a
+distinguere tra un array di 16 char (che potrei mettere ovunque) e uno di due long? La sua strategia, allora, consiste nel mettersi nel caso peggiore.
+Alloca quindi multipli del tipo di dato più capiente, ovvero a multipli di 8 (long in 32bit), 16 (long a 64bit) e superiori (esistono registri vettoriali più capienti).
+Questo padding interno garantisce l'allineamento dei blocchi successivi.
+
+Se un programma richiede sempre allocazioni della stessa quantità fissa
+
+	- Non posso avere frammentazione esterna, perché ogni spazio allocato o non allocato ha sempre la stessa dimensione;
+	- Posso avere frammentazione interna, perché se chiamo malloc(19) avrò sicuramente byte inutilizzati.
+
+Ora, quanti allocatori ci stanno in un SO? Almeno due.
+
+	- La famiglia malloc/calloc/realloc/free della libc, che gestiscono l'Heap;
+
+	- Il Kernel gestisce la memoria fisica per i processi. La memoria virtuale (come lo stesso Heap), è allocata sulla memoria fisica.
+		Quando una malloc chiede al Kernel di aumentare l'allocazione, questo deve spostare il puntatore BRK (limite superiore dell'Heap) tramite un'omonima syscall.
+
+Sembra proprio tutta la storia. Perché allora dico "almeno"?
+Se la malloc non è ottimizzata per il software che sto scrivendo posso costruire un allocatore sopra la libc. In pratica, alloco con la malloc un unico enorme blocco
+di Heap e definisco una mia struttura dati che gestisce lo spazio interno all'unico blocco allocato. Molti progetti grossi fanno una cosa del genere, come Firefox.
+
+Altrimenti, si possono rimpiazzare le definizioni nella libc...
+
+Importantissimo: l'algoritmo ottimale per allocare memoria NON ESISTE.
+
+
+ALLOCAZIONE MEMORIA FISICA
+La gestione della memoria fisica non può basarsi sugli stessi principi della malloc. Non può avere la pretesa di conoscere a priori la memoria che richiederà un processo,
+né può chiedere a un Kernel sottostante di aggiungere dinamicamente spazio, perché "sotto" l'HW non c'è niente (dovrei aggiungere io un banco RAM?!).
+
+Quello che succede allora è che la memoria fisica è divisa in blocchi numerati detti FRAME, tipicamente di 4Kb. A seconda della memoria RAM installata avrò 2^m - 1 byte, ovvero
+
+	- ...
+	- m = 32 	4Gb		2^20 blocchi;
+	- m = 33 	8Gb		2^21 blocchi;
+	- m = 34	16Gb	2^22 blocchi;
+	- ...
+
+Similmente, ogni processo ha una sua memoria virtuale divisa in blocchi identici, ma detti PAGINE, e un suo vettore detto TABELLA DELLE PAGINE.
+La dimensione in byte della memoria virtuale è 2^n - 1, dove n = 32 (o 64, dipende dall'architettura). Se devo partizionarla in pagine da 4Kb = 2^12 byte ne otterrò 2^20.
+Intuitivamente, la tabella delle pagine ha altrettanti elementi e serve a mappare le pagine nei frame
+
+	tabella_pagine[pagina] = frame
+
+A essere precisi, oltre al frame in cui è mappata la pagina ci sono
+
+	- Bit di validità, che identificano se la pagina è allocata o meno sul frame;
+	- Bit di permessi, che definiscono cosa si può fare con la memoria fisica (rwx).
+
+La tabella delle pagine sarà strapiena di bit di validità (o accessibilità) settati a 0, corrispondenti a pagine non allocate. "E se provo ad accedere? Segmentation Fault".
+Stesso dicasi se provo ad accedere in scrittura a un frame accessibile in sola lettura (ad esempio, se provo a modificare una stringa const char* in C).
+
+Questo processo, detto PAGINAZIONE, NON dà luogo a frammentazione esterna ma a (pesante) frammentazione interna.
+
+Come faccio a coordinare le tabelle delle pagine di diversi processi? Il Kernel ha una lista di blocchi liberi.
+Ma è così tanto un male che processi diversi abbiano una pagina mappata nello stesso frame? In realtà no. E' un ottimo modo per condividere dati (e quindi comunicare) tra processi,
+ovvero uno SCHEMA DI CONDIVISIONE DI MEMORIA. La paginazione è in questo senso una grande idea per diversi motivi.
+
+	- Protezione: Le regole della paginazione sono decise dal SO, e se non ci sono frame esplicitamente condivisi questo garantisce il totale isolamento tra processi diversi.
+		Questo significa che un processo non può alterare la memoria di altri processi, ovvero danneggiarli;
+
+	- Condivisione: Due o più processi possono chiedere esplicitamente al Kernel di condividere la mappatura di loro pagine sullo stesso frame. In pratica, i processi invocano
+		delle syscall dette Shared Memory Attach. In questo caso subentra la necessità di SINCRONIZZAZIONE, realizzata mediante costrutti detti SEMAFORI;
+
+	- Uso della RAM come CACHE del Disco: E' evidente che è impossibile mappare tutta la memoria virtuale nella memoria fisica, anche solo di un singolo processo.
+		La soluzione a questo processo è quella di dedicare uno spazio su Disco, detto di SWAP, che può contenere la mappatura di pagine di processi.
+		Abbiamo detto che il bit di validità indica se la pagina è mappata in RAM. Questo significa che quando voglio accedervi e incontro il valore 0 il sistema genera un
+		PAGE FAULT, ovvero un segnale "la pagina non è mappata su un frame". Ma potrebbe essere mappata in Swap, quindi il SO va a controllare. Se la trova, la trasferisce in un
+		frame libero della RAM. E se non c'è? Sacrifico il frame meno usato e lo porto in Swap. Esattamente come la Cache. Infine, setto il bit di validità a 1 e scrivo il nuovo
+		frame, riprendendo l'esecuzione dopo l'interrupt dall'istruzione che ha dato Page Fault. Ovviamente se il SO non trova la pagina neanche in Swap parte il Segmentation Fault.
+		Può sembrare un evento catastrofico per via della durata di accesso a disco (in parte lo è), ma disturba poco l'equilibrio delle cose perché generalmente c'è sufficiente
+		località spaziale e temporale. Notare che la gestione di un Page Fault può richiedere diversi millisecondi.
+
+Se sovraccarico la memoria con troppi processi, può succedere che il SO perda più tempo a fare Page Fault che calcoli utili.
+Definiamo WORKING SET l'insieme delle pagine in uso a un processo in un dato istante (sono generalmente una piccola frazione di quelle totali).
+Se si verifica una situazione in cui sommando i Working Set di tutti i processi supero il numero di frame fisici mi ritrovo in una situazione di THRASHING ("avete presente
+quando anche il cursore vi va a scatti?"). L'unica soluzione è uccidere qualche processo, o alla brutte fare un hard reset (i.e. staccare la spina).
+
+
+Memory Management Unit (MMU)
+Esattamente come per la cache, dato un indirizzo A posso risalire
+
+	- Al suo offset rispetto alla pagina di appartenenza, guardando ai 12bit meno significativi;
+	- Alla sua pagina di appartenenza, guardando i restanti.
+
+Visto che la pagina è mappata in modo identico nel frame, l'offset dell'indirizzo fisico è identico a quello dell'indirizzo virtuale.
+Se invece i bit più significativi identificano la pagina, basta guardare nella tabella delle pagine. I bit più significativi sono il valore corrispondente alla pagina.
+
+Ora, uno potrebbe chiedersi quanto occupa una tabella delle pagine. Quanti bit mi servono per rappresentare i frame?
+
+	- 16bit corrispondono a 2^16 frame, quindi rappresento 2^16 * 2^12 = 2^28byte = 256Mb di RAM. Troppo poco.
+	- 32bit corrispondono a 2^32 frame, quindi rappresento 2^32 * 2^12 = 2^44byte = 16 Tb di RAM. Troppo, ma è il primo numero utile. Diciamo che per un po' stiamo parati.
+
+A 32bit abbiamo 2^20 celle ognuna contenente 4byte, ovvero 4Mb. Accettabile. Il problema è a 64bit, perché dovrei avere 2^52 celle e otterrei 8Pb (8192 Tb, 8.388.608 Gb).
+Come fa un SO a 64bit a stare in piedi?? Se aumento la dimensione della pagina genero una segmentazione interna stellare. La soluzione dei SO moderni è quella di implementare
+una gerarchia di tabelle, in cui la prima mappa una macrozona di memoria (interi Gb), poi un secondo livello si mappa le sottosezioni, ecc... Si chiama TABELLA MULTILIVELLO.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Grazie Camil.

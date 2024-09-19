@@ -15,9 +15,9 @@
               "state": {
                 "file": "main.canvas",
                 "viewState": {
-                  "x": -6514.098779757362,
-                  "y": 2196.2025946174504,
-                  "zoom": -0.8000000000000006
+                  "x": -2399.9039253040946,
+                  "y": -2334.301363505884,
+                  "zoom": -0.5999999999999999
                 }
               }
             }
@@ -151,31 +151,31 @@
   },
   "active": "e61c37cc6e20790e",
   "lastOpenFiles": [
-    "BasicArchitecture.png",
+    "SyscallList.png",
     "main.canvas",
-    "ParallelismLoadWord.png",
-    "ParallelismJumpToRegister.png",
-    "Architecture+JumpToRegister.png",
-    "ParallelismJumpAndLink.png",
-    "Architecture+JumpAndLink.png",
-    "ParallelismStoreWord.png",
-    "StoreWord.png",
-    "LoadWord.png",
-    "ParallelismTypeJ.png",
-    "TypeR.png",
-    "Untitled.canvas",
-    "Ciao 2.md",
+    "memoria.txt",
+    "Untitled",
+    "SaltoAssoluto.png",
+    "PartiRAM.png",
+    "Funzione.png",
+    "BuildingTheArchitecture/1 - Intermediate (Jump)/Basic+Branch+Jump.png",
+    "BuildingTheArchitecture/1 - Intermediate (Jump)/Architecture.png",
+    "BuildingTheArchitecture/2 - Advanced (Pipelining)/PropagationUnit.png",
+    "BuildingTheArchitecture/1 - Intermediate (Jump)/TypeI.png",
+    "BuildingTheArchitecture/1 - Intermediate (Jump)/ParallelismTypeI.png",
+    "BuildingTheArchitecture/1 - Intermediate (Jump)/ParallelismTypeJ.png",
+    "BuildingTheArchitecture/1 - Intermediate (Jump)/ParallelismLoadWord.png",
+    "BuildingTheArchitecture/1 - Intermediate (Jump)",
+    "BuildingTheArchitecture/0 - Basic (FetchDecodeExecute)",
     "Ciao.md",
+    "Ciao 2.md",
+    "BuildingTheArchitecture",
+    "BuildingTheArchitecture/2 - Advanced (Pipelining)",
+    "Untitled.canvas",
     "Progettazione Sistemi Digitali",
     "Ottimizzazione.txt",
     "pipelining.txt",
     "Demetrescu/IA-32.txt",
-    "IA-32.txt",
-    "Capitolo 2",
-    "Capitolo 1",
-    "Demetrescu/pipelining.txt",
-    "Demetrescu/Ottimizzazione.txt",
-    "Demetrescu",
     "Welcome.md"
   ]
 }

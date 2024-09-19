@@ -1,5 +1,5 @@
 Siamo abituati a pensare alla CPU come una macchina che esegue in sequenza delle istruzioni.
-Ogni istruzione è in realtà divisa in tre fasi: fetch-dfecode-efxecute. Ognuna di queste fasi tiene occupata una parte distinta della CPU.
+Ogni istruzione è in realtà divisa in tre fasi: fetch-dfecode-execute. Ognuna di queste fasi tiene occupata una parte distinta della CPU.
 Se mando alla CPU le istruzioni in fila otterrò una cosa del tipo
 
 	FET_1 	DEC_1 	EXE_1 	FET_2 	DEC_2 	EXE_2 	FET_3 	DEC_3 	EXE_3...
@@ -20,7 +20,7 @@ Dove notiamo che al terzo step tutte le parti della CPU sono in funzione. A ques
 Tutti felici e contenti, abbiamo triplicato la velocità della CPU. Questa roba in generale si chiama Instruction-Level Parallelism, e i microprocessori che la supportano si
 chiamano CPU Superscalari. Questa specifica tecnica per implementare un ILP, ovvero il PIPELINING, è solo uno dei possibili modi per velocizzare le esecuzioni.
 Un'altra possibilità è ad esempio dare istruzioni vettoriali e sfruttare un hardware la cui operazione fondamentale è su un vettore. L'esempio più ovvio è una GPU,
-ma anche unità interne della CPU, come l'unità SIMD (Single Instruction, Multiple Data) sviluppata da Intel) che esegue set di istruzioni vettoriali quali SSE (Streaming
+ma anche unità interne della CPU, come l'unità SIMD (Single Instruction, Multiple Data, sviluppata da Intel) che esegue set di istruzioni vettoriali quali SSE (Streaming
 SIMD Extensions) o il più recente AVX (Advanced Vector Extensions).
 
 Tutto troppo bello, dove sta il problema?
