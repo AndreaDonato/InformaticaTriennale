@@ -15,9 +15,9 @@
               "state": {
                 "file": "main.canvas",
                 "viewState": {
-                  "x": -2399.9039253040946,
-                  "y": -2334.301363505884,
-                  "zoom": -0.5999999999999999
+                  "x": -484.50194290161267,
+                  "y": 3544.1739807132235,
+                  "zoom": -4
                 }
               }
             }
@@ -151,6 +151,7 @@
   },
   "active": "e61c37cc6e20790e",
   "lastOpenFiles": [
+    "DirectMappedAddress.png",
     "SyscallList.png",
     "main.canvas",
     "memoria.txt",
@@ -164,7 +165,6 @@
     "BuildingTheArchitecture/1 - Intermediate (Jump)/TypeI.png",
     "BuildingTheArchitecture/1 - Intermediate (Jump)/ParallelismTypeI.png",
     "BuildingTheArchitecture/1 - Intermediate (Jump)/ParallelismTypeJ.png",
-    "BuildingTheArchitecture/1 - Intermediate (Jump)/ParallelismLoadWord.png",
     "BuildingTheArchitecture/1 - Intermediate (Jump)",
     "BuildingTheArchitecture/0 - Basic (FetchDecodeExecute)",
     "Ciao.md",
